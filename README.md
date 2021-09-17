@@ -1,2 +1,2 @@
 # Proyecto-Ciclo-3
-Brahayan Stiven Gil Henao Product owner 1028041740 
+Jonatan Estiben Romero Arroyave Scrum Master 1003663734 
