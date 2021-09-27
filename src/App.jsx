@@ -1,12 +1,12 @@
 
 
-import 'styles/App.css';
+import './styles/App.css';
 
 
 function App() {
   return (
     <div className="App">
-      <div className= 'bg-red-500'>hola mundo tailwind</div>
+      <div className= 'bg-red-500 text-blue-300'>hola mundo tailwind</div>
     </div >
   );
 }
