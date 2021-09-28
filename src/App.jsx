@@ -8,6 +8,7 @@ function App() {
     <div className="App">
       <div className= 'bg-red-500 text-blue-300'>hola mundo tailwind</div>
     </div >
+
   );
 }
 
