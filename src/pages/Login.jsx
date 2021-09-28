@@ -7,11 +7,11 @@ const Login = () => {
     return (
     <div className = "flex bg-fondo-login  justify-center items-center w-full h-screen bg-cover bg-center ">
          
-    <main className = "flex  justify-center place-items-center bg-black bg-opacity-50 h-96 w-96">
-        <form className = "flex  justify-between" > 
-            <div className = "flex flex-col justify-between" >
+    <main className = "flex  justify-center items-center bg-black bg-opacity-50 h-3/4 w-80">
+        <form className = "flex  " > 
+            <div className = "flex flex-col " >
                 <div className="flex justify-center items-center ">
-                <img src={logoDR} alt="logo marca carro" className="h-min w-min" />
+                <img src={logoDR} alt="logo marca carro" className="h-min w-min -mt-10 mb-10" />
 
                 </div>
                 <input className = "bg-black bg-opacity-0 m-3 w-full border-b-2 border-black placeholder-white text-white font-semibold  focus:outline-none  focus:border-indigo-500 focus:z-10 sm:text-sm"
