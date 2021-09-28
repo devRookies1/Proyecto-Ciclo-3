@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'fondo-login': "url('/media/fondologin.png')",
+        'fondo-login': "url('./media/fondologin.png')",
       },
     },
   },
