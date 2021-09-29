@@ -1,4 +1,5 @@
 
+import Layout from 'layout/Layout';
 import Index from 'pages';
 import FormProductos from 'pages/FormProductos';
 import FormVentas from 'pages/FormVentas';
@@ -21,19 +22,21 @@ function App() {
             </Route>
           </Switch>
         </Route>
-        <Route path= {["/ventas","/ventasform","/productos","/productosform","/usuarios","/"]}>
+        <Route path= {["/ventas","/ventas/form","/productos","/productos/form","/usuarios","/"]}>
+          <Layout/>
           <Switch>
+            <Route path= "/ventas/form">
+              <FormVentas />
+            </Route>
             <Route path= "/ventas">
               <Ventas/>
+            
             </Route>
-            <Route path= "/ventasform">
-              <FormVentas />
+            <Route path= "/productos/form">
+              <FormProductos />
             </Route>
             <Route path= "/productos">
               <Productos/>
-            </Route>
-            <Route path= "/productosform">
-              <FormProductos />
             </Route>
             <Route path= "/usuarios">
               <Usuarios/>
