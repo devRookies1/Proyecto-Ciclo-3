@@ -5,12 +5,23 @@ import { Link } from 'react-router-dom'
 
 const Navbar = () => {
     return (
-        <nav className='bg-blue-700 flex flex-row justify-between h-28 ml-72 '>
+        <nav className='bg-blue-700    '>
             
-        <div class='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
+        <div className='max-w-7xl mx-auto px-2  sm:px-6 lg:px-8'>
+            <div className='relative flex items-center justify-between h-16'>
+                <div className='flex-1 flex items-center justify-center 
+                sm:items-stretch sm:justify-start '>
+
+                </div>
+
+            </div>
             <h1 className="text-3xl font-mono"
             id="menu-btn" >Sistema Control Ventas</h1>
         </div>
+        </nav>
+        )
+    }
+        /*{ 
         <div className=' mx-14 my-4 flex justify-between'>
             <label className='bg-gray-200 rounded-3xl mt-1 p-2
             text-sm w-72 h-16 py-4 flex justify-between font-bold font-sans'>         
@@ -26,13 +37,14 @@ const Navbar = () => {
                 
                
             </label>
-        </div>
-        </nav>
+        </div> 
+        */
         
         
         
-    )
-}
+        
+    
+
 
 
 export default Navbar
