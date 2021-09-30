@@ -1,10 +1,13 @@
 import React from 'react'
+import inicio from 'media/inicio.png'
 
 const Index = () => {
     return (
-        <div >
-           Pagina de inicio
-        </div>
+        <main >
+           BIENVENIDOS AL SISTEMA DE GESTION DE VENTAS.
+           
+           
+        </main>
     )
 }
 

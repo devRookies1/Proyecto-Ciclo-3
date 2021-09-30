@@ -1,10 +1,10 @@
 import React from 'react'
 
-const SectionMain = () => {
-    return (
-        <div>
-            <main className= "flex w-full h-full  overflow-y-scroll items-center justify-center'>"> </main>
-        </div>
+const SectionMain = ({children}) => {
+    return (        
+    <main className='flex ml-96 justify-start items-center'> 
+        {children}
+    </main>
     )
 }
 

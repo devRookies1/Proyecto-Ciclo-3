@@ -11,11 +11,9 @@ const Layout = ({children}) => {
     <div className='flex flex-col justify-between h-screen'>
       <Navbar />
       <Sidebar />
-        <div>
-        <main className='flex h-full '> {children} </main>
-        </div>
+      <SectionMain>{children}</SectionMain> 
       <Footer />
-      </div>
+    </div>
     
     );
 };
