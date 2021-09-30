@@ -7,7 +7,7 @@ import productos from 'media/productos.png'
 import usuarios from 'media/usuarios.png'
 const Sidebar = () => {
     return (
-        <nav className= 'h-full w-72 bg-blue-700  flex flex-col -mt-40 -mb-48 '>
+        <nav className= ' w-72 h-screen bg-blue-700  flex flex-col'>
             
             <ul className= 'h-full flex flex-col justify-around items-center font-mono'>
             <li>
