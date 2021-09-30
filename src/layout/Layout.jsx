@@ -21,11 +21,12 @@ const Layout = ({children}) => {
             asa
              {children}
         </main>
+      </div>
 
         
         
        
-      </div>
+      
     
     );
 };
