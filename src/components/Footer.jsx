@@ -11,23 +11,32 @@ import {
 
 const Footer = () => {
     return (
-        <footer className='bg-gray-400 h-24 ml-72'>
+        <footer className='bg-gray-400 h-16 '>
         
 
-        <ul className='flex flex-row  justify-center py-7'>
+        <ul className=' relative flex  justify-center py-2'>
 
         <li>
-            <div>
-                <img src={misionTic} alt="mision" className='flex h-15 w-20 mx-5' href="https://github.com/devRookies1/Proyecto-Ciclo-3" />
+
+                <a href="https://www.misiontic2022.gov.co/portal/">
+                <div className='flex justify-center items-center'>
+                <img src={misionTic} alt="mision" className='flex h-15 w-20 mx-5' />
                 </div>
+                </a>
+
             </li>
 
         
 
             <li>
-                <div>
-                 <img src={github} alt="gith" className='flex h-10 w-15  mx-2' href= "https://www.misiontic2022.gov.co/portal/"/>
+
+
+                <a href="https://github.com/devRookies1/Proyecto-Ciclo-3">  
+                <div className='flex justify-center items-center'>
+                 <img src={github} alt="gith" className='flex h-10 w-15  mx-2'  />
+
                 </div>
+                </a>
                 
             </li>     
 

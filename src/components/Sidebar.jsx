@@ -7,54 +7,63 @@ import productos from 'media/productos.png'
 import usuarios from 'media/usuarios.png'
 const Sidebar = () => {
     return (
-        <nav className= ' w-72 h-screen bg-blue-700  flex flex-col'>
-            
-            <ul className= 'h-full flex flex-col justify-around items-center font-mono'>
-            <li>
-            <img src={logoDR} alt="Logo" className= 'flex w-max-32 h-max-32 ' />
-            </li>
+        <div className='flex'>
+        <aside className= 'bg-blue-700  relative-h-scream w-72 md:64 hidden sm:block shadow-xl  '>
+         <div className='p-6'>
 
-            <li>
+         <div className='w-full flex flex-col h-scream '>
+            <header className='w-full py-5 px-6 '>
+                <div className= 'flex justify-center'>
+                
+                <img src={logoDR} alt="Logo" className= 'flex w-20 h-20 ' />
+                
+                </div>
+
+             <nav className='  text-white text-base font-semibold pt-3'>
+
                 <Link to ='/'>
-                <div className='flex justify-between'>
+                <div className='flex flex-row justify-start  text-w  text-white opacity-75 hover:opacity-100 py-4 pl-6 '>
+
                 <img src={home} alt="home" className='flex h-10 w-10 mr-1' />
                 <button className='font-bold'>INICIO</button>
                 </div>
                 </Link>
-            </li>
-                
-            <li>
                 <Link to ='/ventas'>
-                <div className='flex justify-between'>
+                <div className='flex flex-row justify-start text-w  text-white opacity-75 hover:opacity-100 py-4 pl-6 '>
+
                 <img src={ventas} alt="ventas" className='flex h-10 w-10 mr-1' />
                 <button className='font-bold'>VENTAS</button>
                 </div>
                 </Link>
-            </li>
-            <li>
                 <Link to ='/productos'>
-                <div className='flex justify-between'>
+                <div className='flex flex-row justify-start text-w  text-white opacity-75 hover:opacity-100 py-4 pl-6 '>
+
                 <img src={productos} alt="productos" className='flex h-10 w-10 mr-1' />
                 <button className='font-bold'>PRODUCTOS</button>
                 </div>
                 </Link>
-            </li>
-            <li className=''>
-            <Link to ='/usuarios'>
-                <div className='flex justify-between'>
+                <Link to ='/usuarios'>
+                <div className='flex flex-row justify-start text-w  text-white opacity-75 hover:opacity-100 py-4 pl-6 '>
+
                 <img src={usuarios} alt="usuarios" className='flex h-10 w-10 mr-1' />
                 <button className='font-bold'>USUARIOS</button>
                 </div>
                 </Link>
-            </li>
-            
-            </ul>
-
-            
-
-            
-        </nav>
-    )
+             </nav>
+             </header>
+             </div>
+         </div>
+        </aside>
+        </div>
+        
+        
+        
+         )
 }
+            
+
+            
+        
+    
 
 export default Sidebar
