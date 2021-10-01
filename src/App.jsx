@@ -33,7 +33,6 @@ function App() {
           </Route>
           <Route path= "/ventas">
             <Ventas/>
-          
           </Route>
           <Route path= "/productos/form">
             <FormProductos />
