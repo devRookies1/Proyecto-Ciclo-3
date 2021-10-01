@@ -3,11 +3,15 @@ import inicio from 'media/inicio.png'
 
 const Index = () => {
     return (
+        <div className='flex justify-center items-center w-full h-full'>
         <main >
-           BIENVENIDOS AL SISTEMA DE GESTION DE VENTAS.
+            <span className='font-bold text-3xl text-center text-gray-900  '> BIENVENIDOS AL SISTEMA <br/> DE GESTION DE VENTAS.</span>
+            <img className='flex w-72 h-72 m-6' src={inicio} alt="Bienvidad" />
+           
            
            
         </main>
+        </div>
     )
 }
 

@@ -11,7 +11,7 @@ const Sidebar = () => {
         <aside className= 'bg-blue-700  relative-h-scream w-72 md:64 hidden sm:block shadow-xl  '>
          <div className='p-6'>
 
-         <div className='w-full flex flex-col h-scream overflow-y-hidden'>
+         <div className='w-full flex flex-col h-scream '>
             <header className='w-full py-5 px-6 '>
                 <div className= 'flex justify-center'>
                 
@@ -35,14 +35,14 @@ const Sidebar = () => {
                 <button className='font-bold'>VENTAS</button>
                 </div>
                 </Link>
-                <Link to ='/'>
+                <Link to ='/productos'>
                 <div className='flex flex-row justify-start text-w  text-white opacity-75 hover:opacity-100 py-4 pl-6 '>
 
                 <img src={productos} alt="productos" className='flex h-10 w-10 mr-1' />
                 <button className='font-bold'>PRODUCTOS</button>
                 </div>
                 </Link>
-                <Link to ='/'>
+                <Link to ='/usuarios'>
                 <div className='flex flex-row justify-start text-w  text-white opacity-75 hover:opacity-100 py-4 pl-6 '>
 
                 <img src={usuarios} alt="usuarios" className='flex h-10 w-10 mr-1' />
