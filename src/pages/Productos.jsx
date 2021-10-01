@@ -1,10 +1,12 @@
+import SectionMain from 'components/SectionMain'
 import React from 'react'
+import productos from 'media/productos1.png'
 
 const Productos = () => {
     return (
-        <>
-            pagina de Productos
-        </>
+        <SectionMain nombre='Vehiculos' logo={productos}>
+            pagina de Productos 
+        </SectionMain>
     )
 }
 

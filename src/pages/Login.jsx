@@ -12,7 +12,7 @@ const Login = () => {
         <form className = "flex  " > 
             <div className = "flex flex-col justify-center items-center" >
                 <div className="flex justify-center items-center ">
-                <img src={logoDR} alt="logo marca carro" className="h-min w-min -mt-10 mb-10" />
+                <img src={logoDR} alt="logo marca carro" className="h-20 w-20 -mt-10 mb-10" />
                 </div>
                 <input className = "bg-black bg-opacity-0 m-3 w-full border-b-2 border-black placeholder-white text-white font-semibold  focus:outline-none  focus:border-indigo-500 focus:z-10 sm:text-sm"
                  type="email" 
