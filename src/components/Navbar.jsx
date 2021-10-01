@@ -15,7 +15,7 @@ const Navbar = () => {
                 </div>
 
             </div>
-            <h1 className="text-3xl font-mono"
+            <h1 className="text-3xl font-mono text-white"
             id="menu-btn" >Sistema Control Ventas</h1>
         </div>
         </nav>

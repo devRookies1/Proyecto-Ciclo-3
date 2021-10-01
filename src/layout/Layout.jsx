@@ -12,15 +12,16 @@ const Layout = ({children}) => {
       
       
       <Navbar/>
-        <main className='flex bg-gray-100 w-screen h-screen'>
+        <main className='flex bg-gray-100 w-screen h-screen '>
           
           <Sidebar/>
           
             
             
-            asa
+          
              {children}
         </main>
+        <Footer/>
       </div>
 
         

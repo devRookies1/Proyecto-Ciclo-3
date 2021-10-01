@@ -11,10 +11,10 @@ import {
 
 const Footer = () => {
     return (
-        <footer className='bg-gray-400 h-24 ml-72'>
+        <footer className='bg-gray-400 h-24 '>
         
 
-        <ul className='flex flex-row  justify-center py-7'>
+        <ul className=' relative flex  justify-center py-7'>
 
         <li>
                 
