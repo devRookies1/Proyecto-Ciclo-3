@@ -22,7 +22,7 @@ function App() {
             </Route>
           </Switch>
         </Route>
-        <Route path= {["/ventas","/ventas/form","/productos","/productos/form","/usuarios","/"]}>
+        <Route path= {["/ventas","/ventas/form","/vehiculos","/vehiculos/form","/usuarios","/"]}>
           <Layout>
           <Switch>
             <Route path= "/ventas/form">
@@ -32,10 +32,10 @@ function App() {
               <Ventas/>
             
             </Route>
-            <Route path= "/productos/form">
+            <Route path= "/vehiculos/form">
               <FormProductos />
             </Route>
-            <Route path= "/productos">
+            <Route path= "/vehiculos">
               <Productos/>
             </Route>
             <Route path= "/usuarios">

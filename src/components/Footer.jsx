@@ -1,17 +1,11 @@
 import React from 'react'
 import misionTic from 'media/misionTic.png'
 import github from 'media/github.png'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useParams
-  } from "react-router-dom";
+
 
 const Footer = () => {
     return (
-        <footer className='bg-gray-400 h-16 '>
+        <footer className='flex flex-col w-full bg-gray-400 h-16 '>
         
 
         <ul className=' relative flex  justify-center py-2'>

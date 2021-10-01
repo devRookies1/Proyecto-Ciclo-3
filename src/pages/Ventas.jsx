@@ -1,13 +1,16 @@
 import React from 'react'
+import SectionMain from 'components/SectionMain'
+import grid from 'media/grid.png'
+
 
 const Ventas = () => {
     return (
-       
-        <div>   
-         < TablaVentas/>
-        </div>
-   
-    
+
+        <SectionMain logo= {grid} nombre={'ventas'} >
+         <TablaVentas/>
+         </SectionMain>
+        
+
     )
 }
 
