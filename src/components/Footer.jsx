@@ -11,7 +11,7 @@ import {
 
 const Footer = () => {
     return (
-        <footer className='bg-gray-400 h-16 '>
+        <footer className='flex flex-col w-full bg-gray-400 h-16 '>
         
 
         <ul className=' relative flex  justify-center py-2'>

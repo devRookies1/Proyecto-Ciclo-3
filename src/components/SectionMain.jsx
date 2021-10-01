@@ -1,11 +1,14 @@
 import React from 'react'
 
+import Footer from './Footer'
+
 const SectionMain = ({children}) => {
     return (        
-    <main className='flex ml-96 justify-start items-center'> 
+    <main className='flex flex-col h-full w-full justify-start items-center'> 
     {children}
-        
-    </main>
+    <Footer/>
+    </main>     
+ 
     )
 }
 
