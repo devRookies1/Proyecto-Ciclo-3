@@ -1,12 +1,16 @@
 
 import Layout from 'layout/Layout';
+
 import Index from 'pages';
 import FormProductos from 'pages/FormProductos';
+import FormUsuarios from 'pages/FormUsuarios';
 import FormVentas from 'pages/FormVentas';
 import Login from 'pages/Login';
 import Productos from 'pages/Productos';
 import Usuarios from 'pages/Usuarios';
 import Ventas from 'pages/Ventas';
+
+
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './styles/App.css';
 
@@ -22,7 +26,7 @@ function App() {
             </Route>
           </Switch>
         </Route>
-        <Route path= {["/ventas","/ventas/form","/vehiculos","/vehiculos/form","/usuarios","/"]}>
+        <Route path= {["/ventas","/ventas/form","/vehiculos","/vehiculos/form","/usuarios","/usuarios/form","/"]}>
           <Layout>
           <Switch>
             <Route path= "/ventas/form">
@@ -38,6 +42,9 @@ function App() {
             <Route path= "/vehiculos">
               <Productos/>
             </Route>
+            <Route path= "/usuarios/form">
+              <FormUsuarios />
+            </Route>
             <Route path= "/usuarios">
               <Usuarios/>
             </Route>
@@ -48,9 +55,8 @@ function App() {
           </Layout>
         </Route>
       </Switch>
-      
-
     </Router>
+
   )
 }
 

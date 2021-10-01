@@ -1,6 +1,6 @@
 import SectionMain from 'components/SectionMain'
 import React from 'react'
-import productos from 'media/productos.png'
+import productos from 'media/productos1.png'
 
 const Productos = () => {
     return (
