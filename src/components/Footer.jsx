@@ -17,28 +17,23 @@ const Footer = () => {
         <ul className='flex flex-row  justify-center py-7'>
 
         <li>
-                
-                <div>
-                <img src={misionTic} alt="mision" className='flex h-15 w-20 mx-5' hrf="https://github.com/devRookies1/Proyecto-Ciclo-3" />
+            <div>
+                <img src={misionTic} alt="mision" className='flex h-15 w-20 mx-5' href="https://github.com/devRookies1/Proyecto-Ciclo-3" />
                 </div>
-                
             </li>
+
+        
 
             <li>
                 <div>
-                 <img src={github} alt="gith" className='flex h-10 w-15  mx-2' hrf= "https://www.misiontic2022.gov.co/portal/"/>
+                 <img src={github} alt="gith" className='flex h-10 w-15  mx-2' href= "https://www.misiontic2022.gov.co/portal/"/>
                 </div>
                 
             </li>     
 
         </ul>
 
-        </footer>
-        
-      
-        
-
-        
+        </footer> 
     )
 
 
