@@ -15,9 +15,9 @@ const Layout = ({children}) => {
       
         <main className='flex bg-gray-100 w-screen h-screen overflow-y-scroll'>
           <Sidebar/>
-          <SectionMain>
+          
              {children}
-          </SectionMain>  
+           
         </main>
         
         

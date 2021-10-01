@@ -1,13 +1,7 @@
 import React from 'react'
 import misionTic from 'media/misionTic.png'
 import github from 'media/github.png'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useParams
-  } from "react-router-dom";
+
 
 const Footer = () => {
     return (
