@@ -18,8 +18,7 @@ const TablaUsuarios = () => {
         <table className=" border-separate bg-gray-400 w-3/4"> 
             <thead>
                 <tr>
-                    
-                    <th className=" border-solid border-separate border border-gray-500 p-3">No.</th>
+                    <th className="border-separate border border-gray-500 p-3">No.</th>
                     <th className="border-separate border border-gray-500 p-3">Nombre usuario</th>
                     <th className="border-separate border border-gray-500 p-3">Rol</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
