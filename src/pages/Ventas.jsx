@@ -36,7 +36,7 @@ const TablaVentas = () => {
 
           <tbody class="bg-white">
          <tr >
-             <th class=" p-3">10001</th> 
+             <th class=" p-3" >10001</th> 
              <th class=" p-3">Toyota</th>
              <th class=" p-3">1/10/2021</th>
              <th class=" p-3">Tatiana</th>
