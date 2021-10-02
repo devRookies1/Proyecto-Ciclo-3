@@ -9,8 +9,6 @@ const FormVentas = () => {
         
          <form className=" justify-center p-2 h-12 ml-4 mr-4 bg-white  border-2 my-16 ">
 
-          
-
              <div className=" ml-16 mr-32 ">
              <input type="text" placeholder = "Identificador de venta"/>
              <input type="text" placeholder ="Nombre del cliente"/>
@@ -28,7 +26,10 @@ const FormVentas = () => {
              <input type="text" placeholder ="Descripción"/>
              <input type="text" placeholder ="Valor unitario"/>
              <select>
-             <option>Estado</option>
+             <option disabled>Estado</option>
+             <option>En proceso</option>
+             <option>Cancelada</option>
+             <option>Entregada</option>
              </select>
              <select>
              <option>Cantidad</option>
