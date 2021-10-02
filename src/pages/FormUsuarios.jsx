@@ -19,17 +19,16 @@ const FormUsuarios = () => {
                  </label>
                  <label className="flex flex-col font-bold" htmlFor="Rol">
                      Rol
-                     <input
-                      name="Rol"
-                      className="bg-gray-100 border-gray-500 p-2 rounded-lg m-2"
-                      type="text"
-                      placeholder="Rol usuario"
-                     />
+                     <select bg-gray-100 border-gray-500 p-2 rounded-lg m-2 name="estado">
+                         <option selected disabled>Seleccione Rol Usuario</option>
+                         <option>Administrador</option>
+                         <option>Vendedor</option>
+                     </select>
                  </label>
                  <label className="flex flex-col font-bold" htmlFor="estado">
                      Estado
                      <select bg-gray-100 border-gray-500 p-2 rounded-lg m-2 name="estado">
-                         <option disabled>Seleccione estado</option>
+                         <option selected disabled>Seleccione estado</option>
                          <option>Autorizado</option>
                          <option>No autorizado</option>
                          <option>Pendiente</option>
