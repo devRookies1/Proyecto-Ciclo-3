@@ -7,7 +7,7 @@ const FormVentas = () => {
         <SectionMainForm nombre='ventas'>
             
         
-         <form className=" justify-center p-2 h-12 ml-4 mr-4 bg-white  border-2 my-16 ">
+         <form className=" justify-center p-1 h-12 ml-4 mr-4 bg-white  border-2 my-16 ">
 
              <div className=" ml-16 mr-32 ">
              <input type="text" placeholder = "Identificador de venta"/>
@@ -19,7 +19,7 @@ const FormVentas = () => {
          </form>
        
  
-         <form className=" justify-center p-2 ml-4 mr-4 bg-white  ">
+         <form className=" justify-center  h-12 p-1 ml-1 mr-1 bg-white  border-2 ">
              <div className="ml-12  ">
 
              <input type="text" placeholder = "Producto"/>
