@@ -17,14 +17,14 @@ const Ventas = () => {
 
 const TablaVentas = () => {
     return (
-        <div className="  bg-white ml-32 mr-32 h-64 ">  
+        <div>  
         <div className="flex flex-col h-full w-full items-center ">
 
             
         <table className="border-separate bg-gray-400 ">  
             <thead>
         
-         <tr class="bg-gray-200 my-0 ">
+         <tr class=" my-0 ">
              <th class="border border-gray-500 p-3"># Identificación</th> 
              <th class="border border-gray-500 p-3">Descripción</th>
              <th class="border border-gray-500 p-3">Fecha Venta</th>
@@ -36,7 +36,7 @@ const TablaVentas = () => {
 
           <tbody class="bg-white">
          <tr >
-             <th class=" p-3" >10001</th> 
+             <th class=" p-3" >001</th> 
              <th class=" p-3">Toyota</th>
              <th class=" p-3">1/10/2021</th>
              <th class=" p-3">Tatiana</th>
@@ -45,20 +45,20 @@ const TablaVentas = () => {
          </tr>
 
          <tr >
-             <th class=" p-3">10002</th> 
+             <th class=" p-3">002</th> 
              <th class=" p-3">Mazda</th>
              <th class=" p-3">1/10/2021</th>
-             <th class=" p-3">Tatiana</th>
+             <th class=" p-3">Jonatan</th>
              <th class=" p-3">Cancelado</th>
              <th class=" p-3">$156.000.000</th>
          </tr>
           
 
          <tr >
-             <th class=" p-3">10003</th> 
-             <th class=" p-3">Renoult</th>
+             <th class=" p-3">003</th> 
+             <th class=" p-3">Renault</th>
              <th class=" p-3">1/10/2021</th>
-             <th class=" p-3">Tatiana</th>
+             <th class=" p-3">Vanessa</th>
              <th class=" p-3">Entregado</th>
              <th class=" p-3">$140.000.000</th>
          </tr>
