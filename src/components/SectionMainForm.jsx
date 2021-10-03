@@ -1,11 +1,26 @@
 import React from 'react'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from './Footer'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import guardar from 'media/guardar.png'
 import form from 'media/form.png'
-const SectionMainForm = ({children,nombre}) => {
-  return (
 
+
+const SectionMainForm = ({children,nombre}) => {
+
+    const notify = () =>
+    toast.success('Agregado con éxito', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    
+    return (
     <main className='flex flex-col h-full w-full justify-between  '>
     <div className='bg-gray-300 h-full w-auto mx-4 my-8'>
         <nav className='flex bg-gray-400 h-14 w-auto justify-between border-b-2 border-blue-700'>
@@ -16,18 +31,37 @@ const SectionMainForm = ({children,nombre}) => {
 
             <div className=' flex flex-row items-center'>
 
-                <Link to={`/${nombre}`}>
+                                    
+
+                
+                
+               
+                    <button onClick={notify}>
                     <img className='h-8 m-2  transform hover:scale-110 ' src={guardar} alt="guardar" />
-                </Link>
+                    </button>   
+                
+                                    
+ 
             </div>
+            
         </nav>
         
         
         {children}
-        
+        <ToastContainer
+position="bottom-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+/>
     </div>
     <Footer/>
-</main>     
+    </main>     
     
   )
 }

@@ -7,6 +7,7 @@ import agregar from 'media/agregar.png'
 import buscar from 'media/buscar.png'
 
 
+
 const SectionMain = ({children,logo,nombre}) => {
     return (        
     <main className='flex flex-col h-full w-full justify-between '>
@@ -40,8 +41,7 @@ const SectionMain = ({children,logo,nombre}) => {
         
             </div>
             {children}
-            
-        </div>
+         </div>
         <Footer/>
     </main>     
  
