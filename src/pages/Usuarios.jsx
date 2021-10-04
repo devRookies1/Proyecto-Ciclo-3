@@ -15,15 +15,14 @@ const Usuarios = () => {
 const TablaUsuarios = () => {
     return (
         <div className="flex flex-col items-center justify-center">
-        <table className=" border-separate bg-gray-400 w-3/4"> 
+        <table className=" tabla border-separate bg-gray-400 w-3/4"> 
             <thead>
-                <tr>
                     <th className="border-separate border border-gray-500 p-3">No.</th>
                     <th className="border-separate border border-gray-500 p-3">Nombre usuario</th>
                     <th className="border-separate border border-gray-500 p-3">Rol</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
                     <th className="border-separate border border-gray-500 p-3"></th>
-                </tr>
+                
             </thead>
             <tbody className="bg-white">
                 <tr>
