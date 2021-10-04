@@ -24,7 +24,6 @@ const Sidebar = () => {
 
                 <Link to ='/'>
                 <div className='flex flex-row justify-start  text-w  text-white opacity-75 hover:opacity-100 py-4 pl-6 mb-4 '>
-
                 <img src={home} alt="home" className='flex h-10 w-10 mr-1' />
                 <button className='font-bold'>INICIO</button>
                 </div>

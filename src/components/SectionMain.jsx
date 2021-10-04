@@ -20,6 +20,7 @@ const SectionMain = ({children,logo,nombre}) => {
                 <div className=' flex flex-row items-center'>
 
                     <Link to={`/${nombre}/form`}>
+                        <i></i>
                         <img className='h-8 m-2  transform hover:scale-110 ' src={agregar} alt="agregar" />
                     </Link>
                     <button>

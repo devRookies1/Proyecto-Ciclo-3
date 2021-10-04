@@ -1,5 +1,5 @@
 import SectionMain from 'components/SectionMain'
-import React from 'react'
+import React, { useState } from 'react'
 import productos from 'media/productos1.png'
 
 const Productos = () => {
@@ -9,6 +9,7 @@ const Productos = () => {
         </SectionMain>
     )
 }
+
 
 
 const TablaProductos = () => {
@@ -21,15 +22,11 @@ const TablaProductos = () => {
                     <th className="border-separate border border-gray-500 p-3">Nombre</th>
                     <th className="border-separate border border-gray-500 p-3">Valor unitario</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
+                    <th className="border-separate border border-gray-500 p-3">Acciones</th>
                 </tr>
             </thead>
             <tbody className="bg-white">
-                <tr>
-                    <td>001</td>
-                    <td>Mazda</td>
-                    <td>$156.000.000</td>
-                    <td>Disponible</td>
-                </tr>
+                <FilaVehiculo/>
                 <tr>
                 <td>002</td>
                     <td>Renault</td>
@@ -60,5 +57,34 @@ const TablaProductos = () => {
     )
 }
 
+const FilaVehiculo = ()=>{
+    const [edit,setEdit]= useState(false)
+    return(
+     <tr>
+         {edit?
+         <> 
+        
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+         </>
+        :
+        <>
+        <td>001</td>
+        <td>Mazda</td>
+        <td>$156.000.000</td>
+        <td>Disponible</td>
+        </>
+        }
+     
+     <td>
+         <div className='flex justify-around'>
+             <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'></i>
+             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
+         </div>
+         </td>
+     </tr>
+    )
+}
 
 export default Productos

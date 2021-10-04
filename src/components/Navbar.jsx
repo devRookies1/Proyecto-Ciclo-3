@@ -2,9 +2,13 @@ import React from 'react'
 import Admin from 'media/admin.png'
 //import { Link } from 'react-router-dom'
 import menu from 'media/menu.ico'
+import { useState, useEffect } from 'react'
 
 
 const Navbar = () => {
+  const [mostarSalir, setMostrarSalir] = useState(false)
+  
+  
     return (
         <nav class="bg-blue-700">
       <div class=" max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -26,27 +30,36 @@ const Navbar = () => {
               </div>
             </div>
   
+            
 
             <div class="ml-3 relative ">
-              <div className='bg-gray-400 flex h-10 w-44  rounded-3xl'>
-                <button type="button" class="my-1  bg-gray-400 flex w-44 text-sm rounded-3xl focus:outline-none
-                focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="profileBtn">
-                  <img src={Admin} alt="admin" className='mx-5 h-8 w-8 rounded-full' />
-                  <span >Administrador</span>
+              
+                <button type="button" class="my-1 flex w-max text-sm  focus:outline-none
+                focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="profileBtn"
+                onClick={()=>{
+                  setMostrarSalir(!mostarSalir)}}
+                >
+                <img src={Admin} alt="admin" className='mx-5 h-8 w-8 rounded-full'/>
+                  
                 </button>
-              </div>
-      
-              <div id="profileDiv" class=" origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                {mostarSalir &&(
+                  <div id="profileDiv" className=" origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                 
-                <a href="/Login" class="block px-4 py-2 text-sm text-gray-700">
-                  <i class="fas fa-user mr-2"></i>Salir
-                </a>   
+                  <a href="/Login" class="block px-4 py-2 text-sm text-gray-700">
+                    <i class="fas fa-user mr-2"></i>Salir
+                  </a>
+                  </div> 
+                )}
+                
+              
+      
+              
 
               </div>
             </div>
           </div>
         </div>
-      </div>
+      
     </nav>
                 
     )
