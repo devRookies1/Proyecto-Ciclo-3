@@ -17,14 +17,13 @@ const TablaProductos = () => {
         <div className="flex flex-col items-center justify-center">
         <table className="tabla border-separate bg-gray-400 w-3/4"> 
             <thead>
-                <tr>
 
                     <th className="border-separate border border-gray-500 p-3">#Identificacion</th>
                     <th className="border-separate border border-gray-500 p-3">Nombre</th>
                     <th className="border-separate border border-gray-500 p-3">Valor unitario</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
                     <th className="border-separate border border-gray-500 p-3">Acciones</th>
-                </tr>
+                
                 
             </thead>
             <tbody className="bg-white">
