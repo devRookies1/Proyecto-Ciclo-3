@@ -21,17 +21,15 @@ const TablaVentas = () => {
         <div className="flex flex-col h-full w-full items-center ">
 
             
-        <table className="border-separate bg-gray-400 ">  
+        <table className=" tabla border-separate bg-gray-400 ">  
             <thead>
         
-         <tr class=" my-0 ">
              <th class="border border-gray-500 p-3"># Identificación</th> 
              <th class="border border-gray-500 p-3">Descripción</th>
              <th class="border border-gray-500 p-3">Fecha Venta</th>
              <th class="border border-gray-500 p-3">Responsable</th>
              <th class="border border-gray-500 p-3">Estado</th>
              <th class="border border-gray-500 p-3">Valor Total</th>
-         </tr>
          </thead>
 
           <tbody class="bg-white">
