@@ -19,7 +19,7 @@ const Ventas = () => {
 const TablaVentas = () => {
     return (
         <div>  
-        <div className="flex flex-col h-full w-full items-center overflow-x-scroll ">
+        <div className="flex flex-col h-screen w-full items-center overflow-x-auto ">
 
             
         <table className=" tabla border-separate bg-gray-400 ">  

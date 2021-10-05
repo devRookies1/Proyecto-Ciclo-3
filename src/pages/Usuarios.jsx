@@ -13,7 +13,7 @@ const Usuarios = () => {
 
 const TablaUsuarios = () => {
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col h-screen items-center justify-start">
         <table className=" tabla border-separate bg-gray-400 w-3/4"> 
             <thead>
                     <th className="border-separate border border-gray-500 p-3">No.</th>

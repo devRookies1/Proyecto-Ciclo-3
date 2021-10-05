@@ -8,11 +8,11 @@ import usuarios from 'media/usuarios.png'
 
 const Sidebar = () => {
     return (
-        <div className='flex'>
-        <aside className= 'bg-blue-700  relative-h-scream w-72 md:64 hidden sm:block shadow-xl  '>
-         <div className='p-6'>
+        <div className='flex h-screen'>
+        <aside className= 'bg-blue-700  relative-h-screen w-72 md:64 hidden sm:block shadow-xl  '>
+         <div className='p-6 h-screen'>
 
-         <div className='w-full flex flex-col h-scream '>
+         <div className='w-full flex flex-col h-screen '>
             <header className='w-full py-5 px-6 '>
                 <div className= 'flex justify-center mb-4'>
                 
