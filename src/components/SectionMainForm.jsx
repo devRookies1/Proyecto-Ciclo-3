@@ -50,6 +50,7 @@ const SectionMainForm = ({children,nombre}) => {
         {children}
         
     </div>
+    <Footer/>
     
     </main>     
     

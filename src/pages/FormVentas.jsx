@@ -5,7 +5,7 @@ import agregar from 'media/agregar.png'
 const FormVentas = () => {
     return (
         <SectionMainForm nombre='ventas'>
-            <div className="flex flex-col h-full w-full items-center justify-start  " >
+            <div className="flex flex-col  w-full items-center justify-start  " >
               <form className='mt-4 mb-8'>
                 <table className=" border-separate bg-gray-400 "> 
                     <thead>
