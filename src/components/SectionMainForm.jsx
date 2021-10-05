@@ -1,8 +1,8 @@
 import React from 'react'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './Footer'
-//import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import guardar from 'media/guardar.png'
 import form from 'media/form.png'
 
@@ -36,9 +36,9 @@ const SectionMainForm = ({children,nombre}) => {
                 
                 
                
-                    <button onClick={notify}>
+                    <Link onClick={notify} to={`/${nombre}`}>
                     <img className='h-8 m-2  transform hover:scale-110 ' src={guardar} alt="guardar" />
-                    </button>   
+                    </Link>   
                 
                                     
  
@@ -48,17 +48,7 @@ const SectionMainForm = ({children,nombre}) => {
         
         
         {children}
-        <ToastContainer
-position="bottom-center"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-/>
+        
     </div>
     <Footer/>
     </main>     
