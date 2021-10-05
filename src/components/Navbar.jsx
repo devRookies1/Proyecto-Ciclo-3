@@ -2,7 +2,7 @@ import React from 'react'
 import Admin from 'media/admin.png'
 //import { Link } from 'react-router-dom'
 import menu from 'media/menu.ico'
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
 
 
 const Navbar = () => {

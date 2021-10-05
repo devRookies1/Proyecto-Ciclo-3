@@ -1,11 +1,9 @@
 import React from 'react'
 import Footer from './Footer'
 import { Link } from 'react-router-dom'
-import eliminar from 'media/eliminar.png'
-import ajustes from 'media/ajustes.png'
 import agregar from 'media/agregar.png'
 import buscar from 'media/buscar.png'
-
+import { ToastContainer } from 'react-toastify'
 
 
 const SectionMain = ({children,logo,nombre}) => {
@@ -23,14 +21,6 @@ const SectionMain = ({children,logo,nombre}) => {
                         <i></i>
                         <img className='h-8 m-2  transform hover:scale-110 ' src={agregar} alt="agregar" />
                     </Link>
-                    <button>
-                        <img className='h-8 m-2 transform hover:scale-110' src={ajustes} alt="ajustes" />
-                    </button>
-                    
-                    <button>
-                        <img className='h-8 m-2 transform hover:scale-110' src={eliminar} alt="eliminar" />
-                    </button>
-
                 </div>
             </nav>
             
@@ -42,6 +32,7 @@ const SectionMain = ({children,logo,nombre}) => {
         
             </div>
             {children}
+            <ToastContainer position="bottom-center" autoClose={5000}/>
          </div>
         <Footer/>
     </main>     
