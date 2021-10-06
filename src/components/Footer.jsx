@@ -5,7 +5,7 @@ import github from 'media/github.png'
 
 const Footer = () => {
     return (
-        <footer className='flex flex-col w-full bg-gray-400 h-16 '>
+        <footer className='flex w-full justify-center bg-gray-400 h-16 '>
         
 
         <ul className=' relative flex  justify-center py-2'>

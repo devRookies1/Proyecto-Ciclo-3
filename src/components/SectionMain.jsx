@@ -8,8 +8,8 @@ import { ToastContainer } from 'react-toastify'
 
 const SectionMain = ({children,logo,nombre}) => {
     return (        
-    <main className='flex flex-col h-full w-full justify-between '>
-        <div className='bg-gray-300 h-full w-auto mx-4 my-8'>
+    <main className='flex flex-col h-screen w-full justify-between overflow-y-scroll'>
+        <div className='flex flex-col bg-gray-300 h-auto w-auto mx-4 mt-8 mb-16  justify-between '>
             <nav className='flex bg-gray-400 h-14 w-auto justify-between border-b-2 border-blue-700'>
                 <div className='flex items-center'>
                     <img className='w-10 mt-2' src={logo} alt="logo" />
@@ -33,8 +33,9 @@ const SectionMain = ({children,logo,nombre}) => {
             </div>
             {children}
             <ToastContainer position="bottom-center" autoClose={5000}/>
+            <Footer/>
          </div>
-        <Footer/>
+         
     </main>     
  
     )
