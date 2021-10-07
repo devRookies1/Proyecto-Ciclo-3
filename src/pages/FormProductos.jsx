@@ -11,7 +11,7 @@ const FormProductos = () => {
                         <tr>
                         <th className="border-separate border border-gray-500 ">#Identificacion</th>
                         <th className="border-separate border border-gray-500 ">Nombre </th>
-                        <th className="border-separate border border-gray-500 ">Descripción </th>
+                        <th className="border-separate border border-gray-500 ">Marca </th>
                         <th className="border-separate border border-gray-500 ">Valor unitario</th>
                         <th className="border-separate border border-gray-500 ">Estado</th>
                         </tr>
@@ -21,7 +21,7 @@ const FormProductos = () => {
                 <tr>
                   <td><input type="text" placeholder = "#Identificacion"/></td>
                   <td><input type="text" placeholder ="Nombre"/></td>
-                  <td><input type="text" placeholder ="Descripción"/></td>
+                  <td><input type="text" placeholder ="Marca"/></td>
                   <td><input type="text" placeholder ="Valor unitario"/></td>
                   <td><select name="Estado">
                             <option disabled selected>Selecciona una opción</option>

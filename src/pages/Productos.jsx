@@ -21,6 +21,7 @@ const TablaProductos = () => {
 
                     <th className="border-separate border border-gray-500 p-3">#Identificacion</th>
                     <th className="border-separate border border-gray-500 p-3">Nombre</th>
+                    <th className="border-separate border border-gray-500 p-3">Marca</th>
                     <th className="border-separate border border-gray-500 p-3">Valor unitario</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
                     <th className="border-separate border border-gray-500 p-3">Acciones</th>
