@@ -3,6 +3,20 @@ import SectionMain from 'components/SectionMain'
 import grid from 'media/grid.png'
 import {toast} from 'react-toastify'
 
+/*const ventasBackend=[
+    {
+        id: 1,
+        fechaVenta: "1/10/21",
+        responsable: "Tatiana",
+        estado: "Cancelada",
+        total: "139.000.000",
+        nombCliente: "Pepito Perez",
+        idCliente: "1234567",
+        idProdu: "001",
+        cantidad: "1",
+        valorUnitario: "139.000.000"
+    },
+/**/
 
 const Ventas = () => {
     return (
@@ -88,6 +102,7 @@ const MiniTabla =()=>{
                             <th>Documento Cliente</th>
                             <th>Fecha venta</th>
                             <th>Responsable</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                             </tr>
                         </thead>
@@ -126,10 +141,36 @@ const TablaCliente =()=>{
 
     return(
         <tr>
+            {edit?(<>
+            <td>
+                <input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue="pepito perez"/></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue="1234567"/></td>
+            <td><input 
+                type="date" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue="1/10/21"/></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue="tatiana"/></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue="cancelada"/></td></>):(
+                <>
             <td>Pepito Perez</td>
             <td>12345678</td>
             <td>1/10/21</td>
             <td>Tatiana</td>
+            <td>Cancelada</td>
+            </>)}
+            
             <td>
                 <div className='flex justify-around'>
                     {edit? (
@@ -152,21 +193,43 @@ const TablaProdu =()=>{
     }
     return(
         <tr>
-                                <td>001</td>
-                                <td>1</td>
-                                <td>139.000.000</td>
-                                <td>139.000.000</td>
-                                <td>
-                                    <div className='flex justify-around'>
-                                        {edit? (
-                                        <button type ="submit">
-                                            <i onClick={algo} className='fas fa-check text-green-500'/>
-                                        </button>):(
-                                        <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr> 
+            {edit? (<>
+            <td>
+                <input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue="001" disabled/></td>
+            <td><input 
+                type="number" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue={1} /></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue="139.000.000" disabled/></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                defaultValue="139.000.000" disabled/></td></>)
+            :(
+            <>
+            <td>001</td>
+            <td>1</td>
+            <td>139.000.000</td>
+            <td>139.000.000</td>
+            </>)}
+            
+            <td>
+                <div className='flex justify-around'>
+                    {edit? (
+                        <button type ="submit">
+                            <i onClick={algo} className='fas fa-check text-green-500'/>
+                        </button>):(
+                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td>
+        </tr> 
 )}
 
 const FilaVenta=()=>{
@@ -180,7 +243,8 @@ const FilaVenta=()=>{
         <td></td>
             <td></td>
             <td></td>
-            <td>Pepito Perez</td>
+            <td>139.000.000</td>
+        
             <td>
                 <div className='flex justify-around'>
                     {edit? (
