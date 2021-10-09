@@ -5,6 +5,7 @@ import {toast} from 'react-toastify'
 
 
 const Ventas = () => {
+    
     return (
 
         <SectionMain logo= {grid} nombre={'ventas'} >

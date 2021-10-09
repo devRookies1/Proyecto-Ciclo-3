@@ -82,7 +82,7 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
             <tbody className="bg-white">
                 {listaVehiculos.map((vehiculo) => {
                     return (
-                    <FilaVehiculo vehiculo ={vehiculo} setEjecutarConsulta={setEjecutarConsulta}/>
+                    <FilaVehiculo key={} vehiculo ={vehiculo} setEjecutarConsulta={setEjecutarConsulta}/>
                     )
                 })}                
                 <ToastContainer position="bottom-center" autoClose={5000}/>
@@ -103,6 +103,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
 
         id: vehiculo.id ,
         nombre: vehiculo.nombre,
+        marca: vehiculo.marca,
         precio: vehiculo.precio,
         estado: vehiculo.estado
 
