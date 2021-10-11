@@ -2,7 +2,7 @@ import {React, useRef} from 'react'
 import SectionMainForm from 'components/SectionMainForm'
 import Usuarios from './Usuarios'
 import { toast } from 'react-toastify'
-
+import axios from 'axios'
 
 const FormUsuarios = () => {
 
@@ -14,11 +14,30 @@ const FormUsuarios = () => {
     const nuevoUsuario = {};
     fd.forEach((value, key) => {
       nuevoUsuario[key] = value;
-      
-    Usuarios.setUsuarios([...Usuarios.listaUsuarios,nuevoUsuario])
-    toast.success('Usuario agregado con exito')
-
     })
+
+    const options = {
+        method: 'POST',
+        url: 'http://localhost:5000/vehiculos/nuevo/',
+        headers: { 'Content-Type': 'application/json' },
+        data: {  
+          nombre: nuevoUsuario.nombre, 
+          rol: nuevoUsuario.rol, 
+          estado: nuevoUsuario.estado },
+      };
+  
+    await axios
+        .request(options)
+        .then(function (response) {
+          console.log(response.data);
+          toast.success('Vehículo agregado con éxito');
+        })
+        .catch(function (error) {
+          console.error(error);
+          toast.error('Error creando un vehículo');
+        });
+
+   
 }
     return (
         <SectionMainForm nombre='usuarios'>

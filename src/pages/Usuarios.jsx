@@ -2,6 +2,8 @@ import SectionMain from 'components/SectionMain'
 import React, { useState, useEffect} from 'react'
 import usuarios1 from 'media/usuarios1.png'
 import {toast, ToastContainer } from 'react-toastify'
+import { nanoid } from 'nanoid'
+import { obtenerUsuarios, actualizarUsuario, eliminarUsuario } from 'utils/api'
 
 const usuariosBackend = [
     {
@@ -34,10 +36,10 @@ const Usuarios = () => {
 
     useEffect(() => {
 
-        setUsuarios(usuariosBackend)
-        
-        console.log(usuarios)
-    }, [])
+        if (ejecutarConsulta) {
+            obtenerUsuarios(setUsuarios, setEjecutarConsulta);
+          }
+        }, [ejecutarConsulta]);
 
     return (
         <SectionMain nombre='usuarios' logo={usuarios1} >
@@ -65,7 +67,7 @@ const TablaUsuarios = ({listaUsuarios,setEjecutarConsulta}) => {
             <tbody className="bg-white">
                 {listaUsuarios.map((usuario) => {
                     return (
-                    <FilaUsuarios usuario ={usuario} setEjecutarConsulta={setEjecutarConsulta}/>
+                    <FilaUsuarios key={nanoid} usuario ={usuario} setEjecutarConsulta={setEjecutarConsulta}/>
                     )
                 })}
                 <ToastContainer position="bottom-center" autoClose={5000}/>
@@ -76,10 +78,7 @@ const TablaUsuarios = ({listaUsuarios,setEjecutarConsulta}) => {
 }
 const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
     const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
+    
     const [infoNuevoUsuario, setInfoNuevoUsuario] = useState({
 
         id: usuario.id ,
@@ -133,15 +132,15 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
      <td>
          <div className='flex justify-around'>
          {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
+                 
+                     <i onClick={actualizarUsuario(usuario, infoNuevoUsuario, setEdit, setEjecutarConsulta)} className='fas fa-check text-green-500'/>
+                 
              ):(
                 <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
              )
 
              }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
+             <i onClick={eliminarUsuario(usuario,setEjecutarConsulta)} className='fas fa-trash text-gray-900 hover:text-red-700'></i>
          </div>
          </td>
      </tr>
