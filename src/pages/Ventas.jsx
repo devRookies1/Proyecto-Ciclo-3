@@ -5,6 +5,7 @@ import {toast} from 'react-toastify'
 
 
 const Ventas = () => {
+    
     return (
 
         <SectionMain logo= {grid} nombre={'ventas'} >
@@ -17,13 +18,17 @@ const Ventas = () => {
 
 
 const TablaVentas = () => {
+    const [desplegar,setdesplegar]=useState(false)
+ 
+
     return (
         <div>  
         <div className="flex flex-col h-screen w-full items-center overflow-x-auto ">
 
             
-        <table className=" tabla border-separate bg-gray-400 ">  
+        <table className=" tabla border-separate bg-gray-400">  
             <thead>
+            <tr>    
         
              <th class="border border-gray-500 p-3"># Identificación</th> 
              <th class="border border-gray-500 p-3">Descripción</th>
@@ -32,13 +37,30 @@ const TablaVentas = () => {
              <th class="border border-gray-500 p-3">Estado</th>
              <th class="border border-gray-500 p-3">Valor Total</th>
              <th class="border border-gray-500 p-3">Acciones</th>
+             </tr>
          </thead>
 
-          <tbody class="bg-white">
-              <FilaVentas1/>
-              <FilaVentas2/>
-              <FilaVentas3/>
-
+        <tbody class="bg-white">
+              <tr>
+                  <td>001</td>
+                  <td>
+                  <button type="button" class="my-1 flex w-max text-sm  focus:outline-none hover:text-green-700 underline" 
+                onClick={()=>{setdesplegar(!desplegar)}}
+                >
+                Ver más 
+                  
+                </button>
+                
+                  </td>
+                  <td>1/10/21</td>
+                  <td>Tatiana</td>
+                  <td>Cancelada</td>
+                  <td>$139.000.000</td>
+                  <td><div className="flex justify-center"><i className='fas fa-trash text-gray-900 hover:text-red-700'></i></div></td>
+              </tr>
+              {desplegar &&(
+              <MiniTabla/>)}
+              
         </tbody>
         </table>
         
@@ -52,8 +74,51 @@ const TablaVentas = () => {
     
     )
 }
-const FilaVentas1 = ()=>{
-    const [mostrarCamposAdicionales, setMostrarCamposAdicionales] = useState(false);
+const MiniTabla =()=>{
+    
+    return(
+        
+        <tr>
+            <td colSpan="7">
+                <div className="flex flex-col items-center">
+                    <h3>Factura #001</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                            <th>Nombre Cliente</th>
+                            <th>Documento Cliente</th>
+                            <th>Fecha venta</th>
+                            <th>Responsable</th>
+                            <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <TablaCliente/>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                            <th>Identificador producto</th>
+                            <th>Cantidad</th>
+                            <th>valor Unitario</th>
+                            <th>Valor Total</th>
+                            <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           <TablaProdu/>
+                           <FilaVenta/>
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+            </td>
+        </tr>
+    )
+}
+const TablaCliente =()=>{
     const [edit,setEdit]= useState(false)
     const algo=()=>{
         setEdit(!edit)
@@ -61,307 +126,76 @@ const FilaVentas1 = ()=>{
     }
 
     return(
-     <tr>
-         {edit?
-         <> 
-        
-            <td><input type="text" defaultValue='001' disabled /></td>
-            <td><table className="w-max border-separate bg-gray-400"> 
-                 <thead>
-                    <tr>
-                     <th className="border-separate border border-gray-500 ">Nombre del cliente </th>
-                     <th className="border-separate border border-gray-500 ">Identificación del cliente</th>
-                     <th className="border-separate border border-gray-500 ">Producto</th>
-                     <th className="border-separate border border-gray-500 ">Valor unitario</th>
-                     <th className="border-separate border border-gray-500 ">Cantidad</th>
-                    </tr>
-                 </thead>
-                 <tbody className="bg-white">
-                     <tr>
-                        <td><input type="text" /></td>                    
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td> 
-                     </tr>
-                 </tbody>
-                </table></td>
-            <td><input type="date" /></td>
-            <td><input type="text" defaultValue='Tatiana' /></td>
-            <td><select name="Estado" defaultValue=" Disponible">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Cancelado</option>
-                            <option>Entregado</option>
-                            <option>En Proceso</option>
-                       </select></td>
-            <td><input type="text" defaultValue='$139.000.000'/></td>
-
-         </>
-        :
-        <>
-        <td class=" p-3" >001</td> 
-             
-             <td class=" p-3">
-
-             {mostrarCamposAdicionales ? (
-             <button onClick={() => setMostrarCamposAdicionales(!mostrarCamposAdicionales)}>
-                 <table className="border-separate bg-gray-400"> 
-                 <thead>
-                    <tr>
-                     <th className="border-separate border border-gray-500 ">Nombre del cliente </th>
-                     <th className="border-separate border border-gray-500 ">Identificación del cliente</th>
-                     <th className="border-separate border border-gray-500 ">Producto</th>
-                     <th className="border-separate border border-gray-500 ">Valor unitario</th>
-                     <th className="border-separate border border-gray-500 ">Cantidad</th>
-                    </tr>
-                 </thead>
-                 <tbody className="bg-white">
-                     <tr>
-                        <td>Pepito Perez</td>                    
-                        <td>123456</td>
-                        <td>Camioneta Toyota</td>
-                        <td>$139.000.000</td>
-                        <td>1</td> 
-                     </tr>
-                 </tbody>
-                </table>
-             </button>
-    ): (
-        <button onClick={() => setMostrarCamposAdicionales(!mostrarCamposAdicionales)}>
-            Ver Más
-        </button>    
-
-      )}</td>
-             <td class=" p-3">1/10/2021</td>
-             <td class=" p-3">Tatiana</td>
-             <td class=" p-3">Proceso</td>
-             <td class=" p-3">$139.000.000</td>
-        </>
-        }
-     
-     <td>
-         <div className='flex justify-around'>
-         {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
-             ):(
-                <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-             )
-
-             }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
-         </div>
-         </td>
-     </tr>
+        <tr>
+            <td>Pepito Perez</td>
+            <td>12345678</td>
+            <td>1/10/21</td>
+            <td>Tatiana</td>
+            <td>
+                <div className='flex justify-around'>
+                    {edit? (
+                        <button type ="submit">
+                            <i onClick={algo} className='fas fa-check text-green-500'/>
+                        </button>):(
+                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td>
+        </tr>
     )
+
 }
-const FilaVentas2 = ()=>{
-    const [mostrarCamposAdicionales1, setMostrarCamposAdicionales1] = useState(false);
+const TablaProdu =()=>{
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    return(
+        <tr>
+                                <td>001</td>
+                                <td>1</td>
+                                <td>139.000.000</td>
+                                <td>139.000.000</td>
+                                <td>
+                                    <div className='flex justify-around'>
+                                        {edit? (
+                                        <button type ="submit">
+                                            <i onClick={algo} className='fas fa-check text-green-500'/>
+                                        </button>):(
+                                        <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr> 
+)}
+
+const FilaVenta=()=>{
     const [edit,setEdit]= useState(false)
     const algo=()=>{
         setEdit(!edit)
         toast.success("Editado con Exito")
     }
 
-    return(
-     <tr>
-         {edit?
-         <> 
-        
-            <td><input type="text" defaultValue='001' disabled /></td>
-            <td><table className="border-separate bg-gray-400"> 
-                 <thead>
-                    <tr>
-                     <th className="border-separate border border-gray-500 ">Nombre del cliente </th>
-                     <th className="border-separate border border-gray-500 ">Identificación del cliente</th>
-                     <th className="border-separate border border-gray-500 ">Producto</th>
-                     <th className="border-separate border border-gray-500 ">Valor unitario</th>
-                     <th className="border-separate border border-gray-500 ">Cantidad</th>
-                    </tr>
-                 </thead>
-                 <tbody className="bg-white">
-                     <tr>
-                        <td><input type="text" /></td>                    
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td> 
-                     </tr>
-                 </tbody>
-                </table></td>
-            <td><input type="date" /></td>
-            <td><input type="text" defaultValue='Tatiana' /></td>
-            <td><select name="Estado" defaultValue=" Disponible">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Cancelado</option>
-                            <option>Entregado</option>
-                            <option>En Proceso</option>
-                       </select></td>
-            <td><input type="text" defaultValue='$139.000.000'/></td>
+    return( <tr>
+        <td></td>
+            <td></td>
+            <td></td>
+            <td>Pepito Perez</td>
+            <td>
+                <div className='flex justify-around'>
+                    {edit? (
+                    <button type ="submit">
+                        <i onClick={algo} className='fas fa-check text-green-500'/>
+                    </button>):(
+                    <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td>
 
-         </>
-        :
-        <>
-        <td class=" p-3" >002</td> 
-             
-             <td class=" p-3">
-
-             {mostrarCamposAdicionales1 ? (
-             <button onClick={() => setMostrarCamposAdicionales1(!mostrarCamposAdicionales1)}>
-                 <table className="border-separate bg-gray-400"> 
-                 <thead>
-                    <tr>
-                     <th className="border-separate border border-gray-500 ">Nombre del cliente </th>
-                     <th className="border-separate border border-gray-500 ">Identificación del cliente</th>
-                     <th className="border-separate border border-gray-500 ">Producto</th>
-                     <th className="border-separate border border-gray-500 ">Valor unitario</th>
-                     <th className="border-separate border border-gray-500 ">Cantidad</th>
-                    </tr>
-                 </thead>
-                 <tbody className="bg-white">
-                     <tr>
-                        <td>Nombre del Cliente</td>                    
-                        <td>Identificacion del Cliente</td>
-                        <td>Producto</td>
-                        <td>Valor unitario</td>
-                        <td>Cantidad</td> 
-                     </tr>
-                 </tbody>
-                </table>
-             </button>
-    ): (
-        <button onClick={() => setMostrarCamposAdicionales1(!mostrarCamposAdicionales1)}>
-            Ver Más
-        </button>    
-
-      )}</td>
-             <td class=" p-3">1/10/2021</td>
-             <td class=" p-3">Jonatan</td>
-             <td class=" p-3">Proceso</td>
-             <td class=" p-3">$159.000.000</td>
-        </>
-        }
-     
-     <td>
-         <div className='flex justify-around'>
-         {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
-             ):(
-                <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-             )
-
-             }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
-         </div>
-         </td>
-     </tr>
-    )
+        </tr>
+        )
 }
-const FilaVentas3 = ()=>{
-    const [mostrarCamposAdicionales2, setMostrarCamposAdicionales2] = useState(false);
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
 
-    return(
-     <tr>
-         {edit?
-         <> 
-        
-            <td><input type="text" defaultValue='001' disabled /></td>
-            <td><table className="border-separate bg-gray-400"> 
-                 <thead>
-                    <tr>
-                     <th className="border-separate border border-gray-500 ">Nombre del cliente </th>
-                     <th className="border-separate border border-gray-500 ">Identificación del cliente</th>
-                     <th className="border-separate border border-gray-500 ">Producto</th>
-                     <th className="border-separate border border-gray-500 ">Valor unitario</th>
-                     <th className="border-separate border border-gray-500 ">Cantidad</th>
-                    </tr>
-                 </thead>
-                 <tbody className="bg-white">
-                     <tr>
-                        <td><input type="text" /></td>                    
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td> 
-                     </tr>
-                 </tbody>
-                </table></td>
-            <td><input type="date" /></td>
-            <td><input type="text" defaultValue='Tatiana' /></td>
-            <td><select name="Estado" defaultValue=" Disponible">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Cancelado</option>
-                            <option>Entregado</option>
-                            <option>En Proceso</option>
-                       </select></td>
-            <td><input type="text" defaultValue='$139.000.000'/></td>
 
-         </>
-        :
-        <>
-        <td class=" p-3" >003</td> 
-             
-             <td class=" p-3">
-
-             {mostrarCamposAdicionales2 ? (
-             <button onClick={() => setMostrarCamposAdicionales2(!mostrarCamposAdicionales2)}>
-                 <table className="border-separate bg-gray-400"> 
-                 <thead>
-                    <tr>
-                     <th className="border-separate border border-gray-500 ">Nombre del cliente </th>
-                     <th className="border-separate border border-gray-500 ">Identificación del cliente</th>
-                     <th className="border-separate border border-gray-500 ">Producto</th>
-                     <th className="border-separate border border-gray-500 ">Valor unitario</th>
-                     <th className="border-separate border border-gray-500 ">Cantidad</th>
-                    </tr>
-                 </thead>
-                 <tbody className="bg-white">
-                     <tr>
-                        <td>Nombre del Cliente</td>                    
-                        <td>Identificacion del Cliente</td>
-                        <td>Producto</td>
-                        <td>Valor unitario</td>
-                        <td>Cantidad</td> 
-                     </tr>
-                 </tbody>
-                </table>
-             </button>
-    ): (
-        <button onClick={() => setMostrarCamposAdicionales2(!mostrarCamposAdicionales2)}>
-            Ver Más
-        </button>    
-
-      )}</td>
-             <td class=" p-3">1/10/2021</td>
-             <td class=" p-3">Vanessa</td>
-             <td class=" p-3">Cancelado</td>
-             <td class=" p-3">$159.000.000</td>
-        </>
-        }
-     
-     <td>
-         <div className='flex justify-around'>
-         {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
-             ):(
-                <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-             )
-
-             }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
-         </div>
-         </td>
-     </tr>
-    )
-}
 export default Ventas

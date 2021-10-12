@@ -37,7 +37,9 @@ const SectionMainForm = ({children,nombre}) => {
                 
                
                     <Link onClick={notify} to={`/${nombre}`}>
+                    <button type='submit'>
                     <img className='h-8 m-2  transform hover:scale-110 ' src={guardar} alt="guardar" />
+                    </button>
                     </Link>   
                 
                                     

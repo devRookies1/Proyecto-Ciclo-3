@@ -1,9 +1,15 @@
 import SectionMainForm from 'components/SectionMainForm'
-import React from 'react'
+import React, {useState} from 'react'
 import agregar from 'media/agregar.png'
 
 const FormVentas = () => {
-    return (
+  const [agregr,setagregr]=useState(false)
+  const nuevo =(e)=>{
+    e.preventDefault();
+    setagregr(true)
+
+      }
+      return (
         <SectionMainForm nombre='ventas'>
             <div className="flex flex-col  w-full items-center justify-start  " >
               <form className='mt-4 mb-8'>
@@ -42,7 +48,7 @@ const FormVentas = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white">
-                    <tr>
+                    <tr id="fieldlist">
                         <td><input type="text" placeholder = "Producto"/></td>
                         <td><input type="text" placeholder ="Descripcion"/></td>
                         <td><input type="text" placeholder ="Valor unitario"/></td>
@@ -55,11 +61,12 @@ const FormVentas = () => {
                     </select></p></td>
                         <td><input type="text" placeholder ="Total"/></td>
                       </tr>
+                      {agregr&& <NuevaFila/>}
+
                     </tbody>   
-                <tr>
-                </tr> 
             </table>
-                <button className>
+                <button onClick={nuevo}>
+                  
                     <img className='h-5 m-2 transform hover:scale-110' src={agregar} alt="agregar" />
                 </button>
           </form>
@@ -67,11 +74,27 @@ const FormVentas = () => {
           <div className=" flex place-self-end">
           <table className="bg-gray-400 m-10 w-32 text-center">
             <h3 className="font-bold">Total venta</h3>
-          <label htmlFor="Total venta"></label> Total Venta
+          <label htmlFor="Total venta">Total Venta</label> 
           </table>
         </div>   
         </SectionMainForm>
     )
 }
+const NuevaFila=()=>{
+  return(
+  <tr>
+                        <td><input type="text" placeholder = "Producto"/></td>
+                        <td><input type="text" placeholder ="Descripcion"/></td>
+                        <td><input type="text" placeholder ="Valor unitario"/></td>
+                        <td><input type="number" placeholder ="Cantidad"/></td>                
+                        <td><p><select>
+                        <option selected disabled>Estado</option>
+                        <option value="Cancelado">Cancelado</option>
+                        <option value="Entregado">Entregado</option>
+                        <option value="En proceso">En proceso</option>
+                    </select></p></td>
+                        <td><input type="text" placeholder ="Total"/></td>
+                      </tr> 
+  )}
 
 export default FormVentas
