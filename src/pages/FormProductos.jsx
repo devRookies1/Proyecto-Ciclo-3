@@ -1,9 +1,19 @@
 import SectionMainForm from 'components/SectionMainForm'
 import React, { useRef } from 'react'
 import { toast } from 'react-toastify'
-import axios from 'axios'
+import { crearVehiculo } from 'utils/api'
+import { Link } from 'react-router-dom'
 
-
+const notify = () =>
+    toast.success('Agregado con éxito', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
 
 const FormProductos = () => {
   const form = useRef(null)
@@ -15,30 +25,26 @@ const FormProductos = () => {
     fd.forEach((value, key) => {
       nuevoVehiculo[key] = value;
     })
-    
-    const options = {
-      method: 'POST',
-      url: 'http://localhost:5000/vehiculos/nuevo/',
-      headers: { 'Content-Type': 'application/json' },
-      data: { id:nuevoVehiculo.id, 
-        nombre: nuevoVehiculo.nombre, 
-        marca: nuevoVehiculo.marca, 
-        precio: nuevoVehiculo.precio,
-        estado: nuevoVehiculo.estado },
-    };
-
-    await axios
-      .request(options)
-      .then(function (response) {
+    console.log(nuevoVehiculo)
+    await crearVehiculo(
+      {
+      id: nuevoVehiculo.id, 
+      nombre: nuevoVehiculo.nombre, 
+      marca: nuevoVehiculo.marca, 
+      precio: nuevoVehiculo.precio,
+      estado: nuevoVehiculo.estado 
+      },
+      (response)=> {
         console.log(response.data);
         toast.success('Vehículo agregado con éxito');
-      })
-      .catch(function (error) {
+      },
+      (error)=>{
         console.error(error);
-        toast.error('Error creando un vehículo');
-      });
+        toast.error('Error creando un vehículo')
+      },)
+    };
 
-  }
+    
 
     return (
       
@@ -62,39 +68,52 @@ const FormProductos = () => {
                     <input
                   name='id' 
                   type="number" 
-                  placeholder = "#Identificacion"/>
+                  placeholder = "#Identificacion"
+                  required
+                  />
                   </td>
                   <td>
                   <input 
                   name='nombre'
                   type="text" 
-                  placeholder ="Nombre"/>
+                  placeholder ="Nombre"
+                  required/>
                   </td>
                   <td>
                     <input 
                     name='marca'
                     type="text" 
-                    placeholder ="Marca"/>
+                    placeholder ="Marca"
+                    required/>
                   </td>
                   <td>
                     <input 
-                    nombre='precio'
+                    name='precio'
                     type="text" 
-                    placeholder ="Valor unitario"/>
+                    placeholder ="Valor unitario"
+                    required/>
                   </td>
                   <td>
-                    <select name="estado">
+                    <select name="estado"
+                    required
+                    >
                             <option disabled selected>Selecciona una opción</option>
                             <option>Disponible</option>
                             <option>No Disponible</option>
                     </select>
                   </td>
                 </tr>
-                </tbody>   
-                <button type='submit'>
-                  Guardar vehiculo
-                  </button>                     
+                </tbody>              
             </table>
+            
+            <button
+                  type='submit'
+                  onClick={notify}
+                  className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
+                  >
+                  Guardar vehiculo
+                </button>
+               
           </form>
           </div>       
         </SectionMainForm>
