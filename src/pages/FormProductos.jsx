@@ -1,7 +1,8 @@
 import SectionMainForm from 'components/SectionMainForm'
 import React, { useRef } from 'react'
 import { toast } from 'react-toastify'
-import Productos from './Productos'
+import axios from 'axios'
+
 
 
 const FormProductos = () => {
@@ -13,11 +14,30 @@ const FormProductos = () => {
     const nuevoVehiculo = {};
     fd.forEach((value, key) => {
       nuevoVehiculo[key] = value;
-      
-    Productos.setVehiculos([...Productos.listaVehiculos,nuevoVehiculo])
-    toast.success('Vehiculo agregado con exito')
-
     })
+    
+    const options = {
+      method: 'POST',
+      url: 'http://localhost:5000/vehiculos/nuevo/',
+      headers: { 'Content-Type': 'application/json' },
+      data: { id:nuevoVehiculo.id, 
+        nombre: nuevoVehiculo.nombre, 
+        marca: nuevoVehiculo.marca, 
+        precio: nuevoVehiculo.precio,
+        estado: nuevoVehiculo.estado },
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success('Vehículo agregado con éxito');
+      })
+      .catch(function (error) {
+        console.error(error);
+        toast.error('Error creando un vehículo');
+      });
+
   }
 
     return (

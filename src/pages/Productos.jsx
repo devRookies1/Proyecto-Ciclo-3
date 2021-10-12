@@ -2,6 +2,8 @@ import SectionMain from 'components/SectionMain'
 import React, { useEffect, useState }  from 'react'
 import productos from 'media/productos1.png'
 import {toast, ToastContainer } from 'react-toastify'
+import { nanoid } from 'nanoid'
+import { obtenerVehiculos, actualizarVehiculo, eliminarVehiculo } from 'utils/api'
 
 
 
@@ -47,10 +49,10 @@ const Productos = () => {
 
     useEffect(() => {
 
-        setVehiculos(vehiculosBackend)
-        
-        console.log(vehiculos)
-    }, [])
+        if (ejecutarConsulta) {
+            obtenerVehiculos(setVehiculos, setEjecutarConsulta);
+          }
+        }, [ejecutarConsulta]);
     
     
     return (
@@ -82,7 +84,7 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
             <tbody className="bg-white">
                 {listaVehiculos.map((vehiculo) => {
                     return (
-                    <FilaVehiculo vehiculo ={vehiculo} setEjecutarConsulta={setEjecutarConsulta}/>
+                    <FilaVehiculo key={nanoid} vehiculo ={vehiculo} setEjecutarConsulta={setEjecutarConsulta}/>
                     )
                 })}                
                 <ToastContainer position="bottom-center" autoClose={5000}/>
@@ -95,14 +97,12 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
 
 const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
     const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
+    
     const [infoNuevoVehiculo,setInfoNuevoVehiculo]= useState({
 
         id: vehiculo.id ,
         nombre: vehiculo.nombre,
+        marca: vehiculo.marca,
         precio: vehiculo.precio,
         estado: vehiculo.estado
 
@@ -150,15 +150,15 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
      <td>
          <div className='flex justify-around'>
          {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
+                 
+                     <i onClick={actualizarVehiculo(vehiculo, infoNuevoVehiculo, setEdit, setEjecutarConsulta)} className='fas fa-check text-green-500'/>
+                 
              ):(
                 <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
              )
 
              }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
+             <i  onClick={eliminarVehiculo(vehiculo,setEjecutarConsulta)} className='fas fa-trash text-gray-900 hover:text-red-700'></i>
          </div>
          </td>
      </tr>
