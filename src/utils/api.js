@@ -1,17 +1,13 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-export const obtenerVehiculos = async (setVehiculos, setEjecutarConsulta = () => {}) => {
+
+export const obtenerVehiculos = async (successCallBack, errorCallBack) => {
   const options = { method: 'GET', url: 'http://localhost:5000/vehiculos/' };
   await axios
     .request(options)
-    .then(function (response) {
-      setVehiculos(response.data);
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
-  setEjecutarConsulta(false);
+    .then(successCallBack)
+    .catch(errorCallBack)
 };
 
 export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta = () => {}) => {
@@ -27,28 +23,33 @@ export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta = () => {
   setEjecutarConsulta(false);
 };
 
-export const actualizarVehiculo = async ({vehiculo,infoNuevoVehiculo,setEdit,setEjecutarConsulta}) => {
+export const crearVehiculo = async(data,successCallBack, errorCallBack)=>{
+  const options = { method: 'POST', 
+  url: 'http://localhost:5000/vehiculos/',
+  headers: { 'Content-Type': 'application/json'},
+  data,};
+  await axios
+    .request(options)
+    .then(successCallBack)
+    .catch(errorCallBack)
+};
+
+
+
+export const actualizarVehiculo = async ({id,data,successCallBack, errorCallBack}) => {
   //enviar la info al backend
   const options = {
     method: 'PATCH',
-    url: `http://localhost:5000/vehiculos/${vehiculo._id}/`,
+    url: `http://localhost:5000/vehiculos/${id}/`,
     headers: { 'Content-Type': 'application/json' },
-    data: { ...infoNuevoVehiculo },
+    data
   };
-
   await axios
     .request(options)
-    .then(function (response) {
-      console.log(response.data);
-      toast.success('Vehículo modificado con éxito');
-      setEdit(false);
-      setEjecutarConsulta(true);
-    })
-    .catch(function (error) {
-      toast.error('Error modificando el vehículo');
-      console.error(error);
-    });
+    .then(successCallBack)
+    .catch(errorCallBack)
 };
+
 
 export const actualizarUsuario = async ({usuario, infoNuevoUsuario, setEdit, setEjecutarConsulta}) => {
   //enviar la info al backend
@@ -73,25 +74,19 @@ export const actualizarUsuario = async ({usuario, infoNuevoUsuario, setEdit, set
     });
 };
 
-export const eliminarVehiculo = async ({vehiculo,setEjecutarConsulta}) => {
+export const eliminarVehiculo = async ({id,successCallBack, errorCallBack}) => {
+  
   const options = {
     method: 'DELETE',
-    url: 'http://localhost:5000/vehiculos/eliminar/',
+    url: `http://localhost:5000/vehiculos/${id}/`,
     headers: { 'Content-Type': 'application/json' },
-    data: { id: vehiculo._id },
   };
-
+  
   await axios
     .request(options)
-    .then(function (response) {
-      console.log(response.data);
-      toast.success('vehículo eliminado con éxito');
-      setEjecutarConsulta(true);
-    })
-    .catch(function (error) {
-      console.error(error);
-      toast.error('Error eliminando el vehículo');
-    });
+    .then(successCallBack)
+    .catch(errorCallBack)
+    
 };
 
 export const eliminarUsuario = async ({usuario,setEjecutarConsulta} ) => {
@@ -99,7 +94,7 @@ export const eliminarUsuario = async ({usuario,setEjecutarConsulta} ) => {
     method: 'DELETE',
     url: 'http://localhost:5000/usuarios/eliminar/',
     headers: { 'Content-Type': 'application/json' },
-    data: { id: usuario._id },
+    data: { _id: usuario._id },
   };
 
   await axios

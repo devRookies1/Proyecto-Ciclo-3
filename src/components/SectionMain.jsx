@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify'
 
 const SectionMain = ({children,logo,nombre}) => {
     return (        
-    <main className='flex flex-col h-screen w-full justify-between overflow-y-scroll'>
+    <main className='flex flex-col h-screen w-full justify-between overflow-y-scroll overflow-x-auto'>
         <div className='flex flex-col bg-gray-300 h-auto w-auto mx-4 mt-8 mb-16  justify-between '>
             <nav className='flex bg-gray-400 h-14 w-auto justify-between border-b-2 border-blue-700'>
                 <div className='flex items-center'>
