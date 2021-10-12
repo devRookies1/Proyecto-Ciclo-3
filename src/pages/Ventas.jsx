@@ -1,28 +1,42 @@
-import React, { useState}from 'react'
+import React, { useState, useEffect}from 'react'
 import SectionMain from 'components/SectionMain'
 import grid from 'media/grid.png'
 import {toast} from 'react-toastify'
+import axios from 'axios'
 
-/*const ventasBackend=[
-    {
-        id: 1,
-        fechaVenta: "1/10/21",
-        responsable: "Tatiana",
-        estado: "Cancelada",
-        total: "139.000.000",
-        nombCliente: "Pepito Perez",
-        idCliente: "1234567",
-        idProdu: "001",
-        cantidad: "1",
-        valorUnitario: "139.000.000"
-    },
-/**/
+
+
+
+
+
 
 const Ventas = () => {
+    const [ventas,setVentas] = useState([])
+    useEffect(async () => {
+
+        const obtenerVentas = async ()=>{
+         const options = { method: 'GET', url: 'https://localhost:5000/ventas' };
+          await axios
+            .request(options)
+            .then(function (response) {
+              setVentas(response.data);
+            })
+            .catch(function (error) {
+              console.error(error);
+            });           
+        }
+
+        obtenerVentas()
+
+  
+    
+      }, []);
+
+    
     return (
 
         <SectionMain logo= {grid} nombre={'ventas'} >
-         <TablaVentas/>
+         <TablaVentas listaVentas ={ventas}/>
         </SectionMain>
         
 
@@ -30,10 +44,29 @@ const Ventas = () => {
 }
 
 
-const TablaVentas = () => {
-    const [desplegar,setdesplegar]=useState(false)
- 
+const TablaVentas = ({listaVentas}) => {
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    const [edit1,setEdit1]= useState(false)
+    const algo1=()=>{
+        setEdit1(!edit1)
+        toast.success("Editado con Exito")
+    }
+    const [edit2,setEdit2]= useState(false)
+    const algo2=()=>{
+        setEdit2(!edit2)
+        toast.success("Editado con Exito")
+    }
 
+    
+    useEffect(() => {
+       console.log("este es el listadp de ventas", listaVentas)    
+    }, [listaVentas])
+    const [desplegar,setdesplegar]=useState(false)
+    
     return (
         <div>  
         <div className="flex flex-col h-screen w-full items-center overflow-x-auto ">
@@ -54,45 +87,24 @@ const TablaVentas = () => {
          </thead>
 
         <tbody class="bg-white">
-              <tr>
-                  <td>001</td>
-                  <td>
-                  <button type="button" class="my-1 flex w-max text-sm  focus:outline-none hover:text-green-700 underline" 
-                onClick={()=>{setdesplegar(!desplegar)}}
-                >
-                Ver más 
-                  
-                </button>
-                
-                  </td>
-                  <td>1/10/21</td>
-                  <td>Tatiana</td>
-                  <td>Cancelada</td>
-                  <td>$139.000.000</td>
+            {listaVentas.map((ventas) => {
+                return(
+                    <>
+                <tr>
+                    <td>{ventas.id}</td>
+                    <td>
+                    <button type="button" class="my-1 flex w-max text-sm  focus:outline-none hover:text-green-700 underline" 
+                  onClick={()=>{setdesplegar(!desplegar)}}>
+                  Ver más  
+                  </button></td>
+                    <td>{ventas.fechaVenta}</td>
+                    <td>{ventas.responsable}</td>
+                    <td>{ventas.estado}</td>
+                    <td>{ventas.total}</td>
                   <td><div className="flex justify-center"><i className='fas fa-trash text-gray-900 hover:text-red-700'></i></div></td>
-              </tr>
-              {desplegar &&(
-              <MiniTabla/>)}
-              
-        </tbody>
-        </table>
-        
-       
-
-    </div>
-
-    
-    </div>
-
-    
-    )
-}
-const MiniTabla =()=>{
-    
-    return(
-        
-        <tr>
-            <td colSpan="7">
+                </tr> 
+                 {desplegar && (<tr>
+                   <td colSpan="7">
                 <div className="flex flex-col items-center">
                     <h3>Factura #001</h3>
                     <table>
@@ -107,7 +119,66 @@ const MiniTabla =()=>{
                             </tr>
                         </thead>
                         <tbody>
-                            <TablaCliente/>
+                        
+            {edit?(<tr>
+
+            <td>
+                <input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.nombCliente}/></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.idCliente}/></td>
+            <td><input 
+                type="date" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.fechaVenta}/></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.responsable}/></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.estado}/></td>
+                    <td>
+                <div className='flex justify-around'>
+                    {edit? (
+                        <button type ="submit">
+                            <i onClick={algo} className='fas fa-check text-green-500'/>
+                        </button>):(
+                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td>                
+                </tr>)
+                :(
+                <tr>
+
+                <td>{ventas.nombCliente}</td>
+                    <td>{ventas.idCliente}</td>
+                    <td>{ventas.fechaVenta}</td>
+                    <td>{ventas.responsable}</td>
+                    <td>{ventas.estado}</td> 
+                    <td>
+                <div className='flex justify-around'>
+                    {edit? (
+                        <button type ="submit">
+                            <i onClick={algo} className='fas fa-check text-green-500'/>
+                        </button>):(
+                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td>
+
+                </tr>
+            
+           )}
+           
+            
+        
                         </tbody>
                     </table>
                     <table>
@@ -121,144 +192,112 @@ const MiniTabla =()=>{
                             </tr>
                         </thead>
                         <tbody>
-                           <TablaProdu/>
-                           <FilaVenta/>
+                        
+            {edit1? (<tr>
+            <td>
+                <input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.idProdu} disabled/></td>
+            <td><input 
+                type="number" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.cantidad} /></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.valorUnitario} /></td>
+            <td><input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.total} /></td>
+                <td>
+                <div className='flex justify-around'>
+                    {edit1? (
+                        <button type ="submit">
+                            <i onClick={algo1} className='fas fa-check text-green-500'/>
+                        </button>):(
+                            <i onClick={()=>setEdit1(!edit1)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td>   </tr>)
+            :(
+            <tr><td>{ventas.idProdu}</td>
+                <td>{ventas.cantidad}</td>
+                <td>{ventas.valorUnitario}</td>
+                <td>{ventas.total}</td>
+            <td>
+                <div className='flex justify-around'>
+                    {edit1? (
+                        <button type ="submit">
+                            <i onClick={algo1} className='fas fa-check text-green-500'/>
+                        </button>):(
+                            <i onClick={()=>setEdit1(!edit1)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td>            
+            </tr>)}
+            
+
+        {edit2? (<><td></td>
+    <td></td>
+    <td></td>
+    <td>
+                <input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={ventas.total} /></td>
+                <td>
+                <div className='flex justify-around'>
+                    {edit2? (
+                    <button type ="submit">
+                        <i onClick={algo2} className='fas fa-check text-green-500'/>
+                    </button>):(
+                    <i onClick={()=>setEdit2(!edit2)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td></>):(
+    <tr><td></td>
+        <td></td>
+        <td></td>
+        <td>{ventas.total}</td>
+        <td>
+                <div className='flex justify-around'>
+                    {edit2? (
+                    <button type ="submit">
+                        <i onClick={algo2} className='fas fa-check text-green-500'/>
+                    </button>):(
+                    <i onClick={()=>setEdit2(!edit2)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td></tr>
+        )}
+        
+        
+            
                         </tbody>
     
                     </table>
     
                 </div>
             </td>
-        </tr>
+        </tr>)}     
+                 </>
+                    );          
+            })} 
+            
+
+        </tbody>
+        </table>            
+    </div>    
+    </div>
+
+    
     )
 }
-const TablaCliente =()=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
 
-    return(
-        <tr>
-            {edit?(<>
-            <td>
-                <input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue="pepito perez"/></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue="1234567"/></td>
-            <td><input 
-                type="date" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue="1/10/21"/></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue="tatiana"/></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue="cancelada"/></td></>):(
-                <>
-            <td>Pepito Perez</td>
-            <td>12345678</td>
-            <td>1/10/21</td>
-            <td>Tatiana</td>
-            <td>Cancelada</td>
-            </>)}
-            
-            <td>
-                <div className='flex justify-around'>
-                    {edit? (
-                        <button type ="submit">
-                            <i onClick={algo} className='fas fa-check text-green-500'/>
-                        </button>):(
-                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
-                </div>
-            </td>
-        </tr>
-    )
 
-}
-const TablaProdu =()=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
-    return(
-        <tr>
-            {edit? (<>
-            <td>
-                <input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue="001" disabled/></td>
-            <td><input 
-                type="number" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue={1} /></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue="139.000.000" disabled/></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                defaultValue="139.000.000" disabled/></td></>)
-            :(
-            <>
-            <td>001</td>
-            <td>1</td>
-            <td>139.000.000</td>
-            <td>139.000.000</td>
-            </>)}
-            
-            <td>
-                <div className='flex justify-around'>
-                    {edit? (
-                        <button type ="submit">
-                            <i onClick={algo} className='fas fa-check text-green-500'/>
-                        </button>):(
-                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
-                </div>
-            </td>
-        </tr> 
-)}
 
-const FilaVenta=()=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
-
-    return( <tr>
-        <td></td>
-            <td></td>
-            <td></td>
-            <td>139.000.000</td>
-        
-            <td>
-                <div className='flex justify-around'>
-                    {edit? (
-                    <button type ="submit">
-                        <i onClick={algo} className='fas fa-check text-green-500'/>
-                    </button>):(
-                    <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
-                </div>
-            </td>
-
-        </tr>
-        )
-}
 
 
 export default Ventas
