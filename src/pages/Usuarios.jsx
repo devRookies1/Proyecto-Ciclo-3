@@ -49,10 +49,7 @@ const Usuarios = () => {
 }
 
 const TablaUsuarios = ({listaUsuarios,setEjecutarConsulta}) => {
-
-    useEffect(() => {
-        console.log('este es el listado de vehiculos en el componente de tabla', listaUsuarios,);
-      }, [listaUsuarios]);
+    
     return (
         <div className="flex flex-col h-screen items-center justify-start">
         <table className=" tabla border-separate bg-gray-400 w-3/4"> 

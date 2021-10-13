@@ -2,7 +2,6 @@ import React from 'react'
 import Footer from './Footer'
 import { Link } from 'react-router-dom'
 import agregar from 'media/agregar.png'
-import buscar from 'media/buscar.png'
 import { ToastContainer } from 'react-toastify'
 
 
@@ -24,13 +23,6 @@ const SectionMain = ({children,logo,nombre}) => {
                 </div>
             </nav>
             
-            <div className='flex flex-row-reverse my-4 mr-4 ' >
-
-                <img className=' opacity-75 transform hover:scale-105 hover:opacity-100   ' src={buscar} alt="buscar" />
-                <input className='outline-none border border-gray-900 mx-1 focus:ring-1 focus:border-blue-700 ' type="text"  />
-                
-        
-            </div>
             {children}
             <ToastContainer position="bottom-center" autoClose={5000}/>
             <Footer/>

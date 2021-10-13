@@ -3,6 +3,7 @@ import React, { useEffect, useState }  from 'react'
 import productos from 'media/productos1.png'
 import {toast, ToastContainer } from 'react-toastify'
 import { nanoid } from 'nanoid'
+import buscar from 'media/buscar.png'
 import { obtenerVehiculos, actualizarVehiculo, eliminarVehiculo } from 'utils/api'
 
 
@@ -37,12 +38,25 @@ const Productos = () => {
 }
 
 const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
+    const [busqueda, setBusqueda] = useState('');
+    const [vehiculosFiltrados, setVehiculosFiltrados] = useState(listaVehiculos);
     useEffect(() => {
-        console.log('este es el listado de vehiculos en el componente de tabla', listaVehiculos,);
-      }, [listaVehiculos]);
+        setVehiculosFiltrados(
+            listaVehiculos.filter((elemento) => {
+              return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
+            })
+          );
+      }, [busqueda,listaVehiculos]);
 
     return (
         <div className="flex flex-col h-screen items-center justify-start">
+        
+        <input
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
+        placeholder='Buscar'
+        className='border-2 border-gray-700 px-3 py-1 m-3 self-end rounded-md focus:outline-none focus:border-indigo-500'
+        />
         <table className="tabla border-separate bg-gray-400 w-3/4"> 
             <thead>
 
@@ -56,7 +70,7 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
                 
             </thead>
             <tbody className="bg-white">
-                {listaVehiculos.map((vehiculo) => {
+                {vehiculosFiltrados.map((vehiculo) => {
                     return (
                     <FilaVehiculo key={nanoid} vehiculo ={vehiculo} setEjecutarConsulta={setEjecutarConsulta}/>
                     )
