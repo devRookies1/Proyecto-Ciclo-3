@@ -4,6 +4,7 @@ import usuarios1 from 'media/usuarios1.png'
 import {toast, ToastContainer } from 'react-toastify'
 import { nanoid } from 'nanoid'
 import { obtenerUsuarios, actualizarUsuario, eliminarUser } from 'utils/api'
+import { Dialog} from '@material-ui/core';
 
 const usuariosBackend = [
     {
@@ -77,6 +78,7 @@ const TablaUsuarios = ({listaUsuarios,setEjecutarConsulta}) => {
 }
 const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
     const [edit,setEdit]= useState(false)
+    const [openDialog, setOpenDialog] = useState(false)
     
     const [infoNuevoUsuario, setInfoNuevoUsuario] = useState({
 
@@ -163,7 +165,28 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
              )
 
              }
-             <i onClick={()=>eliminarUsuario()} className='fas fa-trash text-gray-900 hover:text-red-700'></i>
+             <i onClick={()=>setOpenDialog(true)} className='fas fa-trash text-gray-900 hover:text-red-700'/>
+             <Dialog open={openDialog}>
+          <div className='p-8 flex flex-col'>
+            <h1 className='text-gray-900 text-2xl font-bold'>
+              ¿Está seguro de querer eliminar el usuario?
+            </h1>
+            <div className='flex w-full items-center justify-center my-4'>
+              <button
+                onClick={() => eliminarUsuario()}
+                className='mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md'
+              >
+                Sí
+              </button>
+              <button
+                onClick={() => setOpenDialog(false)}
+                className='mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md'
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </Dialog>
          </div>
          </td>
      </tr>
