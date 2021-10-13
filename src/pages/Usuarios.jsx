@@ -3,7 +3,7 @@ import React, { useState, useEffect} from 'react'
 import usuarios1 from 'media/usuarios1.png'
 import {toast, ToastContainer } from 'react-toastify'
 import { nanoid } from 'nanoid'
-import { obtenerUsuarios, actualizarUsuario, eliminarUsuario } from 'utils/api'
+import { obtenerUsuarios, actualizarUsuario, eliminarUser } from 'utils/api'
 
 const usuariosBackend = [
     {
@@ -51,13 +51,12 @@ const Usuarios = () => {
 const TablaUsuarios = ({listaUsuarios,setEjecutarConsulta}) => {
 
     useEffect(() => {
-        console.log('este es el listado de vehiculos en el componente de tabla', listaUsuarios,);
+        console.log('este es el listado de usuarios en el componente de tabla', listaUsuarios);
       }, [listaUsuarios]);
     return (
         <div className="flex flex-col h-screen items-center justify-start">
         <table className=" tabla border-separate bg-gray-400 w-3/4"> 
             <thead>
-                    <th className="border-separate border border-gray-500 p-3">No.</th>
                     <th className="border-separate border border-gray-500 p-3">Nombre usuario</th>
                     <th className="border-separate border border-gray-500 p-3">Rol</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
@@ -81,30 +80,55 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
     
     const [infoNuevoUsuario, setInfoNuevoUsuario] = useState({
 
-        id: usuario.id ,
+        id: usuario.id,
         nombre: usuario.nombre,
         rol: usuario.rol,
         estado: usuario.estado
     })
+    const editarUsuarios = async()=>{
+
+        await actualizarUsuario(usuario.id, infoNuevoUsuario,
+    
+            (response) => {
+                console.log(response.data);
+                toast.success('Usuario modificado con éxito');
+                setEdit(false)
+                setEjecutarConsulta(true);
+            },
+            (error) => {
+                toast.error('Error modificando el usuario');
+                console.error(error);
+            });
+        }
+    
+    const eliminarUsuario = async ()=>{
+
+    await eliminarUser(
+        usuario._id,
+        (response) => {
+           console.log(response.data);
+           toast.success('Usuario eliminado con éxito');
+           setEjecutarConsulta(true);
+        },
+        (error) => {
+            console.error(error);
+            toast.error('Error eliminando el Usuario');
+        });
+
+    }
     
 
     return(
      <tr>
          {edit?
-         <> 
-        
-            <td><input type="number"
-            value={infoNuevoUsuario.id}
-            disabled 
-            onChange={(e)=>setInfoNuevoUsuario({...infoNuevoUsuario,id:e.target.value})}/>
-            </td>
+         <>
             <td><input type="text"
             value={infoNuevoUsuario.nombre} 
             onChange={(e)=>setInfoNuevoUsuario({...infoNuevoUsuario,nombre:e.target.value})}/>
             </td>
             <td><select
             name="Rol" 
-            Value={infoNuevoUsuario.rol}
+            value={infoNuevoUsuario.rol}
             onChange={(e)=>setInfoNuevoUsuario({...infoNuevoUsuario,rol:e.target.value})}>
                 <option disabled selected>Selecciona una opción</option>
                 <option>Administrador</option>
@@ -112,7 +136,7 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
                 </select></td>
             <td><select 
             name="Estado" 
-            Value={infoNuevoUsuario.estado}
+            value={infoNuevoUsuario.estado}
             onChange={(e)=>setInfoNuevoUsuario({...infoNuevoUsuario,estado:e.target.value})}>
                             <option disabled selected>Selecciona una opción</option>
                             <option>Pendiente</option>
@@ -122,7 +146,6 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
          </>
         :
         <>
-             <td>{usuario.id}</td>
              <td>{usuario.nombre}</td>
              <td>{usuario.rol}</td>
              <td>{usuario.estado}</td>
@@ -133,14 +156,14 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
          <div className='flex justify-around'>
          {edit? (
                  
-                     <i onClick={actualizarUsuario(usuario, infoNuevoUsuario, setEdit, setEjecutarConsulta)} className='fas fa-check text-green-500'/>
+                     <i onClick={()=>editarUsuarios()} className='fas fa-check text-green-500'/>
                  
              ):(
                 <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
              )
 
              }
-             <i onClick={eliminarUsuario(usuario,setEjecutarConsulta)} className='fas fa-trash text-gray-900 hover:text-red-700'></i>
+             <i onClick={()=>eliminarUsuario()} className='fas fa-trash text-gray-900 hover:text-red-700'></i>
          </div>
          </td>
      </tr>

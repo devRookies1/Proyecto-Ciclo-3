@@ -3,7 +3,6 @@ import Footer from './Footer'
 import { Link } from 'react-router-dom'
 import agregar from 'media/agregar.png'
 import buscar from 'media/buscar.png'
-import { ToastContainer } from 'react-toastify'
 
 
 const SectionMain = ({children,logo,nombre}) => {
@@ -32,7 +31,6 @@ const SectionMain = ({children,logo,nombre}) => {
         
             </div>
             {children}
-            <ToastContainer position="bottom-center" autoClose={5000}/>
             <Footer/>
          </div>
          

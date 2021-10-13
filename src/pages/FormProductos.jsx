@@ -4,16 +4,6 @@ import { toast } from 'react-toastify'
 import { crearVehiculo } from 'utils/api'
 import { Link } from 'react-router-dom'
 
-const notify = () =>
-    toast.success('Agregado con éxito', {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        });
 
 const FormProductos = () => {
   const form = useRef(null)
@@ -108,11 +98,10 @@ const FormProductos = () => {
             
             <button
                   type='submit'
-                  onClick={notify}
                   className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
                   >
-                  Guardar vehiculo
-                </button>
+                     Guardar vehiculo
+            </button>
                
           </form>
           </div>       

@@ -87,7 +87,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
             (response) => {
                 console.log(response.data);
                 toast.success('Vehículo modificado con éxito');
-                setEdit(false);
+                setEdit(false)
                 setEjecutarConsulta(true);
             },
             (error) => {
@@ -119,32 +119,33 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
              
              <td>
                  <input type="number"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2 w-max'
+                 className=' bg-gray-50 hover:bg-gray-300 border-gray-600 border p-1 rounded-lg w-max'
                  value={infoNuevoVehiculo.id}
-                 onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,id:e.target.value})} />
+                 onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,id:e.target.value})} 
+                 disabled/>
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2 w-max'
+                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
                  value={infoNuevoVehiculo.nombre}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,nombre:e.target.value})} />
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2 w-max'
+                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
                  value={infoNuevoVehiculo.marca}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,marca:e.target.value})} />
              </td>
 
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2 w-max'
+                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
                  value={infoNuevoVehiculo.precio}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,precio:e.target.value})} />
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2 w-max '
+                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max '
                  value={infoNuevoVehiculo.estado}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,estado:e.target.value})} />
              </td>

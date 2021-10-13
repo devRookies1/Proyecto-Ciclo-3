@@ -18,9 +18,9 @@ const FormUsuarios = () => {
 
     const options = {
         method: 'POST',
-        url: 'http://localhost:5000/vehiculos/nuevo/',
+        url: 'http://localhost:5000/usuarios',
         headers: { 'Content-Type': 'application/json' },
-        data: {  
+        data: {   
           nombre: nuevoUsuario.nombre, 
           rol: nuevoUsuario.rol, 
           estado: nuevoUsuario.estado },
@@ -70,6 +70,12 @@ const FormUsuarios = () => {
                          <option>Pendiente</option>
                      </select>
                  </label>
+                 <button 
+                 type='submit'
+                  className='col-span-2 bg-green-400 p-2 m-2 rounded-full shadow-md hover:bg-green-600 text-white'>
+                      Guardar Usuario
+
+                 </button>
              </form>
 
             </div>
