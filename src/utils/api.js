@@ -10,19 +10,6 @@ export const obtenerVehiculos = async (successCallBack, errorCallBack) => {
     .catch(errorCallBack)
 };
 
-export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta = () => {}) => {
-  const options = { method: 'GET', url: 'http://localhost:5000/usuarios/' };
-  await axios
-    .request(options)
-    .then(function (response) {
-      setUsuarios(response.data);
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
-  setEjecutarConsulta(false);
-};
-
 export const crearVehiculo = async(data,successCallBack, errorCallBack)=>{
   const options = { method: 'POST', 
   url: 'http://localhost:5000/vehiculos/',
@@ -33,8 +20,6 @@ export const crearVehiculo = async(data,successCallBack, errorCallBack)=>{
     .then(successCallBack)
     .catch(errorCallBack)
 };
-
-
 
 export const actualizarVehiculo = async (id,data,successCallBack, errorCallBack) => {
   //enviar la info al backend
@@ -65,6 +50,31 @@ export const eliminarVehiculo = async (id,successCallBack, errorCallBack) => {
     .catch(errorCallBack)
     
 };
+
+export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta = () => {}) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/usuarios/' };
+  await axios
+    .request(options)
+    .then(function (response) {
+      setUsuarios(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+  setEjecutarConsulta(false);
+};
+
+export const crearUsuario = async(data,successCallBack, errorCallBack)=>{
+  const options = { method: 'POST', 
+  url: 'http://localhost:5000/usuarios/',
+  headers: { 'Content-Type': 'application/json'},
+  data,};
+  await axios
+    .request(options)
+    .then(successCallBack)
+    .catch(errorCallBack)
+};
+
 export const actualizarUsuario = async (id, data, successCallback, errorCallback) => {
     const options = {
       method: 'PATCH',

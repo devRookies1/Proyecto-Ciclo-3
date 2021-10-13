@@ -1,6 +1,6 @@
 import SectionMainForm from 'components/SectionMainForm'
 import React, { useRef } from 'react'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import { crearVehiculo } from 'utils/api'
 import { Link } from 'react-router-dom'
 
@@ -104,6 +104,7 @@ const FormProductos = () => {
             </button>
                
           </form>
+          <ToastContainer position="bottom-center" autoClose={5000}/>
           </div>       
         </SectionMainForm>
         

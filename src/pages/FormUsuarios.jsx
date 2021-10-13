@@ -1,8 +1,9 @@
 import {React, useRef} from 'react'
 import SectionMainForm from 'components/SectionMainForm'
 import Usuarios from './Usuarios'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios'
+import { crearUsuario } from 'utils/api'
 
 const FormUsuarios = () => {
 
@@ -16,28 +17,16 @@ const FormUsuarios = () => {
       nuevoUsuario[key] = value;
     })
 
-    const options = {
-        method: 'POST',
-        url: 'http://localhost:5000/usuarios',
-        headers: { 'Content-Type': 'application/json' },
-        data: {   
-          nombre: nuevoUsuario.nombre, 
-          rol: nuevoUsuario.rol, 
-          estado: nuevoUsuario.estado },
-      };
-  
-    await axios
-        .request(options)
-        .then(function (response) {
+    crearUsuario(
+        nuevoUsuario,
+        (response) => {
           console.log(response.data);
-          toast.success('Vehículo agregado con éxito');
-        })
-        .catch(function (error) {
+          toast.success('Usuario agregado con éxito');
+        },
+        (error) => {
           console.error(error);
-          toast.error('Error creando un vehículo');
+          toast.error('Error creando un usuario');
         });
-
-   
 }
     return (
         <SectionMainForm nombre='usuarios'>
@@ -77,6 +66,7 @@ const FormUsuarios = () => {
 
                  </button>
              </form>
+             <ToastContainer position="bottom-center" autoClose={5000}/>
 
             </div>
         

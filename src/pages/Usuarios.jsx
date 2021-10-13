@@ -87,7 +87,7 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
     })
     const editarUsuarios = async()=>{
 
-        await actualizarUsuario(usuario.id, infoNuevoUsuario,
+        await actualizarUsuario(usuario._id, infoNuevoUsuario,
     
             (response) => {
                 console.log(response.data);
@@ -112,7 +112,7 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
         },
         (error) => {
             console.error(error);
-            toast.error('Error eliminando el Usuario');
+            toast.error('Error eliminando al Usuario');
         });
 
     }
