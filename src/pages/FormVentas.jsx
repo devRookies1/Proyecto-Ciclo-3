@@ -113,28 +113,30 @@ const FormVentas = () => {
                     <img className='h-5 m-2 transform hover:scale-110' src={agregar} alt="agregar" />
                 </button>
           </form>
-          <Link to ="/ventas">
-            <div className=" items-center">
-            <button type="submit"  className=' bg-green-400 w-max justify-end' >
-            Enviar datos
-
-          </button>
-            </div>
           
-          </Link>
 
         </form>
           </div>
-          <div className=" flex place-self-end">
-          <table className="bg-gray-400 m-10 w-32 text-center">
-            <h3 className="font-bold">Total venta</h3>
-          <label htmlFor="Total venta">
-            <input/>Total Venta</label> 
-          </table>
-        </div>   
+          <label className='flex flex-col font-bold'>
+          <span className='text-xl mr-1 p-1 font-gray-900'>Total Venta</span>
+          <input
+            className='bg-gray-50 border border-gray-600 w-40 p-1 rounded-lg m-2'
+            type='number'
+            name='valor'
+          />
+          <Link to ="/ventas">
+                <button
+                  type='submit'
+                  className='float-right col-span-2 bg-green-400 mx-5 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
+                >
+                  Enviar datos
+                </button>
+                </Link>
+        </label>
         </SectionMainForm>
     )
 }
+
 
 
 export default FormVentas
