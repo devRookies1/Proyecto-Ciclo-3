@@ -7,12 +7,18 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { obtenerUsuarios, obtenerVehiculos } from 'utils/api'
 import { nanoid } from 'nanoid'
+import { crearVenta } from 'utils/api'
 
 
 const FormVentas = () => {
 
+  const form = useRef(null)
   const [vendedores,setVendedores] = useState([])
   const [vehiculos,setVehiculos] = useState([])
+  const [vehiculosTabla, setVehiculosTabla] = useState([])
+  var [total,setTotal]= useState(0)
+
+
 
     useEffect(() => {
         const fetchVendedores = async()=>{
@@ -34,171 +40,216 @@ const FormVentas = () => {
         
     }, [])
 
-  const form = useRef(null)
+  
 
   const submitForm = async (e) => {
+    
     e.preventDefault();
     const fd = new FormData(form.current);
     const nuevaVenta = {};
     fd.forEach((value, key) => {
-    nuevaVenta[key] = value;
+    nuevaVenta[key] = value;})
 
-    
-  });
-
-    const options = {
-      method: 'POST',
-      url: 'http://localhost:5000/ventas',
-      headers: { 'Content-Type': 'application/json' },
-      data: { 
-        id: nuevaVenta.id, 
-        nombreCliente: nuevaVenta.nombCliente,  
-        idCliente: nuevaVenta.idCliente, 
-        fecha: nuevaVenta.fechaVenta },
-        responsable: nuevaVenta.responsable,
-        idProdu: nuevaVenta.idProdu,
-        valorUnitario: nuevaVenta.valorUnitario,
-        cantidad: nuevaVenta.cantidad,
-        estado: nuevaVenta.estado,
-        total: nuevaVenta.total
-    };
-
-    await axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-        toast.success('Venta agregada con éxito');
+    console.log('Nueva venta', nuevaVenta)
+    const listaVehiculos = Object.keys(nuevaVenta)
+      .map((k) => {
+        if (k.includes('vehiculo')) {
+          return vehiculosTabla.filter((v) => v._id === nuevaVenta[k])[0];
+        }
+        return null;
       })
-      .catch(function (error) {
-        console.error(error);
-        toast.error('Error creando una venta');
-      });
-          
-    Ventas.setVentas([...Ventas.listaVentas,nuevaVenta])
-      toast.success('Vehiculo agregado con exito')
+      .filter((v) => v);
+
     
+
+    Object.keys(nuevaVenta).forEach((k) => {
+      if (k.includes('subtotal')) {
+        const indice = parseInt(k.split('_')[1]);
+        listaVehiculos[indice]['subtotal'] = nuevaVenta[k];
         
       }
+    });
+
+
+    // const datosVenta = {
+    //   vendedor: vendedores.filter((v) => v._id === nuevaVenta.vendedor)[0],
+    //   total: nuevaVenta.total,
+    //   vehiculos: listaVehiculos,
+    // };
+
+    // console.log('lista vehiculos', listaVehiculos);
+
+    // await crearVenta(
+    //   datosVenta,       
+    //   (response) => {
+    //     console.log(response.data);
+    //     toast.success('Venta agregada con éxito');
+    //   },
+    //    (error) => {
+    //     console.error(error);
+    //     toast.error('Error creando una venta');
+    //   }
+    //   );
+      
+  }
+    
       
        
       return (
         <SectionMainForm nombre='ventas'>
             <div className="flex flex-col  w-full items-center justify-start  " >
             <form ref={form} onSubmit={submitForm}>
-              <form className='mt-4 mb-8'>
-                <table className=" border-separate bg-gray-400 "> 
-                    <thead>
-                        <tr>
-                        <th className="border-separate border border-gray-500 ">Identificador de venta</th>
-                        <th className="border-separate border border-gray-500 ">Nombre del cliente </th>
-                        <th className="border-separate border border-gray-500 ">Identificación del cliente</th>
-                        <th className="border-separate border border-gray-500 ">Fecha de la venta</th>
-                        <th className="border-separate border border-gray-500 ">Responsable</th>
-                        <th className="border-separate border border-gray-500 ">Estado</th>
-                        </tr>
-                    </thead>
 
-                <tbody className="bg-white">
-                <tr>
-                  <td><input name ='id' type="text" placeholder = "Identificador de venta"/></td>
-                  <td><input name = 'nombCliente'type="text" placeholder ="Nombre del cliente"/></td>
-                  <td><input name = 'idCliente'type="text" placeholder ="Identificación del cliente"/></td>
-                  <td><input name = 'fechaVenta'type="date" placeholder ="Fecha de la venta"/></td>
-                  <td><select name="responsable" 
-                  className='bg-gray-50 border border-gray-600 p-2 rounded-lg '
-                  defaultValue={0}
-                  >
-                    <option value={0}>Seleccione un vendedor</option>
-                    {vendedores.map((el) =>{
-                        return <option key={nanoid} value={el._id}>{`${el.nombre}`}</option>
-                    })}
-                    </select></td>
-                    <td><p><select name='estado'>
-                        <option selected disabled>Estado</option>
-                        <option value="Cancelado">Cancelado</option>
-                        <option value="Entregado">Entregado</option>
-                        <option value="En proceso">En proceso</option>
-                    </select></p></td>
-                  
-                </tr>
-                </tbody>                        
-            </table>
-          </form>
-              <form>
-                <table className="border-separate bg-gray-400"> 
-                    <thead>
-                        <tr>
-                        <th className="border-separate border border-gray-500 ">Producto</th>
-                        <th className="border-separate border border-gray-500 ">Valor unitario</th>
-                        <th className="border-separate border border-gray-500 ">Cantidad</th>
-                        <th className="border-separate border border-gray-500 ">Estado</th>
-                        <th className="border-separate border border-gray-500 ">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white">
-                    <tr>
-                {vehiculos.map((el1)=>{
-                  return( <div>
-                  <td><option value={el1._id}>{`${el1.nombre} ${el1.marca}`} </option></td>
-                  <td>
-
-                <input 
-                name='id'
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={el1.id} disabled/></td>
-            <td><input 
-                name='cantidad'
-                type="number" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                 /></td>
-            <td><input
-                name='precio' 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={el1.precio} /></td>
-            <td><input 
-                name='total'
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                 /></td>
-                
-                  
-                  </div>)  
-                })}
-               </tr>
-
-                    </tbody>   
-            </table>
-                <button>
-                  
-                    <img className='h-5 m-2 transform hover:scale-110' src={agregar} alt="agregar" />
-                </button>
-          </form>
-          
-
-        </form>
-          </div>
-          <label className='flex flex-col font-bold'>
-          <span className='text-xl mr-1 p-1 font-gray-900'>Total Venta</span>
+            <TablaVehiculos
+              vehiculos={vehiculos}
+              setVehiculos={setVehiculos}
+              setVehiculosTabla={setVehiculosTabla}
+           />
+           <div className='flex flex-col w-full'>
+           <label className='flex flex-col justify-end items-end'>
+          <span className=' font-gray-900'>Valor Total Venta</span>
           <input
-            className='bg-gray-50 border border-gray-600 w-40 p-1 rounded-lg m-2'
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='number'
-            name='valor'
+            name='total'
+            value={total}
+            required
+            disabled
           />
-          <Link to ="/ventas">
-                <button
-                  type='submit'
-                  className='float-right col-span-2 bg-green-400 mx-5 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
-                >
-                  Enviar datos
-                </button>
-                </Link>
         </label>
+        </div>
+
+            
+            <button
+            type='submit'
+            className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
+            >
+            Crear Venta
+            </button>
+            </form>
+            </div>
+              
         </SectionMainForm>
     )
 }
 
+const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
+  const [vehiculoAAgregar, setVehiculoAAgregar] = useState({});
+  const [filasTabla, setFilasTabla] = useState([]);
+  const [cantidad,setCantidad] = useState(0)
+
+
+  useEffect(() => {
+    console.log(vehiculoAAgregar);
+  }, [vehiculoAAgregar]);
+
+  useEffect(() => {
+    console.log('filasTabla', filasTabla);
+    setVehiculosTabla(filasTabla);
+    
+  }, [filasTabla, setVehiculosTabla]);
+
+  const agregarNuevoVehiculo = () => {
+    setFilasTabla([...filasTabla, vehiculoAAgregar]);
+    setVehiculos(vehiculos.filter((v) => v._id !== vehiculoAAgregar._id));
+    setVehiculoAAgregar({});
+  };
+
+  const eliminarVehiculo = (vehiculoAEliminar) => {
+    setFilasTabla(filasTabla.filter((v) => v._id !== vehiculoAEliminar._id));
+    setVehiculos([...vehiculos, vehiculoAEliminar]);
+  };
+
+  return (
+    <div>
+      <div className='flex '>
+        <label className='flex flex-col' htmlFor='vehiculo'>
+          <select
+            className='p-2'
+            value={vehiculoAAgregar._id ?? ''}
+            required
+            onChange={(e) =>
+              setVehiculoAAgregar(vehiculos.filter((v) => v._id === e.target.value)[0])
+            }
+          >
+            <option disabled value=''>
+              Seleccione un Vehiculo
+            </option>
+            {vehiculos.map((el) => {
+              return (
+                <option
+                  key={nanoid()}
+                  value={el._id}
+                >{`${el.nombre} ${el.marca} ${el.estado}`}</option>
+              );
+            })}
+          </select>
+        </label>
+        <button
+          type='button'
+          onClick={() => agregarNuevoVehiculo()}
+          className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
+        >
+          Agregar Vehículo
+        </button>
+      </div>
+      <table className='tabla'>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Eliminar</th>
+            <th className='hidden'>Input</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filasTabla.map((el, index) => {
+            return (
+              <tr key={nanoid()}>
+                <td>{el.id}</td>
+                <td>{el.nombre}</td>
+                <td>{el.marca}</td>
+                <td>{el.precio}</td>
+                <td>{el.estado}</td>
+                <td>
+                  <label htmlFor={`cantidad_${index}`}>
+                    <input 
+                    type='number' 
+                    name={`cantidad_${index}`} 
+                    value={cantidad}
+                    onChange={(e)=>{
+                      setCantidad(e.target.value)
+                    }}/>
+                  </label>
+                </td>
+                <td><label htmlFor={`subtotal_${index}`}>
+                    <input 
+                    type='number' 
+                    name={`subtotal_${index}`} 
+                    value={parseInt(el.precio)*1000000*cantidad}
+                    />
+                  </label>
+                </td>
+                <td>
+                  <i
+                    onClick={() => eliminarVehiculo(el)}
+                    className='fas fa-trash text-red-500 cursor-pointer'
+                  />
+                </td>
+                <input hidden defaultValue={el._id} name={`vehiculo_${index}`} />
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+        }
 
 
 export default FormVentas

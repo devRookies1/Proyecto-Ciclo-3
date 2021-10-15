@@ -41,7 +41,7 @@ const FormProductos = () => {
         <SectionMainForm nombre='vehiculos'>
             <div className="flex flex-col items-center justify-center p-5 space-y-8" >
               <form ref={form} onSubmit={submitForm}>
-                <table className=" border-separate bg-gray-400 "> 
+                <table className=" tabla border-separate bg-gray-400 "> 
                     <thead>
                         <tr>
                         <th className="border-separate border border-gray-500 ">#Identificacion</th>

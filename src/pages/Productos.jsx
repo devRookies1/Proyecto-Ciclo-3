@@ -142,7 +142,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
+                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max '
                  value={infoNuevoVehiculo.nombre}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,nombre:e.target.value})} />
              </td>
@@ -154,7 +154,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
              </td>
 
              <td>
-                 <input type="texto"
+                 <input type="text"
                  className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
                  value={infoNuevoVehiculo.precio}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,precio:e.target.value})} />
