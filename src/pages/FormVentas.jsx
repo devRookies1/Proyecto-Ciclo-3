@@ -1,13 +1,38 @@
 import SectionMainForm from 'components/SectionMainForm'
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import agregar from 'media/agregar.png'
 import Ventas from './Ventas'
 import {toast} from 'react-toastify'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { obtenerUsuarios, obtenerVehiculos } from 'utils/api'
+import { nanoid } from 'nanoid'
 
 
 const FormVentas = () => {
+
+  const [vendedores,setVendedores] = useState([])
+  const [vehiculos,setVehiculos] = useState([])
+
+    useEffect(() => {
+        const fetchVendedores = async()=>{
+            await obtenerUsuarios(
+                (response)=>{setVendedores(response.data)
+                },
+                (error)=>{console.error(error)})
+        }
+        const fetchVehiculos = async()=>{
+            await obtenerVehiculos(
+                (response)=>{setVehiculos(response.data)
+                },
+                (error)=>{console.error(error)})
+
+        }
+        fetchVendedores()
+        fetchVehiculos()
+
+        
+    }, [])
 
   const form = useRef(null)
 
@@ -53,7 +78,9 @@ const FormVentas = () => {
       toast.success('Vehiculo agregado con exito')
     
         
-      }  
+      }
+      
+       
       return (
         <SectionMainForm nombre='ventas'>
             <div className="flex flex-col  w-full items-center justify-start  " >
@@ -67,6 +94,7 @@ const FormVentas = () => {
                         <th className="border-separate border border-gray-500 ">Identificación del cliente</th>
                         <th className="border-separate border border-gray-500 ">Fecha de la venta</th>
                         <th className="border-separate border border-gray-500 ">Responsable</th>
+                        <th className="border-separate border border-gray-500 ">Estado</th>
                         </tr>
                     </thead>
 
@@ -76,7 +104,22 @@ const FormVentas = () => {
                   <td><input name = 'nombCliente'type="text" placeholder ="Nombre del cliente"/></td>
                   <td><input name = 'idCliente'type="text" placeholder ="Identificación del cliente"/></td>
                   <td><input name = 'fechaVenta'type="date" placeholder ="Fecha de la venta"/></td>
-                  <td><input name = 'responsable'type="text" placeholder ="Responsable"/></td>
+                  <td><select name="responsable" 
+                  className='bg-gray-50 border border-gray-600 p-2 rounded-lg '
+                  defaultValue={0}
+                  >
+                    <option value={0}>Seleccione un vendedor</option>
+                    {vendedores.map((el) =>{
+                        return <option key={nanoid} value={el._id}>{`${el.nombre}`}</option>
+                    })}
+                    </select></td>
+                    <td><p><select name='estado'>
+                        <option selected disabled>Estado</option>
+                        <option value="Cancelado">Cancelado</option>
+                        <option value="Entregado">Entregado</option>
+                        <option value="En proceso">En proceso</option>
+                    </select></p></td>
+                  
                 </tr>
                 </tbody>                        
             </table>
@@ -93,18 +136,37 @@ const FormVentas = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white">
-                    <tr id="fieldlist">
-                        <td><input name='idProdu' type="text" placeholder = "Producto"/></td>
-                        <td><input name= 'valorUnitario'type="number" placeholder ="Valor unitario"/></td>
-                        <td><input name = 'cantidad'type="number" placeholder ="Cantidad"/></td>                
-                        <td><p><select name='estado'>
-                        <option selected disabled>Estado</option>
-                        <option value="Cancelado">Cancelado</option>
-                        <option value="Entregado">Entregado</option>
-                        <option value="En proceso">En proceso</option>
-                    </select></p></td>
-                        <td><input type="text" placeholder ="Total"/></td>
-                      </tr>
+                    <tr>
+                {vehiculos.map((el1)=>{
+                  return( <div>
+                  <td><option value={el1._id}>{`${el1.nombre} ${el1.marca}`} </option></td>
+                  <td>
+
+                <input 
+                name='id'
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={el1.id} disabled/></td>
+            <td><input 
+                name='cantidad'
+                type="number" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                 /></td>
+            <td><input
+                name='precio' 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={el1.precio} /></td>
+            <td><input 
+                name='total'
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                 /></td>
+                
+                  
+                  </div>)  
+                })}
+               </tr>
 
                     </tbody>   
             </table>

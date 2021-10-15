@@ -38,7 +38,7 @@ const Productos = () => {
     )
 }
 
-const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
+const TablaProductos = ({listaVehiculos, setEjecutarConsulta}) => {
     const [busqueda, setBusqueda] = useState('');
     const [vehiculosFiltrados, setVehiculosFiltrados] = useState(listaVehiculos);
     useEffect(() => {

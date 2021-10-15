@@ -3,6 +3,7 @@ import SectionMain from 'components/SectionMain'
 import grid from 'media/grid.png'
 import {toast} from 'react-toastify'
 import axios from 'axios'
+import { obtenerUsuarios, obtenerVehiculos } from 'utils/api'
 
 
 
@@ -12,6 +13,7 @@ import axios from 'axios'
 
 const Ventas = () => {
     const [ventas,setVentas] = useState([])
+    
     useEffect(async () => {
 
         const obtenerVentas = async ()=>{
@@ -36,7 +38,7 @@ const Ventas = () => {
     return (
 
         <SectionMain logo= {grid} nombre={'ventas'} >
-         <TablaVentas listaVentas ={ventas}/>
+         <TablaVentas listaVentas ={ventas} />
         </SectionMain>
         
 
@@ -44,7 +46,7 @@ const Ventas = () => {
 }
 
 
-const TablaVentas = ({listaVentas}) => {
+const TablaVentas = ({listaVentas, vendedor, vehiculos}) => {
     const [edit,setEdit]= useState(false)
     const algo=()=>{
         setEdit(!edit)
@@ -63,7 +65,7 @@ const TablaVentas = ({listaVentas}) => {
 
     
     useEffect(() => {
-       console.log("este es el listadp de ventas", listaVentas)    
+       console.log("este es el listado de ventas", listaVentas)    
     }, [listaVentas])
     const [desplegar,setdesplegar]=useState(false)
     
@@ -87,7 +89,7 @@ const TablaVentas = ({listaVentas}) => {
          </thead>
 
         <tbody class="bg-white">
-            {listaVentas.map((ventas) => {
+            {listaVentas.map((ventas ) => {
                 return(
                     <>
                 <tr>
@@ -135,15 +137,15 @@ const TablaVentas = ({listaVentas}) => {
                 type="date" 
                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
                 value={ventas.fechaVenta}/></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.responsable}/></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.estado}/></td>
-                    <td>
+            <td><input name = 'responsable'type="text" placeholder ="Responsable"/></td>
+            
+            <td>
+                    <td><select name='estado' defaultValue={0}>
+                        <option value={0} selected disabled>Estado</option>
+                        <option value="Cancelado">Cancelado</option>
+                        <option value="Entregado">Entregado</option>
+                        <option value="En proceso">En proceso</option>
+                    </select></td>
                 <div className='flex justify-around'>
                     {edit? (
                         <button type ="submit">
@@ -193,34 +195,7 @@ const TablaVentas = ({listaVentas}) => {
                         </thead>
                         <tbody>
                         
-            {edit1? (<tr>
-            <td>
-                <input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.idProdu} disabled/></td>
-            <td><input 
-                type="number" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.cantidad} /></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.valorUnitario} /></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.total} /></td>
-                <td>
-                <div className='flex justify-around'>
-                    {edit1? (
-                        <button type ="submit">
-                            <i onClick={algo1} className='fas fa-check text-green-500'/>
-                        </button>):(
-                            <i onClick={()=>setEdit1(!edit1)} className='fas fa-edit text-yellow-500'/>
-                    )}
-                </div>
-            </td>   </tr>)
+            {edit1? ("asas")
             :(
             <tr><td>{ventas.idProdu}</td>
                 <td>{ventas.cantidad}</td>
