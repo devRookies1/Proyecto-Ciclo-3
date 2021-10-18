@@ -20,17 +20,11 @@ function App() {
     <Auth0Provider
       domain="devrookies-vehiculos.us.auth0.com"
       clientId="QRist1WXxRBfrEvMdx2wR3rRAHnmAquA"
-      redirectUri={window.location.origin}
+      redirectUri="http://localhost:3000"
+      audience="api-autenticacion-vehiculos"
     >
     <Router>
       <Switch>
-        <Route path = {["/login"]}>
-          <Switch>
-            <Route path = "/login">
-              <Login/>
-            </Route>
-          </Switch>
-        </Route>
         <Route path= {["/ventas","/ventas/form","/vehiculos","/vehiculos/form","/usuarios","/usuarios/form","/"]}>
           <Layout>
           <Switch>
