@@ -1,10 +1,10 @@
 import SectionMainForm from 'components/SectionMainForm'
 import React, {useState, useRef, useEffect} from 'react'
-import agregar from 'media/agregar.png'
-import Ventas from './Ventas'
-import {toast} from 'react-toastify'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+//import agregar from 'media/agregar.png'
+//import Ventas from './Ventas'
+//import {toast} from 'react-toastify'
+//import axios from 'axios'
+//import { Link } from 'react-router-dom'
 import { obtenerUsuarios, obtenerVehiculos } from 'utils/api'
 import { nanoid } from 'nanoid'
 import { crearVenta } from 'utils/api'
@@ -99,6 +99,7 @@ const FormVentas = () => {
         <SectionMainForm nombre='ventas'>
             <div className="flex flex-col  w-full items-center justify-start  " >
             <form ref={form} onSubmit={submitForm}>
+           <TablaClientes vendedores={vendedores}/>   
 
             <TablaVehiculos
               vehiculos={vehiculos}
@@ -133,6 +134,54 @@ const FormVentas = () => {
     )
 }
 
+const TablaClientes = ({vendedores}) =>{
+  return (
+
+    <table className="tabla">
+      <thead>
+        <tr>
+          <th>Id Venta</th>
+          <th>Nombre Cliente</th>
+          <th>Id Cliente</th>
+          <th>Responsable</th>
+          <th>Fecha Venta</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td><input name="idVenta" placeholder="1001" required></input></td>
+        <td><input name="nombCliente" placeholder="Nombre Cliente" required ></input></td>
+        <td><input name="idCliente" placeholder="ID Cliente" required></input></td>
+        <td><select name="responsable" required >
+          <option disabled selected>
+            Seleccione Vendedor
+          </option>
+          {vendedores.map((el)=>{
+            return(
+              <option key={nanoid()}
+              value={el._id}>{`${el.nombre}`}</option>
+            );
+          })
+          }
+          
+          </select></td>
+        <td><input type="date" required></input></td>
+        <td><select name="estadoVenta" required>
+          <option disabled selected required>
+            Seleccione estado de venta
+          </option>
+          <option>En Proceso</option>
+          <option>Entregada</option>
+          <option>Cancelada</option>
+          </select></td>
+          </tr>
+      </tbody>
+      
+    </table>
+  )
+}
+
 const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
   const [vehiculoAAgregar, setVehiculoAAgregar] = useState({});
   const [filasTabla, setFilasTabla] = useState([]);
@@ -162,7 +211,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
 
   return (
     <div>
-      <div className='flex '>
+      <div className='flex m-4'>
         <label className='flex flex-col' htmlFor='vehiculo'>
           <select
             className='p-2'
@@ -194,7 +243,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
         </button>
       </div>
       <table className='tabla'>
-        <thead>
+        <thead className="justify-center">
           <tr>
             <th>Id</th>
             <th>Nombre</th>

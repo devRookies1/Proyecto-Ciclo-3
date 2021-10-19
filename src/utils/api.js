@@ -51,17 +51,12 @@ export const eliminarVehiculo = async (id,successCallBack, errorCallBack) => {
     
 };
 
-export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta = () => {}) => {
+export const obtenerUsuarios = async (successCallBack, errorCallBack) => {
   const options = { method: 'GET', url: 'http://localhost:5000/usuarios/' };
   await axios
     .request(options)
-    .then(function (response) {
-      setUsuarios(response.data);
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
-  setEjecutarConsulta(false);
+    .then(successCallBack)
+    .catch(errorCallBack);
 };
 
 export const crearUsuario = async(data,successCallBack, errorCallBack)=>{

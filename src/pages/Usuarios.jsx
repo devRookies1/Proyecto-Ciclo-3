@@ -38,7 +38,12 @@ const Usuarios = () => {
     useEffect(() => {
 
         if (ejecutarConsulta) {
-            obtenerUsuarios(setUsuarios, setEjecutarConsulta);
+            obtenerUsuarios(
+              (response)=>{setUsuarios(response.data)
+              },
+              (error)=>{console.error(error)}
+            );
+          setEjecutarConsulta(false);
           }
         }, [ejecutarConsulta]);
 
