@@ -213,7 +213,10 @@ const TablaProductos =({listaVentas})=>{
                             </tr>
                         </thead>
                         <tbody>
-                            {edit?(<FilaProduEditable listaVentas={listaVentas}/>):(<FilaProduNormal listaVentas={listaVentas}/>)}
+                            {edit?(<><FilaProduEditable listaVentas={listaVentas}/>
+                            <FilaTotal listaVentas={listaVentas}/></>):
+                            (<><FilaProduNormal listaVentas={listaVentas}/>
+                            <FilaTotalNormal listaVentas = {listaVentas}/></>)}
                         </tbody>
         </table>                
     )
@@ -270,7 +273,7 @@ const FilaProduNormal=({listaVentas, index})=>{
         <tr><td>{`listaVentas.{vehiculos_${index}}.id`}</td>
                 <td>{listaVentas.cantidad}</td>
                 <td>{`listaVentas.{vehiculos_${index}}.precio`}</td>
-                <td>{listaVentas.total}</td>
+                <td></td>
             <td>
                 <div className='flex justify-around'>
                     {edit? (
@@ -284,6 +287,60 @@ const FilaProduNormal=({listaVentas, index})=>{
             </tr>
     )
 }
+const FilaTotal = ({listaVentas})=>{
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    return(
+        <tr>
+            <td></td>
+    <td></td>
+    <td></td>
+    <td>
+                <input 
+                type="text" 
+                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+                value={listaVentas.total} /></td>
+                <td>
+                <div className='flex justify-around'>
+                    {edit? (
+                    <button type ="submit">
+                        <i onClick={algo} className='fas fa-check text-green-500'/>
+                    </button>):(
+                    <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td>
+        </tr>
+        
+    )
+}
+const FilaTotalNormal =({listaVentas})=>{
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    return(
+        <tr><td></td>
+        <td></td>
+        <td></td>
+        <td>{listaVentas.total}</td>
+        <td>
+                <div className='flex justify-around'>
+                    {edit? (
+                    <button type ="submit">
+                        <i onClick={algo} className='fas fa-check text-green-500'/>
+                    </button>):(
+                    <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                    )}
+                </div>
+            </td></tr>
+    )
+}
+
 export default Ventas
 
 
