@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { nanoid } from 'nanoid';
+//import { nanoid } from 'nanoid';
 
 
 export const obtenerVehiculos = async (successCallBack, errorCallBack) => {
@@ -51,6 +51,7 @@ export const eliminarVehiculo = async (id,successCallBack, errorCallBack) => {
     
 };
 
+//CRUD Usuarios
 export const obtenerUsuarios = async (successCallBack, errorCallBack) => {
   const options = { method: 'GET', url: 'http://localhost:5000/usuarios/' };
   await axios
@@ -97,4 +98,34 @@ export const crearVenta = async (data, successCallback, errorCallback) => {
     data,
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+export const obtenerVentas = async(successCallBack,errorCallBack) =>{
+  const options = { method: 'GET', url: 'http://localhost:5000/usuarios/' };
+
+  await axios
+    .request(options)
+    .then(successCallBack)
+    .catch(errorCallBack);
+
+
+};
+
+export const actualizarVenta = async (id, data, successCallback, errorCallback) => {
+  const options = {
+    method: 'PATCH',
+    url: `http://localhost:5000/ventas/${id}/`,
+    headers: { 'Content-Type': 'application/json' },
+    data,
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback)
+};
+
+export const eliminarVenta = async (id, successCallback, errorCallback) => {
+  const options = {
+    method: 'DELETE',
+    url: `http://localhost:5000/ventas/${id}/`,
+    headers: { 'Content-Type': 'application/json' },
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback)
 };

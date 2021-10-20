@@ -1,84 +1,35 @@
-import React, { useState, useEffect}from 'react'
+import React, {useState, useEffect} from 'react'
 import SectionMain from 'components/SectionMain'
 import grid from 'media/grid.png'
 import {toast} from 'react-toastify'
-import axios from 'axios'
-import { obtenerUsuarios, obtenerVehiculos } from 'utils/api'
-
-
-
-
-
-
+import { obtenerVehiculos, obtenerUsuarios, obtenerVentas } from 'utils/api'
+import { nanoid } from 'nanoid'
 
 const Ventas = () => {
-    const [ventas,setVentas] = useState([])
-    
-    useEffect(async () => {
-
-        const obtenerVentas = async ()=>{
-         const options = { method: 'GET', url: 'https://localhost:5000/ventas' };
-          await axios
-            .request(options)
-            .then(function (response) {
-              setVentas(response.data);
-            })
-            .catch(function (error) {
-              console.error(error);
-            });           
-        }
-
-        obtenerVentas()
-
-  
-    
-      }, []);
-
-    
+    const [ventas,setVentas] = useState([])  
+  //   useEffect(() => {
+  //      const fetchVentas = async()=>{
+  //      await obtenerVentas((response)=>{
+  //          setVentas(response.data)
+  //      },(error)=>{
+  //          console.error(error);
+  //      })
+  //  }
+  //  fetchVentas()
+  // }, []);   
     return (
-
         <SectionMain logo= {grid} nombre={'ventas'} >
          <TablaVentas listaVentas ={ventas} />
-        </SectionMain>
-        
-
+        </SectionMain>        
     )
 }
 
-
-const TablaVentas = ({listaVentas, vendedor, vehiculos}) => {
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
-    const [edit1,setEdit1]= useState(false)
-    const algo1=()=>{
-        setEdit1(!edit1)
-        toast.success("Editado con Exito")
-    }
-    const [edit2,setEdit2]= useState(false)
-    const algo2=()=>{
-        setEdit2(!edit2)
-        toast.success("Editado con Exito")
-    }
-
-    
-    useEffect(() => {
-       console.log("este es el listado de ventas", listaVentas)    
-    }, [listaVentas])
-    const [desplegar,setdesplegar]=useState(false)
-    
-    return (
-        <div>  
-        <div className="flex flex-col h-screen w-full items-center overflow-x-auto ">
-
-            
-        <table className=" tabla border-separate bg-gray-400">  
+const TablaVentas =({listaVentas})=>{
+    return(
+        <table className="tabla">
             <thead>
-            <tr>    
-        
-             <th class="border border-gray-500 p-3"># Identificación</th> 
+                <tr>
+            <th class="border border-gray-500 p-3"># Identificación</th> 
              <th class="border border-gray-500 p-3">Descripción</th>
              <th class="border border-gray-500 p-3">Fecha Venta</th>
              <th class="border border-gray-500 p-3">Responsable</th>
@@ -86,29 +37,50 @@ const TablaVentas = ({listaVentas, vendedor, vehiculos}) => {
              <th class="border border-gray-500 p-3">Valor Total</th>
              <th class="border border-gray-500 p-3">Acciones</th>
              </tr>
-         </thead>
+            </thead>
+            <tbody>
+                {listaVentas.map((ventas)=>{
+                    return(
+                    <FilaTablaGrl listaVentas = {ventas}/>                       
+                    );
+                })}
 
-        <tbody class="bg-white">
-            {listaVentas.map((ventas ) => {
-                return(
-                    <>
-                <tr>
-                    <td>{ventas.id}</td>
-                    <td>
-                    <button type="button" class="my-1 flex w-max text-sm  focus:outline-none hover:text-green-700 underline" 
-                  onClick={()=>{setdesplegar(!desplegar)}}>
+            </tbody>
+        </table>
+    )
+} 
+
+const FilaTablaGrl = ({listaVentas}) =>{
+    const [desplegar, setDesplegar] = useState(false)
+    return(
+        <>
+        <tr>
+            <td>{listaVentas.idVenta}</td>
+            <td>
+               <button type="button" class="my-1 flex w-max text-sm  focus:outline-none hover:text-green-700 underline" 
+               onClick={()=>{setDesplegar(!desplegar)}}>
                   Ver más  
-                  </button></td>
-                    <td>{ventas.fechaVenta}</td>
-                    <td>{ventas.responsable}</td>
-                    <td>{ventas.estado}</td>
-                    <td>{ventas.total}</td>
-                  <td><div className="flex justify-center"><i className='fas fa-trash text-gray-900 hover:text-red-700'></i></div></td>
-                </tr> 
-                 {desplegar && (<tr>
-                   <td colSpan="7">
+            </button></td>
+            <td>{listaVentas.fechaVenta}</td>
+            <td>{listaVentas.responsable}</td>
+            <td>{listaVentas.estadoVenta}</td>
+            <td>{listaVentas.total}</td>
+            <td><div className="flex justify-center"><i className='fas fa-trash text-gray-900 hover:text-red-700'></i></div></td>
+        </tr>
+        {desplegar && (
+            <Despliegue ventas={listaVentas}/>
+        )}
+        </>
+    )
+}
+
+const Despliegue = ({ventas}) => {
+    const [edit, setEdit] = useState(false)
+    return(
+        <tr>
+            <td colSpan="7">
                 <div className="flex flex-col items-center">
-                    <h3>Factura #001</h3>
+                    <h3>Factura {`${ventas.idVenta}`}</h3>
                     <table>
                         <thead>
                             <tr>
@@ -121,49 +93,95 @@ const TablaVentas = ({listaVentas, vendedor, vehiculos}) => {
                             </tr>
                         </thead>
                         <tbody>
-                        
-            {edit?(<tr>
+                            {edit? (<FilaEditable listaVentas ={ventas}/>):(<FilaNormal listaVentas={ventas}/>)}
+                        </tbody>
+                    </table>
+                    <TablaProductos listaVentas={ventas}/>  
+                </div>          
+            </td>            
 
-            <td>
-                <input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.nombCliente}/></td>
-            <td><input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.idCliente}/></td>
-            <td><input 
-                type="date" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.fechaVenta}/></td>
-            <td><input name = 'responsable'type="text" placeholder ="Responsable"/></td>
-            
-            <td>
-                    <td><select name='estado' defaultValue={0}>
-                        <option value={0} selected disabled>Estado</option>
-                        <option value="Cancelado">Cancelado</option>
-                        <option value="Entregado">Entregado</option>
-                        <option value="En proceso">En proceso</option>
-                    </select></td>
-                <div className='flex justify-around'>
-                    {edit? (
-                        <button type ="submit">
-                            <i onClick={algo} className='fas fa-check text-green-500'/>
-                        </button>):(
-                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
-                </div>
-            </td>                
-                </tr>)
-                :(
-                <tr>
+        </tr>                
+    )
+}
+const FilaEditable =({listaVentas})=>{
+    const [vendedores, setVendedores] = useState([])
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    useEffect(() => {
+        const fetchVendedores = async()=>{
+            await obtenerUsuarios(
+                (response)=>{setVendedores(response.data)
+                },
+                (error)=>{console.error(error)})
+        }
+        fetchVendedores()
 
-                <td>{ventas.nombCliente}</td>
-                    <td>{ventas.idCliente}</td>
-                    <td>{ventas.fechaVenta}</td>
-                    <td>{ventas.responsable}</td>
-                    <td>{ventas.estado}</td> 
+        
+    }, [])
+    return(<tr>
+
+        <td>
+            <input 
+            type="text" 
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+            value={listaVentas.nombCliente}/></td>
+        <td><input 
+            type="text" 
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+            value={listaVentas.idCliente}/></td>
+        <td><input 
+            type="date" 
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
+            value={listaVentas.fechaVenta}/></td>
+        <td><select name="responsable" required >
+          <option disabled selected>
+            Seleccione Vendedor
+          </option>
+          {vendedores.map((el)=>{
+            return(
+              <option key={nanoid()}
+              value={el._id}>{`${el.nombre}`}</option>
+            );
+          })
+          }
+          
+          </select></td>
+        
+        <td>
+                <td><select name='estado' defaultValue={0}>
+                    <option value={0} selected disabled>Estado</option>
+                    <option value="Cancelado">Cancelado</option>
+                    <option value="Entregado">Entregado</option>
+                    <option value="En proceso">En proceso</option>
+                </select></td>
+            <div className='flex justify-around'>
+                {edit? (
+                    <button type ="submit">
+                        <i onClick={algo} className='fas fa-check text-green-500'/>
+                    </button>):(
+                        <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                )}
+            </div>
+        </td>                
+            </tr>)
+}
+const FilaNormal =({listaVentas})=>{
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    return(
+        <tr>
+
+                <td>{listaVentas.nombCliente}</td>
+                    <td>{listaVentas.idCliente}</td>
+                    <td>{listaVentas.fechaVenta}</td>
+                    <td>{listaVentas.responsable}</td>
+                    <td>{listaVentas.estado}</td> 
                     <td>
                 <div className='flex justify-around'>
                     {edit? (
@@ -174,16 +192,17 @@ const TablaVentas = ({listaVentas, vendedor, vehiculos}) => {
                     )}
                 </div>
             </td>
-
-                </tr>
-            
-           )}
-           
-            
-        
-                        </tbody>
-                    </table>
-                    <table>
+        </tr>
+    )
+}
+const TablaProductos =({listaVentas})=>{
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    return(
+        <table>
                         <thead>
                             <tr>
                             <th>Identificador producto</th>
@@ -194,85 +213,77 @@ const TablaVentas = ({listaVentas, vendedor, vehiculos}) => {
                             </tr>
                         </thead>
                         <tbody>
-                        
-            {edit1? ("asas")
-            :(
-            <tr><td>{ventas.idProdu}</td>
-                <td>{ventas.cantidad}</td>
-                <td>{ventas.valorUnitario}</td>
-                <td>{ventas.total}</td>
+                            {edit?(<FilaProduEditable listaVentas={listaVentas}/>):(<FilaProduNormal listaVentas={listaVentas}/>)}
+                        </tbody>
+        </table>                
+    )
+}
+const FilaProduEditable =({listaVentas, index})=>{
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    const [vehiculos, setVehiculos] = useState([])
+    useEffect(() => {
+        const fetchVehiculos = async()=>{
+            await obtenerVehiculos(
+                (response)=>{setVehiculos(response.data)
+                },
+                (error)=>{console.error(error)})
+
+        }
+        fetchVehiculos()
+    }, [])
+    return(
+        <tr>
+            <td>{`listaVentas.{vehiculos_${index}}.id`}</td>
+            <td>
+                <input 
+                type="number" 
+                value={listaVentas.cantidad}/></td>
+            <td>{`listaVentas.{vehiculos_${index}}.precio`}</td>
+            <td><input type="number" value={listaVentas.total}/></td>
+            <td>
+            <div className='flex justify-around'>
+                    {edit? (
+                        <button type ="submit">
+                            <i onClick={algo} className='fas fa-check text-green-500'/>
+                        </button>):(
+                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+                    )}
+            </div>
+            </td>
+
+
+        </tr>
+    )
+
+}
+const FilaProduNormal=({listaVentas, index})=>{
+    const [edit,setEdit]= useState(false)
+    const algo=()=>{
+        setEdit(!edit)
+        toast.success("Editado con Exito")
+    }
+    return(
+        <tr><td>{`listaVentas.{vehiculos_${index}}.id`}</td>
+                <td>{listaVentas.cantidad}</td>
+                <td>{`listaVentas.{vehiculos_${index}}.precio`}</td>
+                <td>{listaVentas.total}</td>
             <td>
                 <div className='flex justify-around'>
-                    {edit1? (
+                    {edit? (
                         <button type ="submit">
-                            <i onClick={algo1} className='fas fa-check text-green-500'/>
+                            <i onClick={algo} className='fas fa-check text-green-500'/>
                         </button>):(
-                            <i onClick={()=>setEdit1(!edit1)} className='fas fa-edit text-yellow-500'/>
+                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
                     )}
                 </div>
             </td>            
-            </tr>)}
-            
-
-        {edit2? (<><td></td>
-    <td></td>
-    <td></td>
-    <td>
-                <input 
-                type="text" 
-                className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-                value={ventas.total} /></td>
-                <td>
-                <div className='flex justify-around'>
-                    {edit2? (
-                    <button type ="submit">
-                        <i onClick={algo2} className='fas fa-check text-green-500'/>
-                    </button>):(
-                    <i onClick={()=>setEdit2(!edit2)} className='fas fa-edit text-yellow-500'/>
-                    )}
-                </div>
-            </td></>):(
-    <tr><td></td>
-        <td></td>
-        <td></td>
-        <td>{ventas.total}</td>
-        <td>
-                <div className='flex justify-around'>
-                    {edit2? (
-                    <button type ="submit">
-                        <i onClick={algo2} className='fas fa-check text-green-500'/>
-                    </button>):(
-                    <i onClick={()=>setEdit2(!edit2)} className='fas fa-edit text-yellow-500'/>
-                    )}
-                </div>
-            </td></tr>
-        )}
-        
-        
-            
-                        </tbody>
-    
-                    </table>
-    
-                </div>
-            </td>
-        </tr>)}     
-                 </>
-                    );          
-            })} 
-            
-
-        </tbody>
-        </table>            
-    </div>    
-    </div>
-
-    
+            </tr>
     )
 }
-
-
-
-
-
 export default Ventas
+
+

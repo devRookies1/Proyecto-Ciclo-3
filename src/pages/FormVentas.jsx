@@ -166,7 +166,7 @@ const TablaClientes = ({vendedores}) =>{
           }
           
           </select></td>
-        <td><input type="date" required></input></td>
+        <td><input type="date" name="fechaVenta" required></input></td>
         <td><select name="estadoVenta" required>
           <option disabled selected required>
             Seleccione estado de venta
