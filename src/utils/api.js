@@ -75,7 +75,16 @@ export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta = () => {
     });
   setEjecutarConsulta(false);
 };
-
+export const obtenerDatosUsuario = async (successCallback, errorCallback) => {
+  const options = {
+    method: 'GET',
+    url: 'http://localhost:5000/usuarios/self',
+    headers: {
+      Authorization: getToken(),
+    },
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
 export const crearUsuario = async(data,successCallBack, errorCallBack)=>{
   const options = { method: 'POST', 
   url: 'http://localhost:5000/usuarios/',

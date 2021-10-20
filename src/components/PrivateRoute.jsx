@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react'
+import React, {useEffect,  useState} from 'react'
 import { useAuth0 } from '@auth0/auth0-react';
-import { Link } from 'react-router-dom';
+import { obtenerDatosUsuario } from 'utils/api';
+
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0();
+ 
 
   useEffect(() => {
     const fetchAuth0Token = async () => {
@@ -11,7 +13,17 @@ const PrivateRoute = ({ children }) => {
         audience: `api-autenticacion-vehiculos`,
       });
       localStorage.setItem('token', accessToken);
-    };
+      console.log(accessToken);
+    await obtenerDatosUsuario(
+      (response) => {
+        console.log('response con datos del usuario', response);
+      },
+      (err) => {
+        console.log('err', err);
+    
+      }
+    );
+  };
     if (isAuthenticated) {
       fetchAuth0Token();
     }
