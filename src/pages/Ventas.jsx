@@ -7,16 +7,16 @@ import { nanoid } from 'nanoid'
 
 const Ventas = () => {
     const [ventas,setVentas] = useState([])  
-  //   useEffect(() => {
-  //      const fetchVentas = async()=>{
-  //      await obtenerVentas((response)=>{
-  //          setVentas(response.data)
-  //      },(error)=>{
-  //          console.error(error);
-  //      })
-  //  }
-  //  fetchVentas()
-  // }, []);   
+     useEffect(() => {
+        const fetchVentas = async()=>{
+        await obtenerVentas((response)=>{
+            setVentas(response.data)
+        },(error)=>{
+            console.error(error);
+        })
+    }
+    fetchVentas()
+   }, []);   
     return (
         <SectionMain logo= {grid} nombre={'ventas'} >
          <TablaVentas listaVentas ={ventas} />

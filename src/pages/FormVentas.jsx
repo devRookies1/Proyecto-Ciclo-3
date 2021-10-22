@@ -1,13 +1,9 @@
 import SectionMainForm from 'components/SectionMainForm'
 import React, {useState, useRef, useEffect} from 'react'
-//import agregar from 'media/agregar.png'
-//import Ventas from './Ventas'
-//import {toast} from 'react-toastify'
-//import axios from 'axios'
-//import { Link } from 'react-router-dom'
 import { obtenerUsuarios, obtenerVehiculos } from 'utils/api'
 import { nanoid } from 'nanoid'
 import { crearVenta } from 'utils/api'
+import { toast } from 'react-toastify'
 
 
 const FormVentas = () => {
@@ -16,7 +12,7 @@ const FormVentas = () => {
   const [vendedores,setVendedores] = useState([])
   const [vehiculos,setVehiculos] = useState([])
   const [vehiculosTabla, setVehiculosTabla] = useState([])
-  var [total,setTotal]= useState(0)
+ 
 
 
 
@@ -62,34 +58,29 @@ const FormVentas = () => {
 
     
 
-    Object.keys(nuevaVenta).forEach((k) => {
-      if (k.includes('subtotal')) {
-        const indice = parseInt(k.split('_')[1]);
-        listaVehiculos[indice]['subtotal'] = nuevaVenta[k];
-        
-      }
-    });
+    
 
 
-    // const datosVenta = {
-    //   vendedor: vendedores.filter((v) => v._id === nuevaVenta.vendedor)[0],
-    //   total: nuevaVenta.total,
-    //   vehiculos: listaVehiculos,
-    // };
+     const datosVenta = {
+       responsable: vendedores.filter((v) => v._id === nuevaVenta.responsable)[0],
+       total: nuevaVenta.total,
+       vehiculos: listaVehiculos,
+     };
 
-    // console.log('lista vehiculos', listaVehiculos);
+     console.log('lista vehiculos', listaVehiculos);
 
-    // await crearVenta(
-    //   datosVenta,       
-    //   (response) => {
-    //     console.log(response.data);
-    //     toast.success('Venta agregada con éxito');
-    //   },
-    //    (error) => {
-    //     console.error(error);
-    //     toast.error('Error creando una venta');
-    //   }
-    //   );
+     await crearVenta(
+       datosVenta,       
+       (response) => {
+         console.log(response.data);
+         toast.success('Venta agregada con éxito');
+       },
+        (error) => {
+         console.error(error);
+         toast.error('Error creando una venta');
+       }
+       );
+       console.log(datosVenta)
       
   }
     
@@ -97,7 +88,7 @@ const FormVentas = () => {
        
       return (
         <SectionMainForm nombre='ventas'>
-            <div className="flex flex-col  w-full items-center justify-start  " >
+            <div className="flex flex-col  w-full  justify-start  " >
             <form ref={form} onSubmit={submitForm}>
            <TablaClientes vendedores={vendedores}/>   
 
@@ -108,15 +99,15 @@ const FormVentas = () => {
            />
            <div className='flex flex-col w-full'>
            <label className='flex flex-col justify-end items-end'>
-          <span className=' font-gray-900'>Valor Total Venta</span>
-          <input
+          <span className=' font-extrabold font-gray-900 mr-9'>Valor Total Venta</span>
+          { <input
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='number'
             name='total'
-            value={total}
+           
             required
-            disabled
-          />
+            
+          /> }
         </label>
         </div>
 
@@ -185,7 +176,6 @@ const TablaClientes = ({vendedores}) =>{
 const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
   const [vehiculoAAgregar, setVehiculoAAgregar] = useState({});
   const [filasTabla, setFilasTabla] = useState([]);
-  const [cantidad,setCantidad] = useState(0)
 
 
   useEffect(() => {
@@ -209,6 +199,18 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
     setVehiculos([...vehiculos, vehiculoAEliminar]);
   };
 
+  const modificarVehiculo = (vehiculo, cantidad, subtotal) => {
+    setFilasTabla(
+      filasTabla.map((ft) => {
+        if (ft.id === vehiculo.id) {
+          ft.cantidad = cantidad;
+          ft.subtotal = parseFloat(cantidad)* parseFloat(vehiculo.precio)*1000000;
+        }
+        return ft;
+      })
+    );
+  }
+
   return (
     <div>
       <div className='flex m-4'>
@@ -216,7 +218,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
           <select
             className='p-2'
             value={vehiculoAAgregar._id ?? ''}
-            required
+            
             onChange={(e) =>
               setVehiculoAAgregar(vehiculos.filter((v) => v._id === e.target.value)[0])
             }
@@ -259,46 +261,69 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
         <tbody>
           {filasTabla.map((el, index) => {
             return (
-              <tr key={nanoid()}>
-                <td>{el.id}</td>
-                <td>{el.nombre}</td>
-                <td>{el.marca}</td>
-                <td>{el.precio}</td>
-                <td>{el.estado}</td>
-                <td>
-                  <label htmlFor={`cantidad_${index}`}>
-                    <input 
-                    type='number' 
-                    name={`cantidad_${index}`} 
-                    value={cantidad}
-                    onChange={(e)=>{
-                      setCantidad(e.target.value)
-                    }}/>
-                  </label>
-                </td>
-                <td><label htmlFor={`subtotal_${index}`}>
-                    <input 
-                    type='number' 
-                    name={`subtotal_${index}`} 
-                    value={parseInt(el.precio)*1000000*cantidad}
-                    />
-                  </label>
-                </td>
-                <td>
-                  <i
-                    onClick={() => eliminarVehiculo(el)}
-                    className='fas fa-trash text-red-500 cursor-pointer'
-                  />
-                </td>
-                <input hidden defaultValue={el._id} name={`vehiculo_${index}`} />
-              </tr>
+              <FilaVehiculo
+                key={el._id}
+                veh={el}
+                index={index}
+                eliminarVehiculo={eliminarVehiculo}
+                modificarVehiculo={modificarVehiculo}
+              />
             );
           })}
+              
         </tbody>
       </table>
     </div>
   )
         }
 
+const FilaVehiculo = ({veh, index, eliminarVehiculo, modificarVehiculo})=>{
+  const [vehiculo, setVehiculo] = useState(veh);
+  useEffect(() => {
+    console.log('veh', vehiculo);
+  }, [vehiculo]);
+  return(
+    <tr>
+                <td>{vehiculo.id}</td>
+                <td>{vehiculo.nombre}</td>
+                <td>{vehiculo.marca}</td>
+                <td>{vehiculo.precio}</td>
+                <td>{vehiculo.estado}</td>
+                <td>
+                  <label htmlFor={`cantidad_${index}`}>
+                    <input 
+                    type='number' 
+                    name={`cantidad_${index}`} 
+                    value={vehiculo.cantidad}
+                    min='0'
+                    onChange={(e)=>{
+                      modificarVehiculo(vehiculo, e.target.value === '' ? '0' : e.target.value);
+                      setVehiculo({
+                        ...vehiculo,
+                        cantidad: e.target.value === '' ? '0' : e.target.value,
+                        subtotal:
+                          parseFloat(vehiculo.precio) *
+                          parseFloat(e.target.value === '' ? '0' : e.target.value)*1000000
+                      })
+                      
+                    }}/>
+                  </label>
+                </td>
+                <td>{parseFloat(vehiculo.subtotal ?? 0)}</td>
+                <td>
+                  <i
+                    onClick={() => eliminarVehiculo(vehiculo)}
+                    className='fas fa-trash text-red-500 cursor-pointer'
+                  />
+                </td>
+                <input hidden defaultValue={vehiculo._id} name={`vehiculo_${index}`} />
+              </tr>
+            );
+          }
+  
+
+
 
 export default FormVentas
+
+
