@@ -36,7 +36,6 @@ const FormVentas = () => {
         
     }, [])
 
-  
 
   const submitForm = async (e) => {
     
@@ -104,7 +103,7 @@ const FormVentas = () => {
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='number'
             name='total'
-           
+            
             required
             
           /> }
