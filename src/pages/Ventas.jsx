@@ -197,10 +197,6 @@ const FilaNormal =({listaVentas})=>{
 }
 const TablaProductos =({listaVentas})=>{
     const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
     return(
         <table>
                         <thead>
@@ -321,6 +317,7 @@ const FilaTotalNormal =({listaVentas})=>{
     const [edit,setEdit]= useState(false)
     const algo=()=>{
         setEdit(!edit)
+
         toast.success("Editado con Exito")
     }
     return(
