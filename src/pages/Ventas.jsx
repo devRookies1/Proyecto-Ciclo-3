@@ -1,25 +1,31 @@
 import React, {useState, useEffect} from 'react'
 import SectionMain from 'components/SectionMain'
 import grid from 'media/grid.png'
-import {toast} from 'react-toastify'
+import {toast, ToastContainer} from 'react-toastify'
 import { obtenerVehiculos, obtenerUsuarios, obtenerVentas } from 'utils/api'
 import { nanoid } from 'nanoid'
 
 const Ventas = () => {
-    const [ventas,setVentas] = useState([])  
-     useEffect(() => {
-        const fetchVentas = async()=>{
-        await obtenerVentas((response)=>{
-            setVentas(response.data)
-        },(error)=>{
-            console.error(error);
-        })
-    }
-    fetchVentas()
-   }, []);   
+    const [ventas,setVentas] = useState([])
+    const [ejecutarConsulta, setEjecutarConsulta] = useState(true)  
+
+    useEffect(() => {
+        if (ejecutarConsulta) {
+            obtenerVentas(
+                (response)=> {
+                    setVentas(response.data);
+                  },
+                  (error)=> {
+                    console.error(error);
+                  }
+                  );
+            setEjecutarConsulta(false)
+          }
+   }, [ejecutarConsulta]);   
     return (
         <SectionMain logo= {grid} nombre={'ventas'} >
          <TablaVentas listaVentas ={ventas} />
+         <ToastContainer position="bottom-center" autoClose={5000}/>
         </SectionMain>        
     )
 }
@@ -62,8 +68,8 @@ const FilaTablaGrl = ({listaVentas}) =>{
                   Ver más  
             </button></td>
             <td>{listaVentas.fechaVenta}</td>
-            <td>{listaVentas.responsable}</td>
-            <td>{listaVentas.estadoVenta}</td>
+            <td>{listaVentas.responsable.nombre}</td>
+            <td>{listaVentas.estado}</td>
             <td>{listaVentas.total}</td>
             <td><div className="flex justify-center"><i className='fas fa-trash text-gray-900 hover:text-red-700'></i></div></td>
         </tr>
@@ -110,17 +116,15 @@ const FilaEditable =({listaVentas})=>{
         setEdit(!edit)
         toast.success("Editado con Exito")
     }
-    useEffect(() => {
-        const fetchVendedores = async()=>{
-            await obtenerUsuarios(
-                (response)=>{setVendedores(response.data)
-                },
-                (error)=>{console.error(error)})
-        }
-        fetchVendedores()
-
-        
-    }, [])
+    //useEffect(() => {
+    //    const fetchVendedores = async()=>{
+    //        await obtenerUsuarios(
+    //            (response)=>{setVendedores(response.data)
+    //            },
+    //            (error)=>{console.error(error)})
+    //    }
+    //    fetchVendedores()
+    //}, [])
     return(<tr>
 
         <td>
@@ -180,7 +184,7 @@ const FilaNormal =({listaVentas})=>{
                 <td>{listaVentas.nombCliente}</td>
                     <td>{listaVentas.idCliente}</td>
                     <td>{listaVentas.fechaVenta}</td>
-                    <td>{listaVentas.responsable}</td>
+                    <td>{listaVentas.responsable.nombre}</td>
                     <td>{listaVentas.estado}</td> 
                     <td>
                 <div className='flex justify-around'>
@@ -236,7 +240,7 @@ const FilaProduEditable =({listaVentas, index})=>{
     }, [])
     return(
         <tr>
-            <td>{`listaVentas.{vehiculos_${index}}.id`}</td>
+            <td>{`listaVentas.vehiculos[${index}].id`}</td>
             <td>
                 <input 
                 type="number" 

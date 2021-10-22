@@ -101,7 +101,7 @@ export const crearVenta = async (data, successCallback, errorCallback) => {
 };
 
 export const obtenerVentas = async(successCallBack,errorCallBack) =>{
-  const options = { method: 'GET', url: 'http://localhost:5000/usuarios/' };
+  const options = { method: 'GET', url: 'http://localhost:5000/ventas/' };
 
   await axios
     .request(options)

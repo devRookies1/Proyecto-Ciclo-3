@@ -3,7 +3,7 @@ import React, {useState, useRef, useEffect} from 'react'
 import { obtenerUsuarios, obtenerVehiculos } from 'utils/api'
 import { nanoid } from 'nanoid'
 import { crearVenta } from 'utils/api'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 const FormVentas = () => {
@@ -61,7 +61,12 @@ const FormVentas = () => {
 
 
      const datosVenta = {
+       idVenta: nuevaVenta.idVenta,
+       nombCliente: nuevaVenta.nombCliente,
+       idCliente : nuevaVenta.idCliente,
        responsable: vendedores.filter((v) => v._id === nuevaVenta.responsable)[0],
+       fechaVenta: nuevaVenta.fechaVenta,
+       estado: nuevaVenta.estadoVenta,
        total: nuevaVenta.total,
        vehiculos: listaVehiculos,
      };
@@ -113,13 +118,13 @@ const FormVentas = () => {
             
             <button
             type='submit'
-            className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
+            className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white m-2'
             >
             Crear Venta
             </button>
             </form>
             </div>
-              
+        <ToastContainer position="bottom-center" autoClose={5000}/>      
         </SectionMainForm>
     )
 }
