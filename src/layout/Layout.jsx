@@ -7,9 +7,9 @@ import React from 'react';
 
 const Layout = ({children}) => {
     return (
-    <div className='flex flex-col w-screen h-screen overflow-y-hidden  '>
+    <div className='flex flex-col w-full h-screen overflow-y-hidden  '>
       <Navbar/>
-        <main className='flex bg-gray-100 w-screen h-full overflow-y-hidden '>
+        <main className='flex bg-gray-100 w-full h-full overflow-y-hidden '>
           <Sidebar/>
              {children}
              

@@ -9,7 +9,7 @@ const SectionMainForm = ({children,nombre}) => {
 
     
     return (
-    <main className='flex flex-col h-full w-full justify-between overscroll-x-hidden p-4 '>
+    <main className='flex flex-col h-full w-full justify-between p-4 '>
     <div className='bg-gray-300 h-full w-full overflow-y-scroll'>
         <nav className='flex bg-gray-400 h-14 w-full justify-between border-b-2 border-blue-700'>
             <div className='flex items-center'>

@@ -155,7 +155,7 @@ const TablaClientes = ({vendedores}) =>{
           {vendedores.map((el)=>{
             return(
               <option key={nanoid()}
-              value={el._id}>{`${el.nombre}`}</option>
+              value={el._id}>{`${el.name}`}</option>
             );
           })
           }

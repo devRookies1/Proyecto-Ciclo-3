@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react'
 import SectionMain from 'components/SectionMain'
 import grid from 'media/grid.png'
 import {toast, ToastContainer} from 'react-toastify'
-import { obtenerVehiculos, obtenerUsuarios, obtenerVentas } from 'utils/api'
-import { nanoid } from 'nanoid'
+import { obtenerVehiculos, obtenerUsuarios, obtenerVentas, eliminarVenta, actualizarVenta } from 'utils/api'
+//import { nanoid } from 'nanoid'
+import { Dialog} from '@material-ui/core';
 
 const Ventas = () => {
     const [ventas,setVentas] = useState([])
@@ -35,19 +36,19 @@ const TablaVentas =({listaVentas})=>{
         <table className="tabla">
             <thead>
                 <tr>
-            <th class="border border-gray-500 p-3"># Identificación</th> 
-             <th class="border border-gray-500 p-3">Descripción</th>
-             <th class="border border-gray-500 p-3">Fecha Venta</th>
-             <th class="border border-gray-500 p-3">Responsable</th>
-             <th class="border border-gray-500 p-3">Estado</th>
-             <th class="border border-gray-500 p-3">Valor Total</th>
-             <th class="border border-gray-500 p-3">Acciones</th>
+            <th className="border border-gray-500 p-3"># Identificación</th> 
+             <th className="border border-gray-500 p-3">Descripción</th>
+             <th className="border border-gray-500 p-3">Fecha Venta</th>
+             <th className="border border-gray-500 p-3">Responsable</th>
+             <th className="border border-gray-500 p-3">Estado</th>
+             <th className="border border-gray-500 p-3">Valor Total</th>
+             <th className="border border-gray-500 p-3">Acciones</th>
              </tr>
             </thead>
             <tbody>
                 {listaVentas.map((ventas)=>{
                     return(
-                    <FilaTablaGrl listaVentas = {ventas}/>                       
+                    <FilaTablaGrl key={ventas._id} listaVentas = {ventas}/>                       
                     );
                 })}
 
@@ -58,23 +59,63 @@ const TablaVentas =({listaVentas})=>{
 
 const FilaTablaGrl = ({listaVentas}) =>{
     const [desplegar, setDesplegar] = useState(false)
+    const [openDialog, setOpenDialog] = useState(false)
+
+    const deleteSale = async ()=>{
+
+        await eliminarVenta(
+            listaVentas._id,
+            (response) => {
+               console.log(response.data);
+               setOpenDialog(false)
+               toast.success('Venta eliminada con éxito');
+            },
+            (error) => {
+                console.error(error);
+                toast.error('Error eliminando la venta');
+            });
+    
+        }
+
     return(
         <>
         <tr>
             <td>{listaVentas.idVenta}</td>
             <td>
-               <button type="button" class="my-1 flex w-max text-sm  focus:outline-none hover:text-green-700 underline" 
+               <button type="button" className="my-1 flex w-max text-sm  focus:outline-none hover:text-green-700 underline" 
                onClick={()=>{setDesplegar(!desplegar)}}>
                   Ver más  
             </button></td>
             <td>{listaVentas.fechaVenta}</td>
-            <td>{listaVentas.responsable.nombre}</td>
+            <td>{listaVentas.responsable.name}</td>
             <td>{listaVentas.estado}</td>
             <td>{listaVentas.total}</td>
-            <td><div className="flex justify-center"><i className='fas fa-trash text-gray-900 hover:text-red-700'></i></div></td>
+            <td><div className="flex justify-center">
+            <i onClick={()=>setOpenDialog(true)} className='fas fa-trash text-gray-900 hover:text-red-700'/>
+             <Dialog open={openDialog}>
+          <div className='p-8 flex flex-col'>
+            <h1 className='text-gray-900 text-2xl font-bold'>
+              ¿Está seguro de querer eliminar la venta?
+            </h1>
+            <div className='flex w-full items-center justify-center my-4'>
+              <button
+                onClick={() => deleteSale()}
+                className='mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md'
+              >
+                Sí
+              </button>
+              <button
+                onClick={() => setOpenDialog(false)}
+                className='mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md'
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </Dialog></div></td>
         </tr>
         {desplegar && (
-            <Despliegue ventas={listaVentas}/>
+        <Despliegue ventas={listaVentas}/>
         )}
         </>
     )
@@ -82,6 +123,7 @@ const FilaTablaGrl = ({listaVentas}) =>{
 
 const Despliegue = ({ventas}) => {
     const [edit, setEdit] = useState(false)
+
     return(
         <tr>
             <td colSpan="7">
@@ -99,108 +141,121 @@ const Despliegue = ({ventas}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {edit? (<FilaEditable listaVentas ={ventas}/>):(<FilaNormal listaVentas={ventas}/>)}
+                            {edit? (<FilaEditable listaVentas ={ventas} setEdit={()=>{setEdit()}}/>):(<FilaNormal listaVentas={ventas} edit={edit} setEdit={()=>{setEdit()}}/>)}
                         </tbody>
                     </table>
-                    <TablaProductos listaVentas={ventas}/>  
+                    <TablaProductos listaVentas={ventas} />  
                 </div>          
             </td>            
 
         </tr>                
     )
 }
-const FilaEditable =({listaVentas})=>{
+const FilaEditable =({listaVentas, setEdit})=>{
     const [vendedores, setVendedores] = useState([])
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
-    //useEffect(() => {
-    //    const fetchVendedores = async()=>{
-    //        await obtenerUsuarios(
-    //            (response)=>{setVendedores(response.data)
-    //            },
-    //            (error)=>{console.error(error)})
-    //    }
-    //    fetchVendedores()
-    //}, [])
+    
+    useEffect(() => {
+        const fetchVendedores = async()=>{
+            await obtenerUsuarios(
+                (response)=>{setVendedores(response.data)
+                },
+                (error)=>{console.error(error)})
+        }
+        fetchVendedores()
+    }, [])
+
+    const [datosVenta, setDatosVenta] = useState({
+        idVenta: listaVentas.idVenta,
+        nombCliente: listaVentas.nombCliente,
+        idCliente : listaVentas.idCliente,
+        responsable: vendedores.filter((v) => v._id === listaVentas.responsable)[0],
+        fechaVenta: listaVentas.fechaVenta,
+        estado: listaVentas.estadoVenta,
+        total: listaVentas.total,
+      });
+
+    const editarVenta = async()=>{
+
+        await actualizarVenta(listaVentas._id, datosVenta,
+    
+            (response) => {
+                console.log(response.data);
+                setEdit(false)
+                toast.success('Venta modificada con éxito');
+            },
+            (error) => {
+                toast.error('Error modificando la venta');
+                console.error(error);
+            });
+        }
     return(<tr>
 
         <td>
             <input 
             type="text" 
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-            value={listaVentas.nombCliente}/></td>
+            value={listaVentas.nombCliente}
+            onChange={(e)=>setDatosVenta({...datosVenta,nombCliente:e.target.value})}/></td>
         <td><input 
             type="text" 
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-            value={listaVentas.idCliente}/></td>
+            value={listaVentas.idCliente}
+            onChange={(e)=>setDatosVenta({...datosVenta,idCliente:e.target.value})}/></td>
         <td><input 
             type="date" 
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg ' 
-            value={listaVentas.fechaVenta}/></td>
+            value={listaVentas.fechaVenta}
+            onChange={(e)=>setDatosVenta({...datosVenta,fechaVenta:e.target.value})}/></td>
         <td><select name="responsable" required >
-          <option disabled selected>
+          <option disabled>
             Seleccione Vendedor
           </option>
           {vendedores.map((el)=>{
             return(
-              <option key={nanoid()}
-              value={el._id}>{`${el.nombre}`}</option>
+                
+              <option key={el._id}
+              value={el._id}>{`${el.name}`}</option>
             );
           })
           }
           
           </select></td>
         
-        <td>
+        
                 <td><select name='estado' defaultValue={0}>
                     <option value={0} selected disabled>Estado</option>
                     <option value="Cancelado">Cancelado</option>
                     <option value="Entregado">Entregado</option>
                     <option value="En proceso">En proceso</option>
                 </select></td>
+            <td>    
             <div className='flex justify-around'>
-                {edit? (
                     <button type ="submit">
-                        <i onClick={algo} className='fas fa-check text-green-500'/>
-                    </button>):(
-                        <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                )}
+                        <i  onClick={()=>editarVenta()} className='fas fa-check text-green-500'/>
+                    </button>
             </div>
         </td>                
             </tr>)
 }
-const FilaNormal =({listaVentas})=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
+const FilaNormal =({listaVentas, edit, setEdit})=>{ 
     return(
         <tr>
+            <td>{listaVentas.nombCliente}</td>
+            <td>{listaVentas.idCliente}</td>
+            <td>{listaVentas.fechaVenta}</td>
+            <td>{listaVentas.responsable.name}</td>
+            <td>{listaVentas.estado}</td> 
+            <td>
+            <div className='flex justify-around'>
+            <i onClick={()=>{setEdit(true)}}  className='fas fa-edit text-yellow-500'/>  
 
-                <td>{listaVentas.nombCliente}</td>
-                    <td>{listaVentas.idCliente}</td>
-                    <td>{listaVentas.fechaVenta}</td>
-                    <td>{listaVentas.responsable.nombre}</td>
-                    <td>{listaVentas.estado}</td> 
-                    <td>
-                <div className='flex justify-around'>
-                    {edit? (
-                        <button type ="submit">
-                            <i onClick={algo} className='fas fa-check text-green-500'/>
-                        </button>):(
-                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
-                </div>
+            </div>
             </td>
         </tr>
     )
 }
 const TablaProductos =({listaVentas})=>{
-    const [edit,setEdit]= useState(false)
+    const [edit, setEdit] = useState(false)
     return(
         <table>
                         <thead>
@@ -213,21 +268,16 @@ const TablaProductos =({listaVentas})=>{
                             </tr>
                         </thead>
                         <tbody>
-                            {edit?(<><FilaProduEditable listaVentas={listaVentas}/>
-                            <FilaTotal listaVentas={listaVentas}/></>):
-                            (<><FilaProduNormal listaVentas={listaVentas}/>
-                            <FilaTotalNormal listaVentas = {listaVentas}/></>)}
+                            {edit?(<><FilaProduEditable listaVentas={listaVentas} setEdit={()=>{setEdit()}}  />
+                            <FilaTotal listaVentas={listaVentas} setEdit={()=>{setEdit()}}/></>):
+                            (<><FilaProduNormal listaVentas={listaVentas} setEdit={()=>{setEdit()}}/>
+                            <FilaTotalNormal listaVentas = {listaVentas} setEdit={()=>{setEdit()}}/></>)}
                         </tbody>
         </table>                
     )
 }
-const FilaProduEditable =({listaVentas, index})=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
-    const [vehiculos, setVehiculos] = useState([])
+const FilaProduEditable =({listaVentas, setEdit})=>{
+    const [vehiculos,setVehiculos] = useState([])
     useEffect(() => {
         const fetchVehiculos = async()=>{
             await obtenerVehiculos(
@@ -237,62 +287,94 @@ const FilaProduEditable =({listaVentas, index})=>{
 
         }
         fetchVehiculos()
+
+        
     }, [])
+
+
+    const [datosVenta, setDatosVenta] = useState({
+        idVenta: listaVentas.idVenta,
+        nombCliente: listaVentas.nombCliente,
+        idCliente : listaVentas.idCliente,
+        fechaVenta: listaVentas.fechaVenta,
+        estado: listaVentas.estadoVenta,
+        total: listaVentas.total,
+        vehiculos: vehiculos
+      });
+
+    const editarVenta = async()=>{
+
+        await actualizarVenta(listaVentas._id, datosVenta,
+    
+            (response) => {
+                console.log(response.data);
+                setEdit(false)
+                toast.success('Venta modificada con éxito');
+            },
+            (error) => {
+                toast.error('Error modificando la venta');
+                console.error(error);
+            });
+        }
+
     return(
-        <tr>
-            <td>{`listaVentas.vehiculos[${index}].id`}</td>
+        <>
+        {listaVentas.map((v)=>{
+                return(
+                    <tr key={v._id}>
+                    <td>
+                        {v.nombre}
+                    </td>
+                    <td > <input type="number" 
+                    value={v.cantidad}
+                    onChange={(e)=>setDatosVenta({...datosVenta, cantidad :e.target.value})}/>
+                        
+                    </td>
+                    <td className="cur">{v.precio}</td>
+                    <td></td>
             <td>
-                <input 
-                type="number" 
-                value={listaVentas.cantidad}/></td>
-            <td>{`listaVentas.{vehiculos_${index}}.precio`}</td>
-            <td><input type="number" value={listaVentas.total}/></td>
-            <td>
-            <div className='flex justify-around'>
-                    {edit? (
-                        <button type ="submit">
-                            <i onClick={algo} className='fas fa-check text-green-500'/>
-                        </button>):(
-                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
-            </div>
-            </td>
-
-
-        </tr>
-    )
-
-}
-const FilaProduNormal=({listaVentas, index})=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
-    return(
-        <tr><td>{`listaVentas.{vehiculos_${index}}.id`}</td>
-                <td>{listaVentas.cantidad}</td>
-                <td>{`listaVentas.{vehiculos_${index}}.precio`}</td>
-                <td></td>
-            <td>
-                <div className='flex justify-around'>
-                    {edit? (
-                        <button type ="submit">
-                            <i onClick={algo} className='fas fa-check text-green-500'/>
-                        </button>):(
-                            <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
+                <div className='flex justify-around'>                        
+                <button type ="submit">
+                            <i onClick={()=>{editarVenta()}} className='fas fa-check text-green-500'/>
+                        </button>
                 </div>
-            </td>            
-            </tr>
+            </td> 
+                    </tr>
+                )
+            })}
+        </>           
+    )
+
+}
+const FilaProduNormal=({listaVentas, setEdit})=>{
+
+    return(
+        <>
+            {listaVentas.vehiculos.map((v)=>{
+                return(
+                    <tr key={v._id}>
+                    <td>
+                        {v.nombre}
+                    </td>
+                    <td > 
+                        {v.cantidad}
+                    </td>
+                    <td className="cur">{v.precio}</td>
+                    <td></td>
+            <td>
+                <div className='flex justify-around'>                        
+                    <i  onClick={()=>setEdit(true)} className='fas fa-edit text-yellow-500'/>
+                </div>
+            </td> 
+                    </tr>
+                )
+            })}
+        </>    
+                           
     )
 }
-const FilaTotal = ({listaVentas})=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
+const FilaTotal = ({listaVentas, setEdit})=>{
+
     return(
         <tr>
             <td></td>
@@ -305,39 +387,30 @@ const FilaTotal = ({listaVentas})=>{
                 value={listaVentas.total} /></td>
                 <td>
                 <div className='flex justify-around'>
-                    {edit? (
+                <div className='flex justify-around'>
                     <button type ="submit">
-                        <i onClick={algo} className='fas fa-check text-green-500'/>
-                    </button>):(
-                    <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
+                        <i  className='fas fa-check text-green-500'/>
+                    </button>
+                </div>
+                    
                 </div>
             </td>
         </tr>
         
     )
 }
-const FilaTotalNormal =({listaVentas})=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
+const FilaTotalNormal =({listaVentas, setEdit})=>{
 
-        toast.success("Editado con Exito")
-    }
     return(
         <tr><td></td>
         <td></td>
         <td></td>
-        <td>{listaVentas.total}</td>
+        <td className="cur">{listaVentas.total}</td>
         <td>
-                <div className='flex justify-around'>
-                    {edit? (
-                    <button type ="submit">
-                        <i onClick={algo} className='fas fa-check text-green-500'/>
-                    </button>):(
-                    <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-                    )}
+        <div className='flex justify-around'>                        
+                    <i  onClick={()=>setEdit(true)} className='fas fa-edit text-yellow-500'/>
                 </div>
+                
             </td></tr>
     )
 }

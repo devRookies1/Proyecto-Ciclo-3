@@ -3,7 +3,7 @@ import React, { useEffect, useState }  from 'react'
 import productos from 'media/productos1.png'
 import {toast, ToastContainer } from 'react-toastify'
 import { nanoid } from 'nanoid'
-import buscar from 'media/buscar.png'
+//import buscar from 'media/buscar.png'
 import { obtenerVehiculos, actualizarVehiculo, eliminarVehiculo } from 'utils/api'
 import {Dialog} from '@material-ui/core'
 
