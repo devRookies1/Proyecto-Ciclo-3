@@ -2,7 +2,7 @@ import React from 'react'
 import Footer from './Footer'
 import { Link } from 'react-router-dom'
 import agregar from 'media/agregar.png'
-import { ToastContainer } from 'react-toastify'
+//import { ToastContainer } from 'react-toastify'
 
 
 const SectionMain = ({children,logo,nombre}) => {

@@ -6,30 +6,25 @@ import { nanoid } from 'nanoid'
 import { obtenerUsuarios, actualizarUsuario, eliminarUser } from 'utils/api'
 import { Dialog} from '@material-ui/core';
 
-const usuariosBackend = [
-    {
-        id: 1,
-        nombre: 'Admin',
-        rol: 'Administrador',
-        estado: 'Autorizado'
-    },
-    {
-        id: 2,
-        nombre: 'Carol',
-        rol: 'Vendedor',
-     
-        estado: 'Pendiente'
-    },
-    {
-        id: 3,
-        nombre: 'Vannesa',
-        rol: 'Administrador',
-        estado: 'No autorizado'
-        
-    }
-    
-    
-]
+//const usuariosBackend = [
+//    {
+//        id: 1,
+//        nombre: 'Admin',
+//        rol: 'Administrador',
+//        estado: 'Autorizado'
+//    },
+//    {
+//        id: 2,
+//        nombre: 'Carol',
+//        rol: 'Vendedor',     
+//        estado: 'Pendiente'
+//    },
+//    {
+//        id: 3,
+//        nombre: 'Vannesa',
+//        rol: 'Administrador',
+//        estado: 'No autorizado'
+//      }]
 
 const Usuarios = () => {
     const [usuarios, setUsuarios] = useState([])
@@ -115,6 +110,7 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
         (response) => {
            console.log(response.data);
            toast.success('Usuario eliminado con éxito');
+           setOpenDialog(false)
            setEjecutarConsulta(true);
         },
         (error) => {
@@ -153,7 +149,7 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
          </>
         :
         <>
-             <td>{usuario.nombre}</td>
+             <td>{usuario.name}</td>
              <td>{usuario.rol}</td>
              <td>{usuario.estado}</td>
         </>

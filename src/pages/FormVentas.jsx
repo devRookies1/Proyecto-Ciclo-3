@@ -58,7 +58,12 @@ const FormVentas = () => {
 
 
      const datosVenta = {
+       idVenta: nuevaVenta.idVenta,
+       nombCliente: nuevaVenta.nombCliente,
+       idCliente : nuevaVenta.idCliente,
        responsable: vendedores.filter((v) => v._id === nuevaVenta.responsable)[0],
+       fechaVenta: nuevaVenta.fechaVenta,
+       estado: nuevaVenta.estadoVenta,
        total: nuevaVenta.total,
        vehiculos: listaVehiculos,
      };
@@ -98,14 +103,14 @@ const FormVentas = () => {
             
             <button
             type='submit'
-            className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
+            className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white m-2'
             >
             Crear Venta
             </button>
             </form>
             <ToastContainer position="bottom-center" autoClose={5000}/>
             </div>
-              
+        <ToastContainer position="bottom-center" autoClose={5000}/>      
         </SectionMainForm>
     )
 }
@@ -136,7 +141,7 @@ const TablaClientes = ({vendedores}) =>{
           {vendedores.map((el)=>{
             return(
               <option key={nanoid()}
-              value={el._id}>{`${el.nombre}`}</option>
+              value={el._id}>{`${el.name}`}</option>
             );
           })
           }
