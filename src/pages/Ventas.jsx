@@ -141,7 +141,7 @@ const Despliegue = ({ventas}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {edit? (<FilaEditable listaVentas ={ventas} setEdit={()=>{setEdit()}}/>):(<FilaNormal listaVentas={ventas} edit={edit} setEdit={()=>{setEdit()}}/>)}
+                        <tr> { edit? (<FilaEditable listaVentas ={ventas} setEdit={setEdit}/>):(<FilaNormal listaVentas={ventas} setEdit={setEdit}/>)}</tr>
                         </tbody>
                     </table>
                     <TablaProductos listaVentas={ventas} />  
@@ -188,7 +188,7 @@ const FilaEditable =({listaVentas, setEdit})=>{
                 console.error(error);
             });
         }
-    return(<tr>
+    return(<>
 
         <td>
             <input 
@@ -235,11 +235,11 @@ const FilaEditable =({listaVentas, setEdit})=>{
                     </button>
             </div>
         </td>                
-            </tr>)
+            </>)
 }
-const FilaNormal =({listaVentas, edit, setEdit})=>{ 
+const FilaNormal =({listaVentas, setEdit})=>{ 
     return(
-        <tr>
+        <>
             <td>{listaVentas.nombCliente}</td>
             <td>{listaVentas.idCliente}</td>
             <td>{listaVentas.fechaVenta}</td>
@@ -251,7 +251,7 @@ const FilaNormal =({listaVentas, edit, setEdit})=>{
 
             </div>
             </td>
-        </tr>
+        </>
     )
 }
 const TablaProductos =({listaVentas})=>{
@@ -268,10 +268,10 @@ const TablaProductos =({listaVentas})=>{
                             </tr>
                         </thead>
                         <tbody>
-                            {edit?(<><FilaProduEditable listaVentas={listaVentas} setEdit={()=>{setEdit()}}  />
-                            <FilaTotal listaVentas={listaVentas} setEdit={()=>{setEdit()}}/></>):
-                            (<><FilaProduNormal listaVentas={listaVentas} setEdit={()=>{setEdit()}}/>
-                            <FilaTotalNormal listaVentas = {listaVentas} setEdit={()=>{setEdit()}}/></>)}
+                            {edit?(<><FilaProduEditable listaVentas={listaVentas} setEdit={setEdit}  />
+                            <FilaTotal listaVentas={listaVentas} setEdit={setEdit}/></>):
+                            (<><FilaProduNormal listaVentas={listaVentas} setEdit={setEdit}/>
+                            <FilaTotalNormal listaVentas = {listaVentas} setEdit={setEdit}/></>)}
                         </tbody>
         </table>                
     )
@@ -335,7 +335,7 @@ const FilaProduEditable =({listaVentas, setEdit})=>{
             <td>
                 <div className='flex justify-around'>                        
                 <button type ="submit">
-                            <i onClick={()=>{editarVenta()}} className='fas fa-check text-green-500'/>
+                            <i onClick={()=>(editarVenta())} className='fas fa-check text-green-500'/>
                         </button>
                 </div>
             </td> 

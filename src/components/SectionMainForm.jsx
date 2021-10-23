@@ -21,9 +21,9 @@ const SectionMainForm = ({children,nombre}) => {
         
         
         {children}
-        
+        <Footer/>
     </div>
-    <Footer/>
+    
     
     </main>     
     
