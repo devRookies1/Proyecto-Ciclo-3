@@ -27,10 +27,11 @@ const FormUsuarios = () => {
           console.error(error);
           toast.error('Error creando un usuario');
         });
+        form.current.reset()
 }
     return (
         <SectionMainForm nombre='usuarios'>
-            <div className=" p-10 flex flex-col items-center justify-center">
+            <div className=" p-10 flex flex-col h-full items-center justify-center">
             <h2 className=" p-2 text-2xl text-gray-800 font-extrabold items-center">Agregar usuario</h2>
              <form ref={form} onSubmit={submitForm} className="p-2 border-4 flex flex-col">
                  <label className="flex flex-col font-bold" htmlFor="nombre">

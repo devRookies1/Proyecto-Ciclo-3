@@ -26,12 +26,15 @@ const FormProductos = () => {
       },
       (response)=> {
         console.log(response.data);
+        
         toast.success('Vehículo agregado con éxito');
+        
       },
       (error)=>{
         console.error(error);
         toast.error('Error creando un vehículo')
       },)
+      form.current.reset()
     };
 
     
@@ -39,7 +42,7 @@ const FormProductos = () => {
     return (
       
         <SectionMainForm nombre='vehiculos'>
-            <div className="flex flex-col items-center justify-center p-5 space-y-8" >
+            <div className="flex flex-col h-full items-center justify-start pt-5 " >
               <form ref={form} onSubmit={submitForm}>
                 <table className=" tabla border-separate bg-gray-400 "> 
                     <thead>

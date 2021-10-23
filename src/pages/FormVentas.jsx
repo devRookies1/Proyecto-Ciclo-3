@@ -66,6 +66,7 @@ const FormVentas = () => {
        estado: nuevaVenta.estadoVenta,
        total: nuevaVenta.total,
        vehiculos: listaVehiculos,
+       
      };
 
      console.log('lista vehiculos', listaVehiculos);
@@ -74,6 +75,7 @@ const FormVentas = () => {
        datosVenta,       
        (response) => {
          console.log(response.data);
+         
          toast.success('Venta agregada con éxito');
        },
         (error) => {
@@ -81,6 +83,7 @@ const FormVentas = () => {
          toast.error('Error creando una venta');
        }
        );
+       form.current.reset()
        console.log(datosVenta)
       
   }
@@ -89,7 +92,7 @@ const FormVentas = () => {
        
       return (
         <SectionMainForm nombre='ventas'>
-            <div className="flex flex-col  w-full  justify-start  " >
+            <div className="flex flex-col  w-full  justify-between  " >
             <form ref={form} onSubmit={submitForm}>
            <TablaClientes vendedores={vendedores}/>   
 
@@ -117,20 +120,19 @@ const FormVentas = () => {
 
 const TablaClientes = ({vendedores}) =>{
   return (
-
+    <div>
     <table className="tabla">
       <thead>
-        <tr>
+        <tr >
           <th>Id Venta</th>
           <th>Nombre Cliente</th>
           <th>Id Cliente</th>
           <th>Responsable</th>
           <th>Fecha Venta</th>
-          <th>Estado</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr >
         <td><input name="idVenta" placeholder="1001" required></input></td>
         <td><input name="nombCliente" placeholder="Nombre Cliente" required ></input></td>
         <td><input name="idCliente" placeholder="ID Cliente" required></input></td>
@@ -148,6 +150,19 @@ const TablaClientes = ({vendedores}) =>{
           
           </select></td>
         <td><input type="date" name="fechaVenta" required></input></td>
+        
+          </tr>
+      </tbody>
+      
+    </table>
+    <table className='tabla'>
+      <thead>
+        <tr>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
         <td><select name="estadoVenta" required>
           <option disabled selected required>
             Seleccione estado de venta
@@ -156,10 +171,11 @@ const TablaClientes = ({vendedores}) =>{
           <option>Entregada</option>
           <option>Cancelada</option>
           </select></td>
-          </tr>
+        </tr>
       </tbody>
-      
+
     </table>
+    </div>
   )
 }
 

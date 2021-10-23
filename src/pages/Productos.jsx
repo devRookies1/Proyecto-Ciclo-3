@@ -50,7 +50,7 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta}) => {
       }, [busqueda,listaVehiculos]);
 
     return (
-        <div className="flex flex-col h-screen items-center justify-start">
+        <div className="flex flex-col  items-center justify-start">
         
         <input
         value={busqueda}
@@ -135,27 +135,27 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
              
              <td>
                  <input type="number"
-                 className=' bg-gray-50 hover:bg-gray-300 border-gray-600 border p-1 rounded-lg w-max'
+                 className=' bg-gray-50 hover:bg-gray-300 border-gray-600 border  rounded-lg w-32'
                  value={infoNuevoVehiculo.id}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,id:e.target.value})} 
                  disabled/>
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max '
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-32 '
                  value={infoNuevoVehiculo.nombre}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,nombre:e.target.value})} />
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-32'
                  value={infoNuevoVehiculo.marca}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,marca:e.target.value})} />
              </td>
 
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-max'
                  value={infoNuevoVehiculo.precio}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,precio:e.target.value})} />
              </td>

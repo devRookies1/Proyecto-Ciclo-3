@@ -55,7 +55,7 @@ const TablaUsuarios = ({listaUsuarios,setEjecutarConsulta}) => {
         console.log('este es el listado de usuarios en el componente de tabla', listaUsuarios);
       }, [listaUsuarios]);
     return (
-        <div className="flex flex-col h-screen items-center justify-start">
+        <div className="flex flex-col  items-center justify-start">
         <table className=" tabla border-separate bg-gray-400 w-3/4"> 
             <thead>
                     <th className="border-separate border border-gray-500 p-3">Nombre usuario</th>
@@ -83,7 +83,7 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
     const [infoNuevoUsuario, setInfoNuevoUsuario] = useState({
 
         id: usuario.id,
-        nombre: usuario.nombre,
+        name: usuario.name,
         rol: usuario.rol,
         estado: usuario.estado
     })
@@ -126,8 +126,8 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
          {edit?
          <>
             <td><input type="text"
-            value={infoNuevoUsuario.nombre} 
-            onChange={(e)=>setInfoNuevoUsuario({...infoNuevoUsuario,nombre:e.target.value})}/>
+            value={infoNuevoUsuario.name} 
+            onChange={(e)=>setInfoNuevoUsuario({...infoNuevoUsuario,name:e.target.value})}/>
             </td>
             <td><select
             name="Rol" 
