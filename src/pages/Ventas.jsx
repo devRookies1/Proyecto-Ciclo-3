@@ -25,14 +25,31 @@ const Ventas = () => {
    }, [ejecutarConsulta]);   
     return (
         <SectionMain logo= {grid} nombre={'ventas'} >
-         <TablaVentas listaVentas ={ventas} />
+       
+         <TablaVentas listaVentas ={ventas} setEjecutarConsulta={setEjecutarConsulta} />
          <ToastContainer position="bottom-center" autoClose={5000}/>
         </SectionMain>        
     )
 }
 
-const TablaVentas =({listaVentas})=>{
+const TablaVentas =({listaVentas, setEjecutarConsulta})=>{
+    const [busqueda, setBusqueda] = useState('');
+    const [ventasFiltradas, setVentasFiltradas] = useState(listaVentas);
+    useEffect(() => {
+        setVentasFiltradas(
+            listaVentas.filter((elemento) => {
+              return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
+            })
+          );
+      }, [busqueda,listaVentas]);
     return(
+        <div className="flex flex-col h-screen items-center justify-start">
+        <input
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
+        placeholder='Buscar'
+        className='border-2 border-gray-700 px-3 py-1 m-3 self-end rounded-md focus:outline-none focus:border-indigo-500'
+        />
         <table className="tabla">
             <thead>
                 <tr>
@@ -46,18 +63,19 @@ const TablaVentas =({listaVentas})=>{
              </tr>
             </thead>
             <tbody>
-                {listaVentas.map((ventas)=>{
+                {ventasFiltradas.map((ventas)=>{
                     return(
-                    <FilaTablaGrl key={ventas._id} listaVentas = {ventas}/>                       
+                    <FilaTablaGrl key={ventas._id} listaVentas = {ventas} setEjecutarConsulta={setEjecutarConsulta}/>                       
                     );
                 })}
 
             </tbody>
         </table>
+    </div>    
     )
 } 
 
-const FilaTablaGrl = ({listaVentas}) =>{
+const FilaTablaGrl = ({listaVentas, setEjecutarConsulta}) =>{
     const [desplegar, setDesplegar] = useState(false)
     const [openDialog, setOpenDialog] = useState(false)
 
@@ -69,6 +87,7 @@ const FilaTablaGrl = ({listaVentas}) =>{
                console.log(response.data);
                setOpenDialog(false)
                toast.success('Venta eliminada con éxito');
+               setEjecutarConsulta(true)
             },
             (error) => {
                 console.error(error);
@@ -122,7 +141,7 @@ const FilaTablaGrl = ({listaVentas}) =>{
 }
 
 const Despliegue = ({ventas}) => {
-    const [edit, setEdit] = useState(false)
+    const [edit, setEdit] = useState(true)
 
     return(
         <tr>
@@ -141,7 +160,8 @@ const Despliegue = ({ventas}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {edit? (<FilaEditable listaVentas ={ventas} setEdit={()=>{setEdit()}}/>):(<FilaNormal listaVentas={ventas} edit={edit} setEdit={()=>{setEdit()}}/>)}
+                            {edit? (<FilaEditable listaVentas ={ventas} setEdit={()=>{setEdit()}}/>)
+                            :(<FilaNormal listaVentas={ventas} setEdit={()=>{setEdit()}}/>)}
                         </tbody>
                     </table>
                     <TablaProductos listaVentas={ventas} />  
@@ -222,10 +242,12 @@ const FilaEditable =({listaVentas, setEdit})=>{
           </select></td>
         
         
-                <td><select name='estado' defaultValue={0}>
+                <td><select name='estado' defaultValue={0}
+                value={listaVentas.estado}
+                onChange={(e)=>setDatosVenta({...datosVenta,estado:e.target.value})}>
                     <option value={0} selected disabled>Estado</option>
-                    <option value="Cancelado">Cancelado</option>
-                    <option value="Entregado">Entregado</option>
+                    <option value="Cancelado">Cancelada</option>
+                    <option value="Entregado">Entregada</option>
                     <option value="En proceso">En proceso</option>
                 </select></td>
             <td>    
@@ -237,7 +259,7 @@ const FilaEditable =({listaVentas, setEdit})=>{
         </td>                
             </tr>)
 }
-const FilaNormal =({listaVentas, edit, setEdit})=>{ 
+const FilaNormal =({listaVentas, setEdit})=>{ 
     return(
         <tr>
             <td>{listaVentas.nombCliente}</td>
@@ -258,7 +280,7 @@ const TablaProductos =({listaVentas})=>{
     const [edit, setEdit] = useState(false)
     return(
         <table>
-                        <thead>
+            <thead>
                             <tr>
                             <th>Identificador producto</th>
                             <th>Cantidad</th>
@@ -278,6 +300,7 @@ const TablaProductos =({listaVentas})=>{
 }
 const FilaProduEditable =({listaVentas, setEdit})=>{
     const [vehiculos,setVehiculos] = useState([])
+
     useEffect(() => {
         const fetchVehiculos = async()=>{
             await obtenerVehiculos(
@@ -290,6 +313,7 @@ const FilaProduEditable =({listaVentas, setEdit})=>{
 
         
     }, [])
+
 
 
     const [datosVenta, setDatosVenta] = useState({
@@ -319,7 +343,7 @@ const FilaProduEditable =({listaVentas, setEdit})=>{
 
     return(
         <>
-        {listaVentas.map((v)=>{
+        {listaVentas.vehiculos.map((v)=>{
                 return(
                     <tr key={v._id}>
                     <td>
