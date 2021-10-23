@@ -3,7 +3,7 @@ import React, {useState, useRef, useEffect} from 'react'
 import { obtenerUsuarios, obtenerVehiculos } from 'utils/api'
 import { nanoid } from 'nanoid'
 import { crearVenta } from 'utils/api'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 const FormVentas = () => {
@@ -13,9 +13,6 @@ const FormVentas = () => {
   const [vehiculos,setVehiculos] = useState([])
   const [vehiculosTabla, setVehiculosTabla] = useState([])
  
-
-
-
     useEffect(() => {
         const fetchVendedores = async()=>{
             await obtenerUsuarios(
@@ -96,19 +93,7 @@ const FormVentas = () => {
               setVehiculos={setVehiculos}
               setVehiculosTabla={setVehiculosTabla}
            />
-           <div className='flex flex-col w-full'>
-           <label className='flex flex-col justify-end items-end'>
-          <span className=' font-extrabold font-gray-900 mr-9'>Valor Total Venta</span>
-          { <input
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            type='number'
-            name='total'
-            
-            required
-            
-          /> }
-        </label>
-        </div>
+           
 
             
             <button
@@ -118,6 +103,7 @@ const FormVentas = () => {
             Crear Venta
             </button>
             </form>
+            <ToastContainer position="bottom-center" autoClose={5000}/>
             </div>
               
         </SectionMainForm>
@@ -175,6 +161,7 @@ const TablaClientes = ({vendedores}) =>{
 const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
   const [vehiculoAAgregar, setVehiculoAAgregar] = useState({});
   const [filasTabla, setFilasTabla] = useState([]);
+  const [totalVentas, setTotalVentas]=useState(0)
 
 
   useEffect(() => {
@@ -201,7 +188,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
   const modificarVehiculo = (vehiculo, cantidad, subtotal) => {
     setFilasTabla(
       filasTabla.map((ft) => {
-        if (ft.id === vehiculo.id) {
+        if (ft._id === vehiculo._id) {
           ft.cantidad = cantidad;
           ft.subtotal = parseFloat(cantidad)* parseFloat(vehiculo.precio)*1000000;
         }
@@ -209,6 +196,16 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
       })
     );
   }
+
+  useEffect(() => {
+    console.log(filasTabla)
+    let total=0
+    filasTabla.forEach(f=>{
+      total += f.subtotal
+    })
+    setTotalVentas(total)
+    
+  }, [filasTabla])
 
   return (
     <div>
@@ -272,6 +269,19 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
               
         </tbody>
       </table>
+      <div className='flex flex-col w-full'>
+           <label className='flex flex-col justify-end items-end'>
+          <span className=' font-extrabold font-gray-900 mr-9'>Valor Total Venta</span>
+           <input
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+            type='number'
+            name='total'
+            value={totalVentas}
+            required
+            
+          /> 
+        </label>
+        </div>
     </div>
   )
         }
