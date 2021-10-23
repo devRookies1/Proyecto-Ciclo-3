@@ -160,10 +160,16 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,precio:e.target.value})} />
              </td>
              <td>
-                 <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max '
-                 value={infoNuevoVehiculo.estado}
-                 onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,estado:e.target.value})} />
+             <select name="estado"
+                defaultValue={infoNuevoVehiculo.estado}
+                required
+                onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,estado:e.target.value})}
+                    >
+                            <option disabled selected>Selecciona una opción</option>
+                            <option>Disponible</option>
+                            <option>No Disponible</option>
+                    </select>
+                
              </td>
              
              </>)
