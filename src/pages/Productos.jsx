@@ -3,7 +3,7 @@ import React, { useEffect, useState }  from 'react'
 import productos from 'media/productos1.png'
 import {toast, ToastContainer } from 'react-toastify'
 import { nanoid } from 'nanoid'
-import buscar from 'media/buscar.png'
+//import buscar from 'media/buscar.png'
 import { obtenerVehiculos, actualizarVehiculo, eliminarVehiculo } from 'utils/api'
 import {Dialog} from '@material-ui/core'
 import PrivateComponent from 'components/PrivateComponent'
@@ -39,7 +39,7 @@ const Productos = () => {
     )
 }
 
-const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
+const TablaProductos = ({listaVehiculos, setEjecutarConsulta}) => {
     const [busqueda, setBusqueda] = useState('');
     const [vehiculosFiltrados, setVehiculosFiltrados] = useState(listaVehiculos);
     useEffect(() => {
@@ -51,7 +51,7 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
       }, [busqueda,listaVehiculos]);
 
     return (
-        <div className="flex flex-col h-screen items-center justify-start">
+        <div className="flex flex-col  items-center justify-start">
         
         <input
         value={busqueda}
@@ -67,12 +67,9 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
                     <th className="border-separate border border-gray-500 p-3">Marca</th>
                     <th className="border-separate border border-gray-500 p-3">Valor unitario</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
-                    <PrivateComponent roleList={['Admin']}>
+                    <PrivateComponent roleList={['admin']}>
                     <th className="border-separate border border-gray-500 p-3">Acciones</th>
-                  
-                    </PrivateComponent>
-                
-                
+                    </PrivateComponent>         
             </thead>
             <tbody className="bg-white">
                 {vehiculosFiltrados.map((vehiculo) => {
@@ -139,35 +136,41 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
              
              <td>
                  <input type="number"
-                 className=' bg-gray-50 hover:bg-gray-300 border-gray-600 border p-1 rounded-lg w-max'
+                 className=' bg-gray-50 hover:bg-gray-300 border-gray-600 border  rounded-lg w-32'
                  value={infoNuevoVehiculo.id}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,id:e.target.value})} 
                  disabled/>
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-32 '
                  value={infoNuevoVehiculo.nombre}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,nombre:e.target.value})} />
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-32'
                  value={infoNuevoVehiculo.marca}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,marca:e.target.value})} />
              </td>
 
              <td>
-                 <input type="texto"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max'
+                 <input type="text"
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-max'
                  value={infoNuevoVehiculo.precio}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,precio:e.target.value})} />
              </td>
              <td>
-                 <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-1 rounded-lg w-max '
-                 value={infoNuevoVehiculo.estado}
-                 onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,estado:e.target.value})} />
+             <select name="estado"
+                defaultValue={infoNuevoVehiculo.estado}
+                required
+                onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,estado:e.target.value})}
+                    >
+                            <option disabled selected>Selecciona una opción</option>
+                            <option>Disponible</option>
+                            <option>No Disponible</option>
+                    </select>
+                
              </td>
              
              </>)
@@ -180,7 +183,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
                  <td>{vehiculo.estado}</td>
                  </>
              )}
-     <PrivateComponent roleList={['Admin']}>
+     <PrivateComponent roleList={['admin']}>
      <td>
          <div className='flex justify-around'>
          {edit? (
@@ -217,7 +220,8 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
         </Dialog>
          </div>
          </td>
-        </PrivateComponent>
+         </PrivateComponent>
+       
      </tr>
     )
 }

@@ -14,6 +14,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './styles/App.css';
 import { UserContext } from 'context/userContext';
 import PrivateComponent from 'components/PrivateComponent';
+import PrivateRoute from 'components/PrivateRoute';
 
 
 function App() {
@@ -43,10 +44,11 @@ function App() {
             <Route path= "/vehiculos">
               <Productos/>
             </Route>
-            <Route path= "/usuarios">
-              <Usuarios/>
+            <Route path='/usuarios'>
+            <PrivateRoute roleList={['admin']}>
+            <Usuarios/>
+            </PrivateRoute>
             </Route>
-           
             <Route path= "/">
               <Index/>
             </Route>

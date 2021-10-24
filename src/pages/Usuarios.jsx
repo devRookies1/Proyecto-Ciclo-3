@@ -1,4 +1,4 @@
-import PrivateComponent from 'components/PrivateComponent';
+
 import SectionMain from 'components/SectionMain';
 import { nanoid } from 'nanoid';
 import React, { useState, useEffect } from 'react';
@@ -120,7 +120,7 @@ const EstadoUsuario = ({ user }) => {
       <option value='autorizado' className='text-green-500'>
         Autorizado
       </option>
-      <option value='pendiente' className='text-yellow-500'>
+      <option value='pendiente' className='text-purple-500'>
         Pendiente
       </option>
       <option value='rechazado' className='text-red-500'>
