@@ -9,7 +9,7 @@ import Login from 'pages/Login';
 import Productos from 'pages/Productos';
 import Usuarios from 'pages/Usuarios';
 import Ventas from 'pages/Ventas';
-
+import { Auth0Provider } from "@auth0/auth0-react";
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './styles/App.css';
@@ -17,15 +17,14 @@ import './styles/App.css';
 
 function App() {
   return (
+    <Auth0Provider
+      domain="devrookies-vehiculos.us.auth0.com"
+      clientId="QRist1WXxRBfrEvMdx2wR3rRAHnmAquA"
+      redirectUri="http://localhost:3000"
+      audience="api-autenticacion-vehiculos"
+    >
     <Router>
       <Switch>
-        <Route path = {["/login"]}>
-          <Switch>
-            <Route path = "/login">
-              <Login/>
-            </Route>
-          </Switch>
-        </Route>
         <Route path= {["/ventas","/ventas/form","/vehiculos","/vehiculos/form","/usuarios","/usuarios/form","/"]}>
           <Layout>
           <Switch>
@@ -56,7 +55,7 @@ function App() {
         </Route>
       </Switch>
     </Router>
-
+    </Auth0Provider>
   )
 }
 

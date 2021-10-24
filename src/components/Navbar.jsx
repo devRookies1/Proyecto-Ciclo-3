@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Admin from 'media/admin.png'
 //import { Link } from 'react-router-dom'
 import menu from 'media/menu.ico'
 import { useState} from 'react'
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = () => {
-  const [mostarSalir, setMostrarSalir] = useState(false)
   
+  const [mostarSalir, setMostrarSalir] = useState(false)
+  const { user, logout } = useAuth0()
+
+  const cerrarSesion = () => {
+    logout({ returnTo: 'http://localhost:3000'});
+    localStorage.setItem('token', null);
+  };
   
     return (
         <nav className="bg-blue-700">
@@ -39,15 +45,12 @@ const Navbar = () => {
                 onClick={()=>{
                   setMostrarSalir(!mostarSalir)}}
                 >
-                <img src={Admin} alt="admin" className='mx-5 h-8 w-8 rounded-full'/>
-                  
+                <img src={user.picture} alt="admin" className='mx-5 h-8 w-8 rounded-full'/>
+                  {user.name}
                 </button>
                 {mostarSalir &&(
                   <div id="profileDiv" className=" origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                
-                  <a href="/Login" className="block px-4 py-2 text-sm text-gray-700">
-                    <i className="fas fa-user mr-2"></i>Salir
-                  </a>
+                    <button class="fas fa-user mr-2" onClick={() => cerrarSesion()}>Salir</button>
                   </div> 
                 )}
                 
