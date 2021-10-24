@@ -122,7 +122,7 @@ export const crearVenta = async (data, successCallback, errorCallback) => {
 };
 
 export const obtenerVentas = async(successCallBack,errorCallBack) =>{
-  const options = { method: 'GET', url: 'http://localhost:5000/ventas/' };
+  const options = { method: 'GET', url: 'http://localhost:5000/ventas/', headers:{ Authorization: getToken() } };
 
   await axios
     .request(options)
@@ -136,7 +136,7 @@ export const actualizarVenta = async (id, data, successCallback, errorCallback) 
   const options = {
     method: 'PATCH',
     url: `http://localhost:5000/ventas/${id}/`,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', Authorization: getToken() },
     data,
   };
   await axios.request(options).then(successCallback).catch(errorCallback)
@@ -146,7 +146,7 @@ export const eliminarVenta = async (id, successCallback, errorCallback) => {
   const options = {
     method: 'DELETE',
     url: `http://localhost:5000/ventas/${id}/`,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', Authorization: getToken() },
   };
   await axios.request(options).then(successCallback).catch(errorCallback)
 };
