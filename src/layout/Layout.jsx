@@ -25,7 +25,7 @@ const Layout = ({children}) => {
       },
       (err) => {
         console.log('err', err);
-        logout({ returnTo: 'http://localhost:3000'});
+        logout({ returnTo: 'https://boiling-crag-86589.herokuapp.com/'});
       }
     );
   };
