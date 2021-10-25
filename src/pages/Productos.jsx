@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid'
 //import buscar from 'media/buscar.png'
 import { obtenerVehiculos, actualizarVehiculo, eliminarVehiculo } from 'utils/api'
 import {Dialog} from '@material-ui/core'
+//import PrivateComponent from 'components/PrivateComponent'
 
 
 
@@ -67,8 +68,7 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta}) => {
                     <th className="border-separate border border-gray-500 p-3">Valor unitario</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
                     <th className="border-separate border border-gray-500 p-3">Acciones</th>
-                
-                
+        
             </thead>
             <tbody className="bg-white">
                 {vehiculosFiltrados.map((vehiculo) => {
@@ -182,7 +182,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
                  <td>{vehiculo.estado}</td>
                  </>
              )}
-    
+
      <td>
          <div className='flex justify-around'>
          {edit? (
@@ -219,6 +219,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
         </Dialog>
          </div>
          </td>
+       
      </tr>
     )
 }
