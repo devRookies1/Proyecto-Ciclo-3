@@ -23,7 +23,7 @@ function App() {
     <Auth0Provider
       domain="devrookies-vehiculos.us.auth0.com"
       clientId="QRist1WXxRBfrEvMdx2wR3rRAHnmAquA"
-      redirectUri="http://localhost:3000"
+      redirectUri="https://boiling-crag-86589.herokuapp.com/"
       audience="api-autenticacion-vehiculos"
     >
     <UserContext.Provider value={{ userData, setUserData }}>
