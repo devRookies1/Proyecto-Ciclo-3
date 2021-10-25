@@ -136,6 +136,7 @@ const FilaUsuarios = ({usuario,setEjecutarConsulta})=>{
                 <option disabled selected>Selecciona una opción</option>
                 <option>Administrador</option>
                 <option>Vendedor</option>
+                <option>sin rol</option>
                 </select></td>
             <td><select 
             name="Estado" 
