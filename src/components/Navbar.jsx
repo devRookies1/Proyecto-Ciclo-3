@@ -11,7 +11,7 @@ const Navbar = () => {
   const { user, logout } = useAuth0()
 
   const cerrarSesion = () => {
-    logout({ returnTo: 'http://localhost:3000'});
+    logout({ returnTo: 'https://boiling-crag-86589.herokuapp.com/'});
     localStorage.setItem('token', null);
   };
   
