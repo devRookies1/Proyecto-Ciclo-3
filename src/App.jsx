@@ -33,12 +33,12 @@ function App() {
           <Layout>
           <Switch>
             <Route path= "/ventas/form">
-            <PrivateRoute roleList={['admin']} estadoList={['autorizado']} >  
+            <PrivateRoute roleList={['admin','vendedor']} estadoList={['autorizado']} >  
               <FormVentas />
             </PrivateRoute>  
             </Route>
             <Route path= "/ventas">
-            <PrivateRoute roleList={['admin']} estadoList={['autorizado']} >
+            <PrivateRoute roleList={['admin', 'vendedor']} estadoList={['autorizado']} >
               <Ventas/>
             </PrivateRoute>  
             </Route>
