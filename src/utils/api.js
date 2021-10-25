@@ -2,7 +2,7 @@ import axios from 'axios';
 //import { nanoid } from 'nanoid';
 
 //const baseURL = "http://localhost:5000"
-const baseURL = "https://stark-cliffs-09027.herokuapp.com/"
+const baseURL = "https://stark-cliffs-09027.herokuapp.com"
 
 
 const getToken = () => {
