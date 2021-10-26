@@ -16,7 +16,7 @@ const Layout = ({children}) => {
       const accessToken = await getAccessTokenSilently({
         audience: `api-autenticacion-vehiculos`,
       });
-      !!localStorage.setItem('token', accessToken);
+      localStorage.setItem('token', accessToken);
       console.log(accessToken);
     await obtenerDatosUsuario(
       (response) => {
