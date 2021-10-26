@@ -6,7 +6,7 @@ const baseURL = "https://stark-cliffs-09027.herokuapp.com"
 
 
 const getToken = () => {
-  return `Bearer ${localStorage.getItem('token')}`;
+  return `Bearer ${!!localStorage.getItem('token')}`;
 };
 
 export const obtenerVehiculos = async (successCallback, errorCallback) => {
