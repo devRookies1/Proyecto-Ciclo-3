@@ -246,7 +246,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
             {vehiculos.map((el) => {
               return (
                 <option
-                  key={nanoid()}
+                  key={el._id}
                   value={el._id}
                 >{`${el.nombre} ${el.marca} ${el.estado}`}</option>
               );
