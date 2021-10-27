@@ -21,7 +21,7 @@ const Navbar = () => {
       <div className=" max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className=" flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <button id="sidebarBtn" onClick={setMostrarSidebar(!mostrarSidebar)} className="md:hidden px-4 py-2 text-gray-700 text-2xl rounded-lg hover:bg-gray-200">
+            <button id="sidebarBtn" onClick={()=>setMostrarSidebar(!mostrarSidebar)} className="md:hidden px-4 py-2 text-gray-700 text-2xl rounded-lg hover:bg-gray-200">
               <img src={menu} alt='menu' className='mx-5 h-8 w-8 '/>
             </button> 
               {mostrarSidebar &&(  <BtnSidebar/>)} 
