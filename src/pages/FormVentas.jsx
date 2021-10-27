@@ -142,7 +142,7 @@ const TablaClientes = ({vendedores}) =>{
           </option>
           {vendedores.map((el)=>{
             return(
-              <option key={nanoid()}
+              <option key={el._id}
               value={el._id}>{`${el.name}`}</option>
             );
           })
