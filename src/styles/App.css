@@ -37,3 +37,8 @@
     background-color: #ddd;
     cursor: pointer;
   }  
+
+  .cur:before { 
+    content: "$";
+    padding-right: 4px; 
+  }

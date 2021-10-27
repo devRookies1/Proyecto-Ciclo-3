@@ -2,40 +2,11 @@ import SectionMain from 'components/SectionMain'
 import React, { useEffect, useState }  from 'react'
 import productos from 'media/productos1.png'
 import {toast, ToastContainer } from 'react-toastify'
-
-
-
-const vehiculosBackend = [
-    {
-        id: 1,
-        nombre: 'Logan',
-        marca: 'Mazda',
-        precio: '$156.000.000',
-        estado: 'disponible'
-    },
-    {
-        id: 2,
-        nombre: 'Duster',
-        marca: 'Renault',
-        precio: '$140.000.000',
-        estado: 'disponible'
-    },
-    {
-        id: 3,
-        nombre: 'Fortuner',
-        marca: 'Toyota',
-        precio: '$139.000.000',
-        estado: 'No disponible'
-    },
-    {
-        id: 4,
-        nombre: 'C3',
-        marca: 'Citroen',
-        precio: '$127.490.000',
-        estado: 'No disponible'
-    },
-    
-]
+import { nanoid } from 'nanoid'
+//import buscar from 'media/buscar.png'
+import { obtenerVehiculos, actualizarVehiculo, eliminarVehiculo } from 'utils/api'
+import {Dialog} from '@material-ui/core'
+//import PrivateComponent from 'components/PrivateComponent'
 
 
 
@@ -47,10 +18,18 @@ const Productos = () => {
 
     useEffect(() => {
 
-        setVehiculos(vehiculosBackend)
-        
-        console.log(vehiculos)
-    }, [])
+        if (ejecutarConsulta) {
+            obtenerVehiculos(
+                (response)=> {
+                    setVehiculos(response.data);
+                  },
+                  (error)=> {
+                    console.error(error);
+                  }
+                  );
+            setEjecutarConsulta(false)
+          }
+        }, [ejecutarConsulta]);
     
     
     return (
@@ -60,13 +39,26 @@ const Productos = () => {
     )
 }
 
-const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
+const TablaProductos = ({listaVehiculos, setEjecutarConsulta}) => {
+    const [busqueda, setBusqueda] = useState('');
+    const [vehiculosFiltrados, setVehiculosFiltrados] = useState(listaVehiculos);
     useEffect(() => {
-        console.log('este es el listado de vehiculos en el componente de tabla', listaVehiculos,);
-      }, [listaVehiculos]);
+        setVehiculosFiltrados(
+            listaVehiculos.filter((elemento) => {
+              return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
+            })
+          );
+      }, [busqueda,listaVehiculos]);
 
     return (
-        <div className="flex flex-col h-screen items-center justify-start">
+        <div className="flex flex-col  items-center justify-start">
+        
+        <input
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
+        placeholder='Buscar'
+        className='border-2 border-gray-700 px-3 py-1 m-3 self-end rounded-md focus:outline-none focus:border-indigo-500'
+        />
         <table className="tabla border-separate bg-gray-400 w-3/4"> 
             <thead>
 
@@ -76,13 +68,12 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
                     <th className="border-separate border border-gray-500 p-3">Valor unitario</th>
                     <th className="border-separate border border-gray-500 p-3">Estado</th>
                     <th className="border-separate border border-gray-500 p-3">Acciones</th>
-                
-                
+        
             </thead>
             <tbody className="bg-white">
-                {listaVehiculos.map((vehiculo) => {
+                {vehiculosFiltrados.map((vehiculo) => {
                     return (
-                    <FilaVehiculo vehiculo ={vehiculo} setEjecutarConsulta={setEjecutarConsulta}/>
+                    <FilaVehiculo key={nanoid} vehiculo ={vehiculo} setEjecutarConsulta={setEjecutarConsulta}/>
                     )
                 })}                
                 <ToastContainer position="bottom-center" autoClose={5000}/>
@@ -95,75 +86,144 @@ const TablaProductos = ({listaVehiculos, setEjecutarConsulta,}) => {
 
 const FilaVehiculo = ({ vehiculo, setEjecutarConsulta })=>{
     const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
+    const [openDialog, setOpenDialog] = useState(false)
+    
     const [infoNuevoVehiculo,setInfoNuevoVehiculo]= useState({
-
         id: vehiculo.id ,
         nombre: vehiculo.nombre,
+        marca: vehiculo.marca,
         precio: vehiculo.precio,
         estado: vehiculo.estado
-
     })
+
+    const editarVehiculo = async()=>{
+
+        await actualizarVehiculo(vehiculo._id, infoNuevoVehiculo,
+    
+            (response) => {
+                console.log(response.data);
+                toast.success('Vehículo modificado con éxito');
+                setEdit(false)
+                setEjecutarConsulta(true);
+            },
+            (error) => {
+                toast.error('Error modificando el vehículo');
+                console.error(error);
+            })}
+    
+    const deleteVehicle = async ()=>{
+
+    await eliminarVehiculo(
+        vehiculo._id,
+        (response) => {
+           console.log(response.data);
+           toast.success('vehículo eliminado con éxito');
+           setEjecutarConsulta(true);
+        },
+        (error) => {
+            console.error(error);
+            toast.error('Error eliminando el vehículo');
+        });
+
+    }
+    
 
     return(
      <tr>
          {edit?(
              <>
+             
              <td>
                  <input type="number"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+                 className=' bg-gray-50 hover:bg-gray-300 border-gray-600 border  rounded-lg w-32'
                  value={infoNuevoVehiculo.id}
-                 onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,id:e.target.value})} />
+                 onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,id:e.target.value})} 
+                 disabled/>
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-32 '
                  value={infoNuevoVehiculo.nombre}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,nombre:e.target.value})} />
              </td>
              <td>
                  <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-32'
+                 value={infoNuevoVehiculo.marca}
+                 onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,marca:e.target.value})} />
+             </td>
+
+             <td>
+                 <input type="text"
+                 className='bg-gray-50 border border-gray-600  rounded-lg w-max'
                  value={infoNuevoVehiculo.precio}
                  onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,precio:e.target.value})} />
              </td>
              <td>
-                 <input type="text"
-                 className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-                 value={infoNuevoVehiculo.estado}
-                 onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,estado:e.target.value})} />
+             <select name="estado"
+                defaultValue={infoNuevoVehiculo.estado}
+                required
+                onChange={(e)=>setInfoNuevoVehiculo({...infoNuevoVehiculo,estado:e.target.value})}
+                    >
+                            <option disabled selected>Selecciona una opción</option>
+                            <option>Disponible</option>
+                            <option>No Disponible</option>
+                    </select>
+                
              </td>
+             
              </>)
              : (
                  <>
                  <td>{vehiculo.id}</td>
                  <td>{vehiculo.nombre}</td>
                  <td>{vehiculo.marca}</td>
-                 <td>{vehiculo.precio}</td>
+                 <td className="cur">{vehiculo.precio}</td>
                  <td>{vehiculo.estado}</td>
                  </>
              )}
-    
+
      <td>
          <div className='flex justify-around'>
          {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
+                 
+                <i onClick={()=> editarVehiculo()}
+                    className='fas fa-check text-green-500'/>
+                 
              ):(
                 <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
              )
 
              }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
+             <i  onClick={()=>setOpenDialog(true)} className='fas fa-trash text-gray-900 hover:text-red-700'/>
+             <Dialog open={openDialog}>
+          <div className='p-8 flex flex-col'>
+            <h1 className='text-gray-900 text-2xl font-bold'>
+              ¿Está seguro de querer eliminar el vehículo?
+            </h1>
+            <div className='flex w-full items-center justify-center my-4'>
+              <button
+                onClick={() => deleteVehicle()}
+                className='mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md'
+              >
+                Sí
+              </button>
+              <button
+                onClick={() => setOpenDialog(false)}
+                className='mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md'
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </Dialog>
          </div>
          </td>
+       
      </tr>
     )
 }
+
 
 
 

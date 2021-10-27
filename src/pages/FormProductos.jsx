@@ -1,7 +1,8 @@
 import SectionMainForm from 'components/SectionMainForm'
 import React, { useRef } from 'react'
-import { toast } from 'react-toastify'
-import Productos from './Productos'
+import { toast, ToastContainer } from 'react-toastify'
+import { crearVehiculo } from 'utils/api'
+//import { Link } from 'react-router-dom'
 
 
 const FormProductos = () => {
@@ -13,19 +14,37 @@ const FormProductos = () => {
     const nuevoVehiculo = {};
     fd.forEach((value, key) => {
       nuevoVehiculo[key] = value;
-      
-    Productos.setVehiculos([...Productos.listaVehiculos,nuevoVehiculo])
-    toast.success('Vehiculo agregado con exito')
-
     })
-  }
+    console.log(nuevoVehiculo)
+    await crearVehiculo(
+      {
+      id: nuevoVehiculo.id, 
+      nombre: nuevoVehiculo.nombre, 
+      marca: nuevoVehiculo.marca, 
+      precio: nuevoVehiculo.precio,
+      estado: nuevoVehiculo.estado 
+      },
+      (response)=> {
+        console.log(response.data);
+        
+        toast.success('Vehículo agregado con éxito');
+        
+      },
+      (error)=>{
+        console.error(error);
+        toast.error('Error creando un vehículo')
+      },)
+      form.current.reset()
+    };
+
+    
 
     return (
       
         <SectionMainForm nombre='vehiculos'>
-            <div className="flex flex-col items-center justify-center p-5 space-y-8" >
+            <div className="flex flex-col h-full items-center justify-start pt-5 " >
               <form ref={form} onSubmit={submitForm}>
-                <table className=" border-separate bg-gray-400 "> 
+                <table className=" tabla border-separate bg-gray-400 "> 
                     <thead>
                         <tr>
                         <th className="border-separate border border-gray-500 ">#Identificacion</th>
@@ -42,40 +61,53 @@ const FormProductos = () => {
                     <input
                   name='id' 
                   type="number" 
-                  placeholder = "#Identificacion"/>
+                  placeholder = "#Identificacion"
+                  required
+                  />
                   </td>
                   <td>
                   <input 
                   name='nombre'
                   type="text" 
-                  placeholder ="Nombre"/>
+                  placeholder ="Nombre"
+                  required/>
                   </td>
                   <td>
                     <input 
                     name='marca'
                     type="text" 
-                    placeholder ="Marca"/>
+                    placeholder ="Marca"
+                    required/>
                   </td>
                   <td>
                     <input 
-                    nombre='precio'
+                    name='precio'
                     type="text" 
-                    placeholder ="Valor unitario"/>
+                    placeholder ="Valor unitario"
+                    required/>
                   </td>
                   <td>
-                    <select name="estado">
+                    <select name="estado"
+                    required
+                    >
                             <option disabled selected>Selecciona una opción</option>
                             <option>Disponible</option>
                             <option>No Disponible</option>
                     </select>
                   </td>
                 </tr>
-                </tbody>   
-                <button type='submit'>
-                  Guardar vehiculo
-                  </button>                     
+                </tbody>              
             </table>
+            
+            <button
+                  type='submit'
+                  className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
+                  >
+                     Guardar vehiculo
+            </button>
+               
           </form>
+          <ToastContainer position="bottom-center" autoClose={5000}/>
           </div>       
         </SectionMainForm>
         

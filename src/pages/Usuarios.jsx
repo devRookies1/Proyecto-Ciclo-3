@@ -1,195 +1,184 @@
-import SectionMain from 'components/SectionMain'
-import React, { useState} from 'react'
+
+import SectionMain from 'components/SectionMain';
+//import { nanoid } from 'nanoid';
+import React, { useState, useEffect } from 'react';
+import { actualizarUsuario, obtenerUsuarios } from 'utils/api';
 import usuarios1 from 'media/usuarios1.png'
-import {toast, ToastContainer } from 'react-toastify'
+import { toast , ToastContainer } from 'react-toastify';
 
 const Usuarios = () => {
-    return (
-        <SectionMain nombre='usuarios' logo={usuarios1} >
-          <TablaUsuarios/>
-        </SectionMain>
-    )
-}
+  const [usuarios, setUsuarios] = useState([]);
+  const [ejecutarConsulta, setEjecutarConsulta] = useState(true)
 
-const TablaUsuarios = () => {
-    return (
-        <div className="flex flex-col h-screen items-center justify-start">
-        <table className=" tabla border-separate bg-gray-400 w-3/4"> 
-            <thead>
-                    <th className="border-separate border border-gray-500 p-3">No.</th>
-                    <th className="border-separate border border-gray-500 p-3">Nombre usuario</th>
-                    <th className="border-separate border border-gray-500 p-3">Rol</th>
-                    <th className="border-separate border border-gray-500 p-3">Estado</th>
-                    <th className="border-separate border border-gray-500 p-3">Acciones</th>
-                
-            </thead>
-            <tbody className="bg-white">
-                <FilaUsuarios1/>
-                <FilaUsuarios2/>
-                <FilaUsuarios3/>
-                <ToastContainer position="bottom-center" autoClose={5000}/>
-            </tbody>
-        </table>
-      </div>
-    )
-}
-const FilaUsuarios1 = ()=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
+  useEffect(() => {
+    if(ejecutarConsulta){
+
+      const fetchUsuarios = async () => {
+
+      await obtenerUsuarios(
+        (respuesta) => {
+          console.log('usuarios', respuesta.data);
+          setUsuarios(respuesta.data);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+      setEjecutarConsulta(false)
+    };
+    fetchUsuarios();}
+  }, [ejecutarConsulta]);
+
+  return (
+    <SectionMain nombre='usuarios' logo={usuarios1} >
+    <div className="flex flex-col  items-center justify-start">
+    <table  className=" tabla border-separate bg-gray-400 w-3/4">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Estado</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+      </thead> 
+      <tbody>
+        {usuarios.map((user)=>{
+          return(
+         <FilaUsuarios key={user._id} user={user} setEjecutarConsulta={setEjecutarConsulta}/>               
+          )
+        }
+
+        )}
+    
+      </tbody>
+      </table>         
+    </div>
+    <ToastContainer position="bottom-center" autoClose={5000}/>    
+    </SectionMain>
+
+  );
+};
+
+const FilaUsuarios = ({ user , setEjecutarConsulta}) => {
+
+  const [edit, setEdit] = useState(false)
+  const [rol, setRol] = useState(user.rol);
+  const [estado, setEstado] = useState(user.estado ?? '');
+
+    const editUsuario = async () => {
+      await actualizarUsuario(
+        user._id,
+        { estado, rol },
+        (res) => {
+          console.log(res);
+          toast.success('Usuario modificado con éxito');
+          setEdit(false);
+          setEjecutarConsulta(true);          
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+    };
+    if (user.estado !== estado) {
+      editUsuario();
     }
 
-    return(
-     <tr>
-         {edit?
-         <> 
-        
-            <td><input type="text" defaultValue='1' disabled /></td>
-            <td><input type="text" defaultValue='Admin' /></td>
-            <td><select name="Rol" defaultValue="Administrador">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Administrador</option>
-                            <option>Vendedor</option>
-                            </select></td>
-            <td><select name="Estado" defaultValue="Autorizado">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Pendiente</option>
-                            <option>No Autorizado</option>
-                            <option>Autorizado</option>
-                       </select></td>
-         </>
-        :
-        <>
-        <td>1</td>
-                    <td>Admin</td>
-                    <td>Administrador</td>
-                    <td>Autorizado</td>
-        </>
-        }
-     
-     <td>
-         <div className='flex justify-around'>
-         {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
-             ):(
-                <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-             )
 
-             }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
-         </div>
-         </td>
-     </tr>
-    )
+  return(
+    <>
+
+          {edit?(
+            <>
+              <tr>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>
+                  <EstadoUsuario user={user} estado={estado} setEstado={setEstado} />
+                </td>
+                <td>
+                  <RolesUsuario user={user} rol={rol} setRol={setRol} />
+                </td>
+                <td>
+                  {edit? (
+                 
+                 <i onClick={()=> editUsuario()}
+                     className='fas fa-check text-green-500'/>
+                  
+              ):(
+                 <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+              )
+ 
+              }
+                  </td>
+              </tr>
+
+            </>
+
+          ):(
+            <>
+                <tr >
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    {user.estado}
+                  </td>
+                  <td>
+                    {user.rol}
+                  </td>
+                  <td>
+                  {edit? (
+                 
+                 <i onClick={()=> editUsuario()}
+                     className='fas fa-check text-green-500'/>
+                  
+              ):(
+                 <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
+              )
+ 
+              }
+                  </td>
+                </tr>            </>
+
+          )}  
+        </>  
+  )
 }
-const FilaUsuarios2 = ()=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
-
-    return(
-     <tr>
-         {edit?
-         <> 
-        
-            <td><input type="text" defaultValue='2' disabled /></td>
-            <td><input type="text" defaultValue='Carol' /></td>
-            <td><select name="Rol" defaultValue="Vendedor">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Administrador</option>
-                            <option>Vendedor</option>
-                            </select></td>
-            <td><select name="Estado" defaultValue="Pendiente">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Pendiente</option>
-                            <option>No Autorizado</option>
-                            <option>Autorizado</option>
-                       </select></td>
-         </>
-        :
-        <>
-        <td>2</td>
-                    <td>Carol</td>
-                    <td>Vendedor</td>
-                    <td>Pendiente</td>
-        </>
-        }
-     
-     <td>
-         <div className='flex justify-around'>
-         {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
-             ):(
-                <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-             )
-
-             }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
-         </div>
-         </td>
-     </tr>
-    )
-}
-const FilaUsuarios3 = ()=>{
-    const [edit,setEdit]= useState(false)
-    const algo=()=>{
-        setEdit(!edit)
-        toast.success("Editado con Exito")
-    }
-
-    return(
-     <tr>
-         {edit?
-         <> 
-        
-            <td><input type="text" defaultValue='3' disabled /></td>
-            <td><input type="text" defaultValue='Vanessa' /></td>
-            <td><select name="Rol" defaultValue="Administrador">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Administrador</option>
-                            <option>Vendedor</option>
-                            </select></td>
-            <td><select name="Estado" defaultValue="No Autorizado">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option>Pendiente</option>
-                            <option>No Autorizado</option>
-                            <option>Autorizado</option>
-                       </select></td>
-         </>
-        :
-        <>
-        <td>3</td>
-                    <td>Vanessa</td>
-                    <td>Administrador</td>
-                    <td>No autorizado</td>
-        </>
-        }
-     
-     <td>
-         <div className='flex justify-around'>
-         {edit? (
-                 <button type ="submit">
-                     <i onClick={algo} className='fas fa-check text-green-500'/>
-                 </button>
-             ):(
-                <i onClick={()=>setEdit(!edit)} className='fas fa-edit text-yellow-500'/>
-             )
-
-             }
-             <i className='fas fa-trash text-gray-900 hover:text-red-700'></i>
-         </div>
-         </td>
-     </tr>
-    )
-}
+ 
+const RolesUsuario = ({ rol, setRol }) => {
 
 
+  return (
+    <select value={rol} onChange={(e) => setRol(e.target.value)}>
+      <option value='' disabled>
+        Seleccione un rol
+      </option>
+      <option value='admin'>Admin</option>
+      <option value='vendedor'>Vendedor</option>
+      <option value='sin rol'>Sin rol</option>
+    </select>
+  );
+};
 
-export default Usuarios
+const EstadoUsuario = ({ estado, setEstado }) => {
+
+  return (
+    <select value={estado} onChange={(e) => setEstado(e.target.value)}>
+      <option value='' disabled>
+        Seleccione un estado
+      </option>
+      <option value='autorizado' className='text-green-500'>
+        Autorizado
+      </option>
+      <option value='pendiente' className='text-purple-500'>
+        Pendiente
+      </option>
+      <option value='rechazado' className='text-red-500'>
+        Rechazado
+      </option>
+    </select>
+  );
+};
+
+export default Usuarios;
