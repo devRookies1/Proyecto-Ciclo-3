@@ -8,6 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Navbar = () => {
   
   const [mostarSalir, setMostrarSalir] = useState(false)
+  const [mostrarSidebar, setMostrarSidebar] = useState(false)
   const { user, logout } = useAuth0()
 
   const cerrarSesion = () => {
@@ -20,10 +21,10 @@ const Navbar = () => {
       <div className=" max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className=" flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <button id="sidebarBtn" className="px-4 py-2 text-gray-700 text-2xl rounded-lg hover:bg-gray-200">
+            <button id="sidebarBtn" onClick={setMostrarSidebar(!mostrarSidebar)} className="md:hidden px-4 py-2 text-gray-700 text-2xl rounded-lg hover:bg-gray-200">
               <img src={menu} alt='menu' className='mx-5 h-8 w-8 '/>
             </button> 
-              {mostarSidebar &&(  <BtnSidebar/>)} 
+              {mostrarSidebar &&(  <BtnSidebar/>)} 
               <span className='ml-72  text-2xl font-mono text-white'>Sistema Control Ventas</span>
           </div>
 
